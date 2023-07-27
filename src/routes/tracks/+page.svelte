@@ -82,6 +82,7 @@
 
 <Meta {title} {description} {url} {preloadFont} {keywords} />
 
+<p>This is a clock where the time is in the title of a song.</p>
 {#if track}
 	<time>
 		{time}
