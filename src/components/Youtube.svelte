@@ -3,8 +3,13 @@
 	let player = null;
 	let ready = false;
 	let state = -1;
+	let playerEl;
+	let playerWidth = 0;
+
 	export let timestamp;
 	export let id;
+
+	const RATIO = 16 / 9;
 
 	function loadScript() {
 		// This code loads the IFrame Player API code asynchronously.
@@ -20,9 +25,16 @@
 		}
 	}
 
+	function resize() {
+		console.log(playerWidth);
+		const w = playerWidth;
+		const h = w / RATIO;
+		player.setSize(w, h);
+	}
+
 	function handleStateChange({ data }) {
 		state = data;
-		console.log({ state });
+		// console.log({ state });
 		// const isPlaying = state === 1;
 		// playing.set(isPlaying);
 		// if (timer) clearInterval(timer);
@@ -34,8 +46,8 @@
 	}
 
 	function handleReady() {
-		console.log("ready");
-		player.play();
+		ready = true;
+		console.log({ ready });
 	}
 
 	function seek() {
@@ -45,16 +57,35 @@
 		if (state !== 1) player.play();
 	}
 
+	function handleError(response) {
+		// TODO try another
+	}
+
 	function load() {
 		console.log("load", ready, id);
 		if (!id) return;
-		if (!player) {
-			player = new YT.Player("yt-player", {
+		else {
+			player.loadVideoById({
 				videoId: id,
-				startSeconds: timestamp,
+				startSeconds: timestamp
+			});
+			// seek();
+			player.playVideo();
+		}
+	}
+
+	function play() {
+		player.playVideo();
+	}
+
+	onMount(() => {
+		loadScript();
+
+		window.onYouTubeIframeAPIReady = function () {
+			player = new YT.Player("player-yt", {
 				playerVars: {
 					controls: 1,
-					cc_load_policy: 0,
+					cc_load_policy: 1,
 					enablejsapi: 1,
 					fs: 1,
 					iv_load_policy: 3,
@@ -66,30 +97,34 @@
 				},
 				events: {
 					onReady: handleReady,
-					onStateChange: handleStateChange
-					// onError: handleError
+					onStateChange: handleStateChange,
+					onError: handleError
 				}
 			});
-			// seek();
-		} else {
-			player.loadVideoById({
-				videoId: id,
-				startSeconds: timestamp
-			});
-			// seek();
-			// player.play();
-		}
-	}
-
-	onMount(() => {
-		loadScript();
-
-		window.onYouTubeIframeAPIReady = function () {
-			ready = true;
 		};
 	});
 
 	$: if (ready) load(id);
+	$: if (player) resize(playerWidth);
+	$: console.log({ timestamp });
 </script>
 
-<div id="yt-player" />
+<div class="player-wrapper" bind:this={playerEl} bind:clientWidth={playerWidth}>
+	<div id="player-yt" />
+</div>
+{#if ready}
+	<p><button on:click={play}>Enable Video</button></p>
+{/if}
+
+<style>
+	div {
+		max-width: 720px;
+		margin: 0 auto;
+		text-align: center;
+	}
+
+	p {
+		margin: 16px auto;
+		text-align: center;
+	}
+</style>
