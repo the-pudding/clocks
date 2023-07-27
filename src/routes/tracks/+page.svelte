@@ -53,7 +53,10 @@
 		track = {
 			...options[i]
 		};
-		if (prev === track.id) audioEl.play();
+		if (prev === track.id) {
+			audioEl.currentTime = 0;
+			audioEl.play();
+		}
 		trackTitle = buildTitle(track.name);
 	}
 
