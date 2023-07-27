@@ -53,6 +53,9 @@
 		},
 		"yellow": {
 			"value": "#e5e338"
+		},
+		"pink": {
+			"value": "#ff99ff"
 		}
 	}
 }

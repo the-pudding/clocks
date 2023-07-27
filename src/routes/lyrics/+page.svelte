@@ -141,8 +141,4 @@
 		display: block;
 		text-align: center;
 	}
-
-	.highlight {
-		background: red;
-	}
 </style>
