@@ -49,9 +49,11 @@
 	function seek() {
 		const options = data.filter((d) => d.time === time);
 		const i = Math.floor(Math.random() * options.length);
+		const prev = track?.id;
 		track = {
 			...options[i]
 		};
+		if (prev === track.id) audioEl.play();
 		trackTitle = buildTitle(track.name);
 	}
 
