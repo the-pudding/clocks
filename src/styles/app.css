@@ -18,8 +18,8 @@
 
 	/* presets (used in reset.css) */
 	--border-radius: 2px;
-	--font-body: var(--serif);
-	--font-form: var(--sans);
+	--font-body: var(--mono);
+	--font-form: var(--mono);
 	--color-bg: var(--color-white);
 	--color-fg: var(--color-gray-900);
 	--color-primary: var(--color-black);
