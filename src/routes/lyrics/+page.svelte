@@ -3,6 +3,7 @@
 	import { setContext } from "svelte";
 	import { browser } from "$app/environment";
 	import Meta from "$components/Meta.svelte";
+	import WIP from "$components/helpers/WIP.svelte";
 	import copy from "$data/copy.json";
 	import version from "$utils/version.js";
 	import clock from "$stores/clock.js";
@@ -87,8 +88,8 @@
 </script>
 
 <Meta {title} {description} {url} {preloadFont} {keywords} />
-
-<p>This is a clock where the time is in the lyrics of a song.</p>
+<WIP />
+<h1>a clock where the time is in song lyrics</h1>
 {#if track}
 	<time>
 		{time}

@@ -3,6 +3,9 @@
 	import { setContext } from "svelte";
 	import { browser } from "$app/environment";
 	import Meta from "$components/Meta.svelte";
+	import WIP from "$components/helpers/WIP.svelte";
+	import Title from "$components/Title.svelte";
+	import Clock from "$components/Clock.svelte";
 	import copy from "$data/copy.json";
 	import version from "$utils/version.js";
 	import clock from "$stores/clock.js";
@@ -12,7 +15,6 @@
 	let audioEl;
 	let data;
 	let track;
-	let trackTitle;
 	let played;
 	let ended;
 
@@ -21,7 +23,8 @@
 	const { title, description, url, keywords } = copy;
 	setContext("copy", copy);
 
-	function buildTitle(str) {
+	function createMarkup(str) {
+		if (!str) return;
 		const lower = str.toLowerCase();
 		const periodLower = period.toLowerCase();
 		const startFull = lower.indexOf(`${time} ${periodLower}`);
@@ -57,7 +60,6 @@
 			audioEl.currentTime = 0;
 			audioEl.play();
 		}
-		trackTitle = buildTitle(track.name);
 	}
 
 	function loadNext() {
@@ -83,28 +85,22 @@
 	$: period = $clock.period;
 	$: if (data) loadNext(time);
 	$: if (ended) seek();
+	$: markup = createMarkup(track?.name);
 </script>
 
 <Meta {title} {description} {url} {preloadFont} {keywords} />
 
-<p>This is a clock where the time is in the title of a song.</p>
+<WIP />
+<Title text="a clock where the time appears in a song title" />
 {#if track}
-	<time>
-		{time}
-		{period}
-	</time>
-	<h1>
-		<span class="title">
-			{#each trackTitle as { text, highlight }}
-				{@const tag = highlight ? "mark" : "span"}
-				<svelte:element this={tag}>{text}</svelte:element>
-			{/each}
-		</span>
-		<span class="artist">
-			By {track.artist}
-			<a href={track.href} target="_blank" rel="noreferrer">link</a>
-		</span>
-	</h1>
+	<div class="clock">
+		<Clock data={markup} />
+	</div>
+
+	<p class="artist">
+		By {track.artist}
+		<a href={track.href} target="_blank" rel="noreferrer">link</a>
+	</p>
 {/if}
 
 {#if audioEl}
@@ -121,20 +117,14 @@
 	/>
 {/if}
 
+<time>
+	{time}
+	{period}
+</time>
+
 <style>
-	h1 {
-		margin: 0 auto;
-		text-align: center;
-		font-size: var(--24px);
-	}
-
 	p {
-		/* margin: 0 auto; */
 		text-align: center;
-	}
-
-	.title mark {
-		font-size: var(--64px);
 	}
 
 	.artist {

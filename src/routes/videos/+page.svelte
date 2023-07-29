@@ -6,6 +6,7 @@
 	import copy from "$data/copy.json";
 	import version from "$utils/version.js";
 	import clock from "$stores/clock.js";
+	import WIP from "$components/helpers/WIP.svelte";
 	import Youtube from "$components/Youtube.svelte";
 
 	version();
@@ -39,8 +40,8 @@
 </script>
 
 <Meta {title} {description} {url} {preloadFont} {keywords} />
-
-<p>This is a clock where the time is said in a YouTube video.</p>
+<WIP />
+<h1>a clock where the time is said in a YouTube video</h1>
 {#if video}
 	<time>
 		{$clock.time}

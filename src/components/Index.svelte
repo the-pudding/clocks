@@ -11,31 +11,21 @@
 <!-- <Footer /> -->
 
 <section>
-	<h1>Data Clocks</h1>
-	<p>
-		This series of experimental clocks that map the time &mdash; down to the
-		minute &mdash; to some data.
-	</p>
+	<h1>A series of experimental clocks that connect time with data.</h1>
 
-	<p>A clock where the time is...</p>
+	<p>A clock where the time...</p>
 	<ul>
 		<li>
-			<a href="tracks/">in a song's title</a>
+			<a href="tracks/">appears in a song title</a>
 		</li>
 		<li>
-			<a href="lyrics/">in a song's lyrics</a>
+			<a href="videos/">is said in a YouTube video</a>
 		</li>
-		<li>
-			<a href="videos/">in a YouTube video</a>
-		</li>
-		<li>
-			<a href="">in news headlines [coming soon]</a>
-		</li>
+		<li class="disable">in a song's lyrics (coming soon)li></li>
+		<li class="disable">in news headlines (coming soon)</li>
 	</ul>
 
-	<p>
-		This series was inspired by many similar experiments that came before it.
-	</p>
+	<p>This series was inspired by similar experiments that came before it:</p>
 
 	<ul>
 		<li>
@@ -54,10 +44,14 @@
 <style>
 	section {
 		padding: 0 16px;
-		max-width: 40rem;
+		max-width: 50rem;
 	}
 
 	li {
 		margin-bottom: 8px;
+	}
+
+	.disable {
+		opacity: 0.5;
 	}
 </style>
