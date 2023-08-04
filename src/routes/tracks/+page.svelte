@@ -17,6 +17,7 @@
 	let track;
 	let played;
 	let audio;
+	let ready;
 
 	const preloadFont = [];
 
@@ -74,7 +75,7 @@
 			track = {
 				...options[i]
 			};
-			if (prev === track.id) audio.play();
+			audio.play();
 		}
 	}
 
@@ -91,15 +92,10 @@
 		}));
 	}
 
-	function play() {
-		audio.play();
-		// audioEl.addEventListener("ended", seek);
-	}
-
 	$: if (browser) loadTracks();
 	$: time = $clock.time;
 	$: period = $clock.period;
-	$: if (data) loadNext(time);
+	$: if (data && ready) loadNext(time);
 	$: markup = createMarkup(track?.name);
 </script>
 
@@ -116,13 +112,17 @@
 		By {track.artist}
 		<a href={track.href} target="_blank" rel="noreferrer">link</a>
 	</p>
-	pa
 {/if}
 
-{#if track?.preview_url}
-	<p><button on:click={play}>Enable Audio</button></p>
-	<Audio bind:this={audio} src={track.preview_url} on:ended={() => seek()} />
+{#if ready}
+	<p><button on:click={audio.play}>Enable Audio</button></p>
 {/if}
+<Audio
+	bind:ready
+	bind:this={audio}
+	src={track?.preview_url}
+	on:ended={() => seek()}
+/>
 
 <time>
 	{time}

@@ -4,6 +4,7 @@
 	import { tweened } from "svelte/motion";
 
 	export let src;
+	export let ready;
 	let time = new Date();
 	let audioEl;
 	let ended;
@@ -12,6 +13,7 @@
 	let duration;
 	let muted;
 	let paused;
+	let fading;
 
 	let interval;
 
@@ -23,32 +25,45 @@
 			currentTime = 0;
 			audioEl.play();
 			volume = 1;
+			console.log("fade in");
+			fader.set(0);
 			fader.set(1, { duration: 500 });
 		}
 	};
 
-	function fadeOut() {
-		console.log("fade out");
-		fader.set(0, { duration: 500 });
+	function fadeOut(pause) {
+		fading = true;
+		console.log("fade out", pause);
+		fader.set(0, { duration: 500 }).then(() => {
+			fading = false;
+			if (pause) audioEl.pause();
+		});
 	}
 
-	function checkNearEnd() {
-		if (seconds === 29 || seconds === 59) {
-			if (paused === false) fadeOut();
-		}
+	function checkNearEndOfMinute() {
+		if (fading) return;
+		if (paused === false && seconds === 59) fadeOut(true);
+	}
+
+	function checkNearEndOfSong() {
+		if (fading || isNaN(duration)) return;
+		const atEnd = duration - currentTime < 1;
+		if (paused === false && atEnd) fadeOut();
 	}
 
 	// hack to not start a new one if we are close to next minute
+
 	$: if (ended) dispatch("ended");
 	$: seconds = time.getSeconds();
-	// $: checkNearEnd(seconds);
-	// $: console.log(duration);
-	// $: volume = $fader;
+	$: checkNearEndOfMinute(seconds);
+	$: checkNearEndOfSong(currentTime);
+	$: volume = $fader;
 
 	onMount(() => {
 		interval = setInterval(() => {
 			time = new Date();
 		}, 500);
+		ready = true;
 	});
 </script>
 
