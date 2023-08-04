@@ -3,9 +3,19 @@
 </script>
 
 <p>
-	{#each data as { text, highlight }}
-		{@const tag = highlight ? "mark" : "span"}
-		<svelte:element this={tag} class="">{text}</svelte:element>
+	{#each data as { text, mark }}
+		{#if mark}
+			<mark>
+				{#each text as t}
+					{@const colon = t === ":"}
+					<span class:colon>
+						{t}
+					</span>
+				{/each}
+			</mark>
+		{:else}
+			<span>{text}</span>
+		{/if}
 	{/each}
 </p>
 
@@ -38,5 +48,23 @@
 		/* --color-text-outline: var(--color-fg);
 		--stroke-width: 2px;
 		color: var(--color-mark); */
+	}
+
+	span.colon {
+		animation: blink 1s infinite;
+	}
+
+	@keyframes blink {
+		10% {
+			opacity: 1;
+		}
+
+		50% {
+			opacity: 0;
+		}
+
+		90% {
+			opacity: 1;
+		}
 	}
 </style>

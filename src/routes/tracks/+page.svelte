@@ -6,17 +6,17 @@
 	import WIP from "$components/helpers/WIP.svelte";
 	import Title from "$components/Title.svelte";
 	import Clock from "$components/Clock.svelte";
+	import Audio from "$components/Audio.svelte";
 	import copy from "$data/copy.json";
 	import version from "$utils/version.js";
 	import clock from "$stores/clock.js";
 
 	version();
 
-	let audioEl;
 	let data;
 	let track;
 	let played;
-	let ended;
+	let audio;
 
 	const preloadFont = [];
 
@@ -34,14 +34,16 @@
 		const end = start + timeStr.length;
 		const before = str.slice(0, start);
 		const middle = str.slice(start, end);
+		const middleA = middle.split(":")[0];
+		const middleB = middle.split(":")[1];
 		const after = str.slice(end);
 		return [
 			{
 				text: before
 			},
 			{
-				text: middle,
-				highlight: true
+				mark: true,
+				text: [middleA, ":", middleB]
 			},
 			{
 				text: after
@@ -49,16 +51,30 @@
 		];
 	}
 
+	function noTrack() {
+		track = {
+			name: time,
+			artist: "No Track Found",
+			href: ""
+		};
+
+		if (audioEl) {
+			audioEl.pause();
+			audioEl.currentTime = 0;
+		}
+		return;
+	}
+
 	function seek() {
 		const options = data.filter((d) => d.time === time);
-		const i = Math.floor(Math.random() * options.length);
-		const prev = track?.id;
-		track = {
-			...options[i]
-		};
-		if (prev === track.id) {
-			audioEl.currentTime = 0;
-			audioEl.play();
+		if (!options.length) noTrack();
+		else {
+			const i = Math.floor(Math.random() * options.length);
+			const prev = track?.id;
+			track = {
+				...options[i]
+			};
+			if (prev === track.id) audio.play();
 		}
 	}
 
@@ -76,7 +92,7 @@
 	}
 
 	function play() {
-		audioEl.play();
+		audio.play();
 		// audioEl.addEventListener("ended", seek);
 	}
 
@@ -84,7 +100,6 @@
 	$: time = $clock.time;
 	$: period = $clock.period;
 	$: if (data) loadNext(time);
-	$: if (ended) seek();
 	$: markup = createMarkup(track?.name);
 </script>
 
@@ -103,18 +118,9 @@
 	</p>
 {/if}
 
-{#if audioEl}
-	<p><button on:click={play}>Enable Audio</button></p>
-{/if}
-
 {#if track?.preview_url}
-	<audio
-		bind:ended
-		src={track.preview_url}
-		preload
-		autoplay
-		bind:this={audioEl}
-	/>
+	<p><button on:click={play}>Enable Audio</button></p>
+	<Audio bind:this={audio} src={track.preview_url} on:ended={() => seek()} />
 {/if}
 
 <time>

@@ -13,16 +13,19 @@
 <section>
 	<h1>A series of experimental clocks that connect time with data.</h1>
 
-	<p>A clock where the time...</p>
+	<p>A clock where the time is...</p>
 	<ul>
 		<li>
-			<a href="tracks/">appears in a song title</a>
+			<a href="tracks/">in a song title</a>
 		</li>
 		<li>
-			<a href="videos/">is said in a YouTube video</a>
+			<a href="videos/">said in a YouTube video</a>
 		</li>
-		<li class="disable">in a song's lyrics (coming soon)li></li>
 		<li class="disable">in news headlines (coming soon)</li>
+
+		<li class="disable">the population of a US city (coming soon)</li>
+
+		<li class="disable">in a Wikipedia article (coming soon)</li>
 	</ul>
 
 	<p>This series was inspired by similar experiments that came before it:</p>
