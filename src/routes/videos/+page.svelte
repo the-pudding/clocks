@@ -2,6 +2,7 @@
 	import { csv } from "d3";
 	import { setContext } from "svelte";
 	import { browser } from "$app/environment";
+	import Title from "$components/Title.svelte";
 	import Meta from "$components/Meta.svelte";
 	import copy from "$data/copy.json";
 	import version from "$utils/version.js";
@@ -41,11 +42,13 @@
 
 <Meta {title} {description} {url} {preloadFont} {keywords} />
 <WIP />
-<h1>a clock where the time is said in a YouTube video</h1>
+<Title text="a clock where the time is said in a YouTube video" />
 {#if video}
 	<time>
-		{$clock.time}
-		{$clock.period}
+		<mark>
+			{$clock.time}
+			{$clock.period}
+		</mark>
 	</time>
 	<Youtube id={video.vid} timestamp={+video.start} />
 {/if}

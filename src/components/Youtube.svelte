@@ -85,7 +85,7 @@
 			player = new YT.Player("player-yt", {
 				playerVars: {
 					controls: 1,
-					cc_load_policy: 1,
+					cc_load_policy: 0,
 					enablejsapi: 1,
 					fs: 1,
 					iv_load_policy: 3,
