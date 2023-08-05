@@ -3,7 +3,7 @@
 	import { createEventDispatcher } from "svelte";
 	import { tweened } from "svelte/motion";
 
-	export let src;
+	export let preview;
 	export let ready;
 	let time = new Date();
 	let audioEl;
@@ -53,6 +53,8 @@
 
 	// hack to not start a new one if we are close to next minute
 
+	// $: src = `https://p.scdn.co/mp3-preview/${preview}?cid=635a94c846854eb29813825c79d704a2`;
+	$: src = preview;
 	$: if (ended) dispatch("ended");
 	$: seconds = time.getSeconds();
 	$: checkNearEndOfMinute(seconds);

@@ -70,10 +70,15 @@
 		const options = data.filter((d) => d.time === time);
 		if (!options.length) noTrack();
 		else {
-			const i = Math.floor(Math.random() * options.length);
+			const hasProbable =
+				options.filter((d) => d.probably_time === "true").length > 1;
+			const filtered = options.filter((d) =>
+				hasProbable ? d.probably_time === "true" : true
+			);
+			const i = Math.floor(Math.random() * filtered.length);
 			const prev = track?.id;
 			track = {
-				...options[i]
+				...filtered[i]
 			};
 			audio.play();
 		}
@@ -120,7 +125,7 @@
 <Audio
 	bind:ready
 	bind:this={audio}
-	src={track?.preview_url}
+	preview={track?.preview_url}
 	on:ended={() => seek()}
 />
 
