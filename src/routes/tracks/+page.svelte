@@ -10,7 +10,6 @@
 	import copy from "$data/copy.json";
 	import version from "$utils/version.js";
 	import clock from "$stores/clock.js";
-	// import { ExternalLink } from "lucide-svelte";
 	import spotifySvg from "$svg/spotify.svg";
 
 	version();
@@ -115,35 +114,57 @@
 
 <Header />
 
-<section>
-	{#if ready}
-		<p><button on:click={audio.play}>Turn Sound On</button></p>
-	{/if}
+<div class="container">
+	<!-- <div class="bg" style="background-image: url({track?.album_img})" /> -->
+	<section>
+		{#if ready}
+			<p><button on:click={audio.play}>Turn Sound On</button></p>
+		{/if}
 
-	{#if track}
-		<div class="clock">
-			<Clock data={markup} />
-		</div>
+		{#if track}
+			<div class="clock">
+				<Clock data={markup} />
+			</div>
 
-		<p class="artist">
-			By {track.artist}
-			<a href={track.href} target="_blank" rel="noreferrer" aria-label="Spotify"
-				>{@html spotifySvg}</a
-			>
-		</p>
-	{/if}
+			<p class="artist">
+				By {track.artist}
+				<a
+					href={track.href}
+					target="_blank"
+					rel="noreferrer"
+					aria-label="Spotify">{@html spotifySvg}</a
+				>
+			</p>
+		{/if}
 
-	<Audio
-		bind:ready
-		bind:this={audio}
-		src={track?.preview_url}
-		on:ended={() => seek()}
-	/>
-</section>
+		<Audio
+			bind:ready
+			bind:this={audio}
+			src={track?.preview_url}
+			on:ended={() => seek()}
+		/>
+	</section>
+</div>
 
 <Footer text="a clock where the time appears in a song title" />
 
 <style>
+	.container {
+		position: relative;
+		height: 100%;
+		width: 100%;
+	}
+
+	.bg {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		background-size: 128px 128px;
+		opacity: 0.25;
+	}
+
 	section {
 		position: absolute;
 		width: 100%;

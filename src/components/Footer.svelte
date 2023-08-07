@@ -8,16 +8,18 @@
 		{text}
 	</h1>
 
-	<button class="icon" aria-label="about"><HelpCircle size="32" /></button>
+	<button class="icon" aria-label="about"><HelpCircle size="28" /></button>
 </footer>
 
 <style>
 	footer {
 		position: absolute;
+		width: 100%;
 		bottom: 0;
+		left: 0;
+		z-index: var(--z-top);
 		display: flex;
 		justify-content: center;
-		width: 100%;
 		align-items: center;
 		padding: 8px 16px;
 	}

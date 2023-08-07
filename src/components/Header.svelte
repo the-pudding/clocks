@@ -12,13 +12,18 @@
 
 	<div class="sound">
 		<button class="icon">
-			<VolumeX size="32" />
+			<VolumeX size="28" />
 		</button>
 	</div>
 </header>
 
 <style>
 	header {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		z-index: var(--z-top);
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
