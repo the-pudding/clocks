@@ -1,6 +1,7 @@
 <script>
 	import { csv } from "d3";
 	import { setContext } from "svelte";
+	import { fly } from "svelte/transition";
 	import { browser } from "$app/environment";
 	import Meta from "$components/Meta.svelte";
 	import Footer from "$components/Footer.svelte";
@@ -131,15 +132,17 @@
 				<Clock data={markup} />
 			</div>
 
-			<p class="artist">
-				<a
-					href={`https://open.spotify.com/tracks/${track.id}`}
-					target="_blank"
-					rel="noreferrer"
-					aria-label="Spotify"
-					>By {track.artist} <span>{@html spotifySvg}</span></a
-				>
-			</p>
+			{#key track.id}
+				<p in:fly={{ y: 32, duration: 500 }} class="artist">
+					<a
+						href={`https://open.spotify.com/tracks/${track.id}`}
+						target="_blank"
+						rel="noreferrer"
+						aria-label="Spotify"
+						>By {track.artist} <span>{@html spotifySvg}</span></a
+					>
+				</p>
+			{/key}
 		{/if}
 
 		<Audio
@@ -187,6 +190,13 @@
 		top: -16px;
 		left: 0;
 		transform: translate(0, -100%);
+	}
+
+	.artist {
+		position: absolute;
+		width: 100%;
+		bottom: -16px;
+		transform: translate(0, 100%);
 	}
 
 	.artist a {

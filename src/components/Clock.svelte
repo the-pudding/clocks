@@ -1,8 +1,24 @@
 <script>
+	import { afterUpdate } from "svelte";
 	export let data;
+
+	let clientWidth = 1;
+	let transform = "";
+	afterUpdate(() => {
+		const mark = document.querySelector("mark");
+		const colon = document.querySelector(".colon");
+		// get the left and right position of the mark
+		const { left, width } = mark.getBoundingClientRect();
+
+		const center = left + width / 2;
+		const diff = Math.round(center - mid);
+		transform = `translate(${diff}px, 0)`;
+	});
+
+	$: mid = clientWidth / 2;
 </script>
 
-<p>
+<p bind:clientWidth style:transform>
 	{#each data as { text, mark }}
 		{#if mark}
 			<mark>
@@ -23,9 +39,11 @@
 	p {
 		line-height: 1;
 		font-size: var(--24px);
+		text-align: center;
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		transition: transform 1s ease-in-out;
 	}
 
 	span {
@@ -35,8 +53,8 @@
 	mark {
 		display: inline-block;
 		font-size: var(--96px);
-		padding: 8px 16px;
-		margin: 0 8px;
+		/* padding: 8px 16px; */
+		/* margin: 0 8px; */
 		font-weight: var(--fw-black);
 		background: none;
 
@@ -49,6 +67,15 @@
 		/* --color-text-outline: var(--color-fg);
 		--stroke-width: 2px;
 		color: var(--color-mark); */
+	}
+
+	mark span:not(.colon) {
+		opacity: 1;
+		display: inline;
+	}
+
+	span:not(.colon) {
+		opacity: 0.5;
 	}
 
 	span.colon {

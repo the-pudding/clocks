@@ -15,7 +15,7 @@ function getTime() {
 export default readable(getTime(), (set) => {
 	const update = () => set(getTime());
 
-	const interval = setInterval(update, 1000);
+	const interval = setInterval(update, 250);
 
 	return () => clearInterval(interval);
 });
