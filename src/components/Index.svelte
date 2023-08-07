@@ -9,16 +9,14 @@
 <!-- <Footer /> -->
 
 <section>
-	<h1>A series of experimental clocks that connect time with data.</h1>
+	<h1>Experimental Clocks That Connect Data To Time</h1>
 
 	<p>A clock where the time is...</p>
 	<ul>
 		<li>
-			<a href="tracks/">in a song title</a>
+			<a href="songs/">in a song title</a>
 		</li>
-		<li>
-			<a href="videos/">said in a YouTube video</a>
-		</li>
+		<li class="disable">said in a YouTube video (coming soon)</li>
 		<li class="disable">in news headlines (coming soon)</li>
 
 		<li class="disable">the population of a US city (coming soon)</li>
@@ -26,7 +24,7 @@
 		<li class="disable">in a Wikipedia article (coming soon)</li>
 	</ul>
 
-	<p>This series was inspired by similar experiments that came before it:</p>
+	<p>This series is inspired by similar experiments that came before it:</p>
 
 	<ul>
 		<li>
@@ -39,10 +37,19 @@
 		<li>
 			<a href="http://thecolourclock.com/">The Colour Clock</a>
 		</li>
+
+		<li>
+			<a href="http://thecolourclock.com/">The Colour Clock</a>
+		</li>
 	</ul>
 </section>
 
 <style>
+	h1 {
+		font-weight: var(--fw-black);
+		line-height: 1.2;
+	}
+
 	section {
 		padding: 0 16px;
 		max-width: 50rem;
