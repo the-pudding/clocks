@@ -5,7 +5,7 @@
 
 	let clientWidth = 1;
 	let transform = "";
-	let fontSize = 10;
+	let fontSize = "3.5vw";
 
 	function getFontSize() {
 		if (title.length > 20) return 1.5;
@@ -16,13 +16,14 @@
 
 	afterUpdate(() => {
 		const mark = document.querySelector("mark");
-		const colon = document.querySelector(".colon");
+
 		// get the left and right position of the mark
 		const { left, width } = mark.getBoundingClientRect();
 
 		const center = left + width / 2;
 		const diff = Math.round(center - mid) * -1;
 		transform = `translate(${diff}px, 0)`;
+		console.log({ left, width, center, diff });
 		fontSize = `${getFontSize()}vw`;
 	});
 
