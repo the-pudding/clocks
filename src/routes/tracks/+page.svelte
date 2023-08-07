@@ -132,12 +132,12 @@
 			</div>
 
 			<p class="artist">
-				By {track.artist}
 				<a
 					href={`https://open.spotify.com/tracks/${track.id}`}
 					target="_blank"
 					rel="noreferrer"
-					aria-label="Spotify">{@html spotifySvg}</a
+					aria-label="Spotify"
+					>By {track.artist} <span>{@html spotifySvg}</span></a
 				>
 			</p>
 		{/if}
@@ -189,25 +189,32 @@
 		transform: translate(0, -100%);
 	}
 
-	.artist {
-		display: flex;
-		justify-content: center;
-		align-items: center;
+	.artist a {
+		display: block;
 		font-size: var(--16px);
-		margin-top: 8px;
+		margin: 0 auto;
+		max-width: 320px;
+		line-height: 1;
+		opacity: 0.5;
+		transition: opacity 0.25s;
+		border: none;
 	}
 
-	.artist a {
+	.artist span {
 		display: inline-block;
-		width: 1.5em;
-		height: 1.5em;
-		border: none;
-		margin-left: 8px;
-		opacity: 0.3;
+		width: 24px;
+		height: 24px;
+		margin-left: 4px;
+		transform: translate(0, 4px);
+		opacity: 0.5;
 		transition: opacity 0.25s;
 	}
 
 	.artist a:hover {
+		opacity: 1;
+	}
+
+	.artist a:hover span {
 		opacity: 1;
 	}
 </style>

@@ -35,11 +35,6 @@
 		padding: 8px 16px;
 	}
 
-	button {
-		/* background: none;
-		padding: 0; */
-	}
-
 	.wordmark {
 		padding: 0;
 		width: 8rem;
