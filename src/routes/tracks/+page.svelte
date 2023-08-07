@@ -79,7 +79,7 @@
 		const options = data.filter((d) => d.time === time);
 		if (!options.length) noTrack();
 		else {
-			const hasProbable =
+			const hasProbableTime =
 				options.filter((d) => d.probably_time === "true").length > 1;
 			const filtered = options.filter((d) =>
 				hasProbable ? d.probably_time === "true" : true
@@ -135,7 +135,7 @@
 			{#key track.id}
 				<p in:fly={{ y: 32, duration: 500 }} class="artist">
 					<a
-						href={`https://open.spotify.com/tracks/${track.id}`}
+						href={`https://open.spotify.com/track/${track.id}`}
 						target="_blank"
 						rel="noreferrer"
 						aria-label="Spotify"
