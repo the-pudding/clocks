@@ -21,7 +21,7 @@
 		const { left, width } = mark.getBoundingClientRect();
 
 		const center = left + width / 2;
-		const diff = Math.round(center - mid);
+		const diff = Math.round(center - mid) * -1;
 		transform = `translate(${diff}px, 0)`;
 		fontSize = `${getFontSize()}vw`;
 	});
