@@ -1,9 +1,19 @@
 <script>
 	import { afterUpdate } from "svelte";
 	export let data;
+	export let title;
 
 	let clientWidth = 1;
 	let transform = "";
+	let fontSize = 10;
+
+	function getFontSize() {
+		if (title.length > 20) return 1.5;
+		if (title.length > 15) return 2;
+		if (title.length > 10) return 2.5;
+		return 3.5;
+	}
+
 	afterUpdate(() => {
 		const mark = document.querySelector("mark");
 		const colon = document.querySelector(".colon");
@@ -13,12 +23,13 @@
 		const center = left + width / 2;
 		const diff = Math.round(center - mid);
 		transform = `translate(${diff}px, 0)`;
+		fontSize = `${getFontSize()}vw`;
 	});
 
 	$: mid = clientWidth / 2;
 </script>
 
-<p bind:clientWidth style:transform>
+<p bind:clientWidth style:transform style:font-size={fontSize}>
 	{#each data as { text, mark }}
 		{#if mark}
 			<mark>
@@ -38,12 +49,11 @@
 <style>
 	p {
 		line-height: 1;
-		font-size: var(--24px);
 		text-align: center;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		transition: transform 1s ease-in-out;
+		transition: all 1s ease-in-out;
 	}
 
 	span {
@@ -52,7 +62,7 @@
 
 	mark {
 		display: inline-block;
-		font-size: var(--96px);
+		font-size: 4em;
 		/* padding: 8px 16px; */
 		/* margin: 0 8px; */
 		font-weight: var(--fw-black);

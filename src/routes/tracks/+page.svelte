@@ -129,7 +129,7 @@
 
 		{#if track}
 			<div class="clock">
-				<Clock data={markup} />
+				<Clock data={markup} title={track.name} />
 			</div>
 
 			{#key track.id}
