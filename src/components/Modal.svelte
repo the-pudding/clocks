@@ -31,6 +31,8 @@
 
 	div {
 		width: 100%;
+		max-width: 40rem;
+		margin: 0 auto;
 		padding: 16px;
 	}
 

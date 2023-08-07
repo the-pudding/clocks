@@ -155,10 +155,14 @@
 	</section>
 </div>
 
-<Footer text="a clock where the time appears in a song title" />
+<Footer text={copy.songsTitle} />
 
 <Modal>
-	<p>Testing</p>
+	{#each copy.songsMethod as { type, value }}
+		<p class="text-outline">
+			{@html value}
+		</p>
+	{/each}
 </Modal>
 
 <style>
@@ -185,16 +189,13 @@
 		transform: translate(0, -50%);
 	}
 
-	p {
-		text-align: center;
-	}
-
 	.enable {
 		position: absolute;
 		width: 100%;
 		top: -16px;
 		left: 0;
 		transform: translate(0, -100%);
+		text-align: center;
 	}
 
 	.artist {
@@ -202,6 +203,7 @@
 		width: 100%;
 		bottom: -16px;
 		transform: translate(0, 100%);
+		text-align: center;
 	}
 
 	.artist a {
