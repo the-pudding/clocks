@@ -216,7 +216,7 @@
 		margin: 0 auto;
 		max-width: 320px;
 		line-height: 1;
-		opacity: 0.5;
+		opacity: 0.67;
 		transition: opacity 0.25s;
 		border: none;
 	}

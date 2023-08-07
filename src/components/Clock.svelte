@@ -24,7 +24,7 @@
 		const diff = Math.round(center - mid) * -1;
 		// const diff = 0;
 		translate = `translate(${diff}px, 0)`;
-		// console.log({ left, width, center, diff });
+		console.log({ left, width, center, diff });
 		fontSize = `${getFontSize()}vw`;
 	});
 
