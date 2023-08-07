@@ -77,15 +77,23 @@
 		return;
 	}
 
+	function filterTracks(options) {
+		const probTime = options.filter((d) => d.probTime);
+		const probLatin = probTime.filter((d) => d.probLatin);
+
+		const filtered = options.filter((d) => {
+			if (probLatin.length > 1) return d.probLatin && d.probTime;
+			else if (probTime.length > 1) return d.probTime;
+			return true;
+		});
+		return filtered;
+	}
+
 	function seek() {
 		const options = data.filter((d) => d.time === time);
 		if (!options.length) noTrack();
 		else {
-			const hasProbable =
-				options.filter((d) => d.probably_time === "true").length > 1;
-			const filtered = options.filter((d) =>
-				hasProbable ? d.probably_time === "true" : true
-			);
+			const filtered = filterTracks(options);
 			const i = Math.floor(Math.random() * filtered.length);
 			const prev = track?.id;
 			track = {
@@ -104,7 +112,8 @@
 		const raw = await csv("../assets/tracks.csv");
 		data = raw.map((d) => ({
 			...d,
-			popularity: +d.popularity
+			probTime: d.probably_time === "true",
+			probLatin: d.probably_latin === "true"
 		}));
 	}
 
