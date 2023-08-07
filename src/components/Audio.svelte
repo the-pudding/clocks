@@ -11,9 +11,9 @@
 	let volume;
 	let currentTime;
 	let duration;
-	let muted;
 	let paused;
 	let fading;
+	let muted = true;
 
 	let interval;
 

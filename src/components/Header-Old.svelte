@@ -1,6 +1,5 @@
 <script>
 	import wordmark from "$svg/wordmark.svg";
-	import { VolumeX, Volume2 } from "lucide-svelte";
 </script>
 
 <header>
@@ -9,30 +8,13 @@
 			>{@html wordmark}</a
 		>
 	</div>
-
-	<div class="sound">
-		<button class="icon">
-			<VolumeX size="32" />
-		</button>
-	</div>
 </header>
 
 <style>
-	header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: 8px 16px;
-	}
-
-	button {
-		/* background: none;
-		padding: 0; */
-	}
-
 	.wordmark {
-		padding: 0;
-		width: 8rem;
+		max-width: 10em;
+		margin: 0 auto;
+		padding: 1em 0;
 	}
 
 	.wordmark a {

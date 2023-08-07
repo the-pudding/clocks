@@ -2,7 +2,7 @@
 	import { csv } from "d3";
 	import { setContext } from "svelte";
 	import { browser } from "$app/environment";
-	import Title from "$components/Title.svelte";
+	import Header from "$components/Header.svelte";
 	import Meta from "$components/Meta.svelte";
 	import copy from "$data/copy.json";
 	import version from "$utils/version.js";
@@ -15,7 +15,11 @@
 	let data;
 	let video;
 
-	const preloadFont = [];
+	const preloadFont = [
+		"https://pudding.cool/assets/fonts/rubik/rubik-v14-latin-regular.woff2",
+		"https://pudding.cool/assets/fonts/rubik/rubik-v14-latin-700.woff2",
+		"https://pudding.cool/assets/fonts/rubik/rubik-v14-latin-900.woff2"
+	];
 
 	const { title, description, url, keywords } = copy;
 	setContext("copy", copy);
@@ -42,7 +46,7 @@
 
 <Meta {title} {description} {url} {preloadFont} {keywords} />
 <WIP />
-<Title text="a clock where the time is said in a YouTube video" />
+<Header text="a clock where the time is said in a YouTube video" />
 {#if video}
 	<time>
 		<mark>
