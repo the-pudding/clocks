@@ -1,5 +1,6 @@
 <script>
 	import { HelpCircle } from "lucide-svelte";
+	import { modalVisible } from "$stores/misc.js";
 	export let text;
 </script>
 
@@ -8,7 +9,11 @@
 		{text}
 	</h1>
 
-	<button class="icon" aria-label="about"><HelpCircle size="28" /></button>
+	<button
+		on:click={() => ($modalVisible = true)}
+		class="icon"
+		aria-label="about"><HelpCircle size="28" /></button
+	>
 </footer>
 
 <style>

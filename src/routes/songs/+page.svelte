@@ -8,6 +8,7 @@
 	import Header from "$components/Header.svelte";
 	import Clock from "$components/Clock.svelte";
 	import Audio from "$components/Audio.svelte";
+	import Modal from "$components/Modal.svelte";
 	import { isMuted } from "$stores/misc.js";
 	import copy from "$data/copy.json";
 	import version from "$utils/version.js";
@@ -155,6 +156,10 @@
 </div>
 
 <Footer text="a clock where the time appears in a song title" />
+
+<Modal>
+	<p>Testing</p>
+</Modal>
 
 <style>
 	.container {
