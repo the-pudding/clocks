@@ -5,10 +5,10 @@
 </script>
 
 <section id="modal" class:visible>
-	<button class="icon" on:click={() => ($modalVisible = false)}
-		><XCircle size="28" /></button
-	>
 	<div>
+		<button class="icon" on:click={() => ($modalVisible = false)}
+			><XCircle size="28" /></button
+		>
 		<slot />
 	</div>
 </section>
@@ -24,16 +24,20 @@
 		pointer-events: none;
 		transition: opacity 0.25s ease-in-out;
 		z-index: var(--z-overlay);
-		background: rgba(255, 255, 255, 0.95);
+		background: rgba(255, 255, 255, 0.75);
 		display: flex;
 		align-items: center;
 	}
 
 	div {
-		width: 100%;
-		max-width: 40rem;
+		width: 90%;
+		max-width: 30rem;
 		margin: 0 auto;
-		padding: 16px;
+		padding: 8px 24px;
+		position: relative;
+		/* box-shadow: 0 0 2px 4px #000; */
+		border: 2px solid currentColor;
+		background: rgba(255, 255, 255, 0.9);
 	}
 
 	section.visible {
@@ -43,7 +47,7 @@
 
 	button {
 		position: absolute;
-		top: 16px;
-		right: 16px;
+		top: 8px;
+		right: 8px;
 	}
 </style>
