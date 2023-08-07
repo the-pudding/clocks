@@ -4,8 +4,8 @@
 	export let title;
 
 	let clientWidth = 1;
-	let transform = "";
-	let fontSize = "3.5vw";
+	let translate = "";
+	let fontSize = "1.5vw";
 
 	function getFontSize() {
 		if (title.length > 20) return 1.5;
@@ -15,38 +15,48 @@
 	}
 
 	afterUpdate(() => {
-		const mark = document.querySelector("mark");
+		const mark = document.querySelector("p.clock.hide mark");
 
 		// get the left and right position of the mark
 		const { left, width } = mark.getBoundingClientRect();
 
 		const center = left + width / 2;
-		// const diff = Math.round(center - mid) * -1;
-		const diff = 0;
-		transform = `translate(${diff}px, 0)`;
-		console.log({ left, width, center, diff });
+		const diff = Math.round(center - mid) * -1;
+		// const diff = 0;
+		translate = `translate(${diff}px, 0)`;
+		// console.log({ left, width, center, diff });
 		fontSize = `${getFontSize()}vw`;
 	});
 
 	$: mid = clientWidth / 2;
 </script>
 
-<p bind:clientWidth style:transform style:font-size={fontSize}>
-	{#each data as { text, mark }}
-		{#if mark}
-			<mark>
-				{#each text as t}
-					{@const colon = t === ":"}
-					<span class:colon>
-						{t}
-					</span>
-				{/each}
-			</mark>
-		{:else}
-			<span>{text}</span>
-		{/if}
-	{/each}
-</p>
+{#each ["hide", "show"] as version}
+	{@const transform = version === "show" ? translate : ""}
+	{@const hide = version === "hide"}
+	<p
+		class="clock"
+		class:hide
+		bind:clientWidth
+		style:transform
+		style:font-size={fontSize}
+	>
+		{#each data as { text, mark }}
+			{#if mark}
+				<mark>
+					{#each text as t}
+						{@const colon = t === ":"}
+						<span class:colon>
+							{t}
+						</span>
+					{/each}
+				</mark>
+			{:else}
+				<span>{text}</span>
+			{/if}
+		{/each}
+	</p>
+{/each}
 
 <style>
 	p {
@@ -56,6 +66,17 @@
 		justify-content: center;
 		align-items: center;
 		transition: all 1s ease-in-out;
+	}
+
+	p.hide {
+		position: absolute !important;
+		top: 0;
+		left: 0;
+		text-align: center;
+		width: 100%;
+		visibility: hidden;
+		opacity: 0;
+		pointer-events: none;
 	}
 
 	span {

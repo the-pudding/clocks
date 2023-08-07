@@ -2,6 +2,7 @@
 	import { csv } from "d3";
 	import { setContext } from "svelte";
 	import { fly } from "svelte/transition";
+	import { cubicInOut } from "svelte/easing";
 	import { browser } from "$app/environment";
 	import Meta from "$components/Meta.svelte";
 	import Footer from "$components/Footer.svelte";
@@ -134,7 +135,10 @@
 			</div>
 
 			{#key track.id}
-				<p in:fly={{ y: 32, duration: 500 }} class="artist">
+				<p
+					in:fly={{ y: 32, duration: 500, delay: 500, easing: cubicInOut }}
+					class="artist"
+				>
 					<a
 						href={`https://open.spotify.com/track/${track.id}`}
 						target="_blank"
