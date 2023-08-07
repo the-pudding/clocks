@@ -79,7 +79,7 @@
 		const options = data.filter((d) => d.time === time);
 		if (!options.length) noTrack();
 		else {
-			const hasProbableTime =
+			const hasProbable =
 				options.filter((d) => d.probably_time === "true").length > 1;
 			const filtered = options.filter((d) =>
 				hasProbable ? d.probably_time === "true" : true
