@@ -15,31 +15,25 @@
 	}
 
 	afterUpdate(() => {
+		const p = document.querySelector("p.clock.hide");
 		const mark = document.querySelector("p.clock.hide mark");
 
-		// get the left and right position of the mark
+		const mid = p.clientWidth / 2;
+
 		const { left, width } = mark.getBoundingClientRect();
 
 		const center = left + width / 2;
 		const diff = Math.round((center - mid) * -1);
-		// translate = `translate(${diff}px, 0)`;
-		console.log({ left, width, center, diff });
+		translate = `translate(${diff}px, 0)`;
+		console.log({ left, width, center, mid, diff });
 		fontSize = `${getFontSize()}vw`;
 	});
-
-	$: mid = clientWidth / 2;
 </script>
 
 {#each ["hide", "show"] as version}
 	{@const transform = version === "show" ? translate : ""}
 	{@const hide = version === "hide"}
-	<p
-		class="clock"
-		class:hide
-		bind:clientWidth
-		style:transform
-		style:font-size={fontSize}
-	>
+	<p class="clock" class:hide style:transform style:font-size={fontSize}>
 		{#each data as { text, mark }}
 			{#if mark}
 				<mark>
