@@ -2,10 +2,13 @@
 	import { onMount } from "svelte";
 	import { createEventDispatcher } from "svelte";
 	import { tweened } from "svelte/motion";
+	import { isMuted } from "$stores/misc.js";
 
 	export let preview;
 	export let ready;
+
 	let time = new Date();
+	let src;
 	let audioEl;
 	let ended;
 	let volume;
@@ -21,10 +24,10 @@
 	const fader = tweened(0);
 
 	export const play = () => {
-		if (audioEl) {
+		if (audioEl && !muted) {
 			currentTime = 0;
 			audioEl.play();
-			volume = 1;
+			volume = 0;
 			console.log("fade in");
 			fader.set(0);
 			fader.set(1, { duration: 500 });
@@ -51,10 +54,19 @@
 		if (paused === false && atEnd) fadeOut();
 	}
 
-	// hack to not start a new one if we are close to next minute
+	function updateSource() {
+		if (!preview) return;
+		src = `https://p.scdn.co/mp3-preview/${preview}?cid=635a94c846854eb29813825c79d704a2`;
+	}
 
-	// $: src = `https://p.scdn.co/mp3-preview/${preview}?cid=635a94c846854eb29813825c79d704a2`;
-	$: src = preview;
+	function updateMuted() {
+		muted = $isMuted;
+		if (paused !== false) play();
+	}
+
+	// hack to not start a new one if we are close to next minute
+	$: updateSource(preview);
+	$: updateMuted($isMuted);
 	$: if (ended) dispatch("ended");
 	$: seconds = time.getSeconds();
 	$: checkNearEndOfMinute(seconds);

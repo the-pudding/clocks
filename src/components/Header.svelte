@@ -1,6 +1,7 @@
 <script>
 	import wordmark from "$svg/wordmark.svg";
 	import { VolumeX, Volume2 } from "lucide-svelte";
+	import { isMuted } from "$stores/misc.js";
 </script>
 
 <header>
@@ -11,8 +12,12 @@
 	</div>
 
 	<div class="sound">
-		<button class="icon">
-			<VolumeX size="28" />
+		<button class="icon" on:click={() => ($isMuted = !$isMuted)}>
+			{#if $isMuted}
+				<VolumeX size="28" />
+			{:else}
+				<Volume2 size="28" />
+			{/if}
 		</button>
 	</div>
 </header>

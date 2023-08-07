@@ -7,6 +7,7 @@
 	import Header from "$components/Header.svelte";
 	import Clock from "$components/Clock.svelte";
 	import Audio from "$components/Audio.svelte";
+	import { isMuted } from "$stores/misc.js";
 	import copy from "$data/copy.json";
 	import version from "$utils/version.js";
 	import clock from "$stores/clock.js";
@@ -19,6 +20,7 @@
 	let played;
 	let audio;
 	let ready;
+	let firstClick;
 
 	const preloadFont = [
 		"https://pudding.cool/assets/fonts/rubik/rubik-v14-latin-regular.woff2",
@@ -108,6 +110,7 @@
 	$: period = $clock.period;
 	$: if (data && ready) loadNext(time);
 	$: markup = createMarkup(track?.name);
+	$: if (!$isMuted) firstClick = true;
 </script>
 
 <Meta {title} {description} {url} {preloadFont} {keywords} />
@@ -117,8 +120,10 @@
 <div class="container">
 	<!-- <div class="bg" style="background-image: url({track?.album_img})" /> -->
 	<section>
-		{#if ready}
-			<p><button on:click={audio.play}>Turn Sound On</button></p>
+		{#if ready && !firstClick}
+			<p class="enable">
+				<button on:click={() => ($isMuted = false)}>Turn Sound On</button>
+			</p>
 		{/if}
 
 		{#if track}
@@ -129,7 +134,7 @@
 			<p class="artist">
 				By {track.artist}
 				<a
-					href={track.href}
+					href={`https://open.spotify.com/tracks/${track.id}`}
 					target="_blank"
 					rel="noreferrer"
 					aria-label="Spotify">{@html spotifySvg}</a
@@ -140,7 +145,7 @@
 		<Audio
 			bind:ready
 			bind:this={audio}
-			src={track?.preview_url}
+			preview={track?.preview}
 			on:ended={() => seek()}
 		/>
 	</section>
@@ -174,6 +179,14 @@
 
 	p {
 		text-align: center;
+	}
+
+	.enable {
+		position: absolute;
+		width: 100%;
+		top: -16px;
+		left: 0;
+		transform: translate(0, -100%);
 	}
 
 	.artist {
