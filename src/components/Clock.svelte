@@ -5,13 +5,13 @@
 
 	let clientWidth = 1;
 	let translate = "";
-	let fontSize = "5vw";
+	let fontSize = "6vw";
 
 	function getFontSize() {
-		if (title.length > 20) return 8;
-		if (title.length > 15) return 10;
-		if (title.length > 10) return 12;
-		return 15;
+		if (title.length > 20) return 6;
+		if (title.length > 15) return 8;
+		if (title.length > 10) return 10;
+		return 12;
 	}
 
 	afterUpdate(() => {
@@ -33,7 +33,7 @@
 {#each ["hide", "show"] as version}
 	{@const transform = version === "show" ? translate : ""}
 	{@const hide = version === "hide"}
-	<p class="clock" class:hide style:transform style:font-size={fontSize}>
+	<p class="clock" class:hide style:transform style="--font-size: {fontSize};">
 		{#each data as { text, mark }}
 			{#if mark}
 				<mark>
@@ -59,6 +59,9 @@
 		justify-content: center;
 		align-items: center;
 		transition: all 1s ease-in-out;
+		font-size: clamp(24px, var(--font-size), 256px);
+		max-width: 50%;
+		margin: 0 auto;
 	}
 
 	p.hide {
@@ -81,6 +84,7 @@
 		padding: 0 8px;
 		font-weight: var(--fw-black);
 		background: none;
+		white-space: nowrap;
 		/* 
 		border-radius: 8px;
 		border: 4px solid var(--color-fg);

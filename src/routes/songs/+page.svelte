@@ -26,9 +26,9 @@
 	let firstClick;
 
 	const preloadFont = [
-		"https://pudding.cool/assets/fonts/rubik/rubik-v14-latin-regular.woff2",
+		"https://pudding.cool/assets/fonts/rubik/rubik-v14-latin-900.woff2",
 		"https://pudding.cool/assets/fonts/rubik/rubik-v14-latin-700.woff2",
-		"https://pudding.cool/assets/fonts/rubik/rubik-v14-latin-900.woff2"
+		"https://pudding.cool/assets/fonts/rubik/rubik-v14-latin-regular.woff2"
 	];
 
 	const { title, description, url, keywords } = copy;
@@ -91,7 +91,8 @@
 		else {
 			const filtered = filterTracks(options);
 
-			const i = Math.floor(Math.random() * filtered.length);
+			// const i = Math.floor(Math.random() * filtered.length);
+			const i = 7;
 			const prev = track?.id;
 			track = {
 				...filtered[i]
@@ -106,7 +107,7 @@
 	}
 
 	async function loadTracks() {
-		data = await csv("../assets/tracks.csv");
+		data = await csv("../assets/songs.csv");
 	}
 
 	$: if (browser) loadTracks();
@@ -201,6 +202,7 @@
 		left: 0;
 		transform: translate(0, -100%);
 		text-align: center;
+		z-index: var(--z-top);
 	}
 
 	.artist {
@@ -210,6 +212,7 @@
 		transform: translate(0, 100%);
 		text-align: center;
 		color: var(--color-fg2);
+		z-index: var(--z-top);
 	}
 
 	.artist a {
