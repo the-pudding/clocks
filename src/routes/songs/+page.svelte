@@ -197,7 +197,7 @@
 	.enable {
 		position: absolute;
 		width: 100%;
-		top: -32px;
+		top: -42px;
 		left: 0;
 		transform: translate(0, -100%);
 		text-align: center;
@@ -230,7 +230,7 @@
 		width: 24px;
 		height: 24px;
 		margin-left: 4px;
-		transform: translate(0, 4px);
+		transform: translate(0, 6px);
 		color: currentColor;
 		opacity: 0.33;
 		transition: all 0.25s;

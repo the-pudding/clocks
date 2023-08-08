@@ -59,8 +59,8 @@
 		justify-content: center;
 		align-items: center;
 		transition: all 1s ease-in-out;
-		font-size: clamp(24px, var(--font-size), 256px);
-		max-width: 50%;
+		font-size: clamp(36px, var(--font-size), 256px);
+		max-width: calc(50% + var(--font-size));
 		margin: 0 auto;
 	}
 
@@ -102,7 +102,7 @@
 
 	span.other {
 		color: var(--color-fg2);
-		font-size: 0.3em;
+		font-size: 0.33em;
 		font-weight: var(--fw-bold);
 	}
 
