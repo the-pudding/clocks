@@ -91,8 +91,7 @@
 		else {
 			const filtered = filterTracks(options);
 
-			// const i = Math.floor(Math.random() * filtered.length);
-			const i = 7;
+			const i = Math.floor(Math.random() * filtered.length);
 			const prev = track?.id;
 			track = {
 				...filtered[i]
@@ -198,7 +197,7 @@
 	.enable {
 		position: absolute;
 		width: 100%;
-		top: -16px;
+		top: -32px;
 		left: 0;
 		transform: translate(0, -100%);
 		text-align: center;
@@ -208,7 +207,7 @@
 	.artist {
 		position: absolute;
 		width: 100%;
-		bottom: -16px;
+		bottom: -32px;
 		transform: translate(0, 100%);
 		text-align: center;
 		color: var(--color-fg2);
