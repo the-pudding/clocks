@@ -78,15 +78,8 @@
 	}
 
 	function filterTracks(options) {
-		const probTime = options.filter((d) => d.probTime);
-		const probLatin = probTime.filter((d) => d.probLatin);
-
-		const filtered = options.filter((d) => {
-			if (probLatin.length > 1) return d.probLatin && d.probTime;
-			else if (probTime.length > 1) return d.probTime;
-			return true;
-		});
-		return filtered;
+		// TODO right suffix
+		return options;
 	}
 
 	function seek() {
@@ -94,6 +87,7 @@
 		if (!options.length) noTrack();
 		else {
 			const filtered = filterTracks(options);
+
 			const i = Math.floor(Math.random() * filtered.length);
 			const prev = track?.id;
 			track = {
@@ -109,12 +103,7 @@
 	}
 
 	async function loadTracks() {
-		const raw = await csv("../assets/tracks.csv");
-		data = raw.map((d) => ({
-			...d,
-			probTime: d.probably_time === "true",
-			probLatin: d.probably_latin === "true"
-		}));
+		data = await csv("../assets/tracks.csv");
 	}
 
 	$: if (browser) loadTracks();
