@@ -78,8 +78,11 @@
 	}
 
 	function filterTracks(options) {
-		// TODO right suffix
-		return options;
+		const p = period.toLowerCase();
+		const opposite = p === "am" ? "pm" : "am";
+		const correct = options.filter((d) => d.suffix !== opposite);
+		const result = correct.length ? correct : options;
+		return result;
 	}
 
 	function seek() {
@@ -161,7 +164,7 @@
 
 <Modal>
 	{#each copy.songsMethod as { type, value }}
-		<p class="text-outline">
+		<p>
 			{@html value}
 		</p>
 	{/each}
@@ -206,6 +209,7 @@
 		bottom: -16px;
 		transform: translate(0, 100%);
 		text-align: center;
+		color: var(--color-fg2);
 	}
 
 	.artist a {
@@ -214,8 +218,8 @@
 		margin: 0 auto;
 		max-width: 320px;
 		line-height: 1;
-		opacity: 0.67;
-		transition: opacity 0.25s;
+		transition: all 0.25s;
+		color: currentColor;
 		border: none;
 	}
 
@@ -225,15 +229,17 @@
 		height: 24px;
 		margin-left: 4px;
 		transform: translate(0, 4px);
-		opacity: 0.5;
-		transition: opacity 0.25s;
+		color: currentColor;
+		opacity: 0.33;
+		transition: all 0.25s;
 	}
 
 	.artist a:hover {
-		opacity: 1;
+		color: var(--color-fg);
 	}
 
 	.artist a:hover span {
-		opacity: 1;
+		color: var(--color-fg);
+		opacity: 0.67;
 	}
 </style>

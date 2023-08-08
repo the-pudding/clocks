@@ -5,7 +5,8 @@
 </script>
 
 <section id="modal" class:visible>
-	<div>
+	<div class="bg" />
+	<div class="fg">
 		<button class="icon" on:click={() => ($modalVisible = false)}
 			><XCircle size="28" /></button
 		>
@@ -24,25 +25,34 @@
 		pointer-events: none;
 		transition: opacity 0.25s ease-in-out;
 		z-index: var(--z-overlay);
-		background: rgba(255, 255, 255, 0.75);
 		display: flex;
 		align-items: center;
-	}
-
-	div {
-		width: 90%;
-		max-width: 30rem;
-		margin: 0 auto;
-		padding: 8px 24px;
-		position: relative;
-		/* box-shadow: 0 0 2px 4px #000; */
-		border: 2px solid currentColor;
-		background: rgba(255, 255, 255, 0.9);
 	}
 
 	section.visible {
 		opacity: 1;
 		pointer-events: auto;
+	}
+
+	.bg {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: var(--color-bg);
+		opacity: 0.9;
+	}
+
+	.fg {
+		width: 90%;
+		max-width: 30rem;
+		margin: 0 auto;
+		padding: 8px 24px;
+		position: relative;
+		border: 2px solid var(--color-fg2);
+		border-radius: var(--border-radius);
+		background: var(--color-bg);
 	}
 
 	button {

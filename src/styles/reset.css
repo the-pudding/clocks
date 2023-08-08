@@ -23,6 +23,7 @@ p {
 mark {
 	background-color: var(--color-mark, yellow);
 	padding: 0 4px;
+	color: var(--color-fg);
 }
 
 a {

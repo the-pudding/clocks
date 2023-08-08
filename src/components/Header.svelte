@@ -1,7 +1,26 @@
 <script>
+	import { browser } from "$app/environment";
 	import wordmark from "$svg/wordmark.svg";
-	import { VolumeX, Volume2 } from "lucide-svelte";
+	import { VolumeX, Volume2, Moon, Sun } from "lucide-svelte";
 	import { isMuted } from "$stores/misc.js";
+	import mq from "$stores/mq.js";
+
+	let darkMode;
+
+	$: darkMode = $mq.dark;
+	$: if (browser) toggleDarkMode(true, darkMode);
+
+	function toggleDarkMode(skip) {
+		if (!skip) darkMode = !darkMode;
+
+		if (darkMode) {
+			window.document.body.classList.add("dark");
+			window.document.body.classList.remove("light");
+		} else {
+			window.document.body.classList.add("light");
+			window.document.body.classList.remove("dark");
+		}
+	}
 </script>
 
 <header>
@@ -11,12 +30,28 @@
 		>
 	</div>
 
-	<div class="sound">
-		<button class="icon" on:click={() => ($isMuted = !$isMuted)}>
+	<div class="options">
+		<button
+			class="icon"
+			on:click={() => ($isMuted = !$isMuted)}
+			aria-label="toggle muted"
+		>
 			{#if $isMuted}
 				<VolumeX size="28" />
 			{:else}
 				<Volume2 size="28" />
+			{/if}
+		</button>
+
+		<button
+			class="icon"
+			on:click={() => toggleDarkMode(false)}
+			aria-label="toggle dark mode"
+		>
+			{#if darkMode}
+				<Moon size="28" />
+			{:else}
+				<Sun size="28" />
 			{/if}
 		</button>
 	</div>
@@ -31,7 +66,7 @@
 		z-index: var(--z-top);
 		display: flex;
 		justify-content: space-between;
-		align-items: center;
+		align-items: flex-start;
 		padding: 8px 16px;
 	}
 
@@ -52,5 +87,14 @@
 
 	:global(.wordmark svg path) {
 		fill: currentColor;
+	}
+
+	.options {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.options button {
+		margin-bottom: 8px;
 	}
 </style>

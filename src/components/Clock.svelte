@@ -5,13 +5,13 @@
 
 	let clientWidth = 1;
 	let translate = "";
-	let fontSize = "1.5vw";
+	let fontSize = "5vw";
 
 	function getFontSize() {
-		if (title.length > 20) return 1.5;
-		if (title.length > 15) return 2;
-		if (title.length > 10) return 2.5;
-		return 3.5;
+		if (title.length > 20) return 8;
+		if (title.length > 15) return 10;
+		if (title.length > 10) return 12;
+		return 15;
 	}
 
 	afterUpdate(() => {
@@ -25,7 +25,7 @@
 		const center = left + width / 2;
 		const diff = Math.round((center - mid) * -1);
 		translate = `translate(${diff}px, 0)`;
-		console.log({ left, width, center, mid, diff });
+		// console.log({ left, width, center, mid, diff });
 		fontSize = `${getFontSize()}vw`;
 	});
 </script>
@@ -45,7 +45,7 @@
 					{/each}
 				</mark>
 			{:else}
-				<span>{text}</span>
+				<span class="other">{text}</span>
 			{/if}
 		{/each}
 	</p>
@@ -78,21 +78,17 @@
 
 	mark {
 		display: inline-block;
-		font-size: 4em;
-		/* padding: 8px 16px; */
-		/* margin: 0 8px; */
+		padding: 0 8px;
 		font-weight: var(--fw-black);
 		background: none;
-
-		/* border-radius: 8px;
+		/* 
+		border-radius: 8px;
 		border: 4px solid var(--color-fg);
 		outline: 8px solid var(--color-mark);
-		box-shadow: 8px 8px 0 8px var(--color-fg); */
-		/* background: none; */
+		box-shadow: 8px 8px 0 8px var(--color-fg);
+		background: none; */
 
-		/* --color-text-outline: var(--color-fg);
-		--stroke-width: 2px;
-		color: var(--color-mark); */
+		/* color: var(--color-fg2); */
 	}
 
 	mark span:not(.colon) {
@@ -100,8 +96,10 @@
 		display: inline;
 	}
 
-	span:not(.colon) {
-		opacity: 0.5;
+	span.other {
+		color: var(--color-fg2);
+		font-size: 0.3em;
+		font-weight: var(--fw-bold);
 	}
 
 	span.colon {
