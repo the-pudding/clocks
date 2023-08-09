@@ -25,6 +25,7 @@
 	let audio;
 	let ready;
 	let firstClick;
+	let total;
 
 	const { title, description, url, keywords } = copy;
 	setContext("copy", copy);
@@ -86,6 +87,7 @@
 
 	function seek() {
 		const options = data.filter((d) => d.time === time);
+		total = options.length;
 		if (!options.length) noTrack();
 		else {
 			const filtered = filterTracks(options);
@@ -130,6 +132,8 @@
 			<p class="enable">
 				<button on:click={() => ($isMuted = false)}>Turn Sound On</button>
 			</p>
+		{:else}
+			<!-- <p class="total">1 of {total} song{total === 1 ? "" : "s"}</p> -->
 		{/if}
 
 		{#if track}
@@ -206,6 +210,19 @@
 		z-index: var(--z-top);
 	}
 
+	.total {
+		position: absolute;
+		width: 100%;
+		top: -40px;
+		left: 0;
+		transform: translate(0, -100%);
+		text-align: center;
+		z-index: var(--z-top);
+		color: var(--color-fg2);
+		font-size: var(--14px);
+		font-weight: var(--fw-bold);
+	}
+
 	.artist {
 		position: absolute;
 		width: 100%;
@@ -218,7 +235,7 @@
 
 	.artist a {
 		display: block;
-		font-size: var(--16px);
+		font-size: var(--18px);
 		margin: 0 auto;
 		max-width: 320px;
 		line-height: 1;
