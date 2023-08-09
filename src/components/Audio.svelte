@@ -18,10 +18,6 @@
 	let fading;
 	let loaded;
 	let muted = true;
-	let analyzer;
-	let amplitude;
-	let dataArray;
-	let bufferLength;
 
 	let interval;
 
@@ -29,7 +25,6 @@
 	const fader = tweened(0);
 
 	function play() {
-		if (!analyzer && audioEl) setupContext();
 		// console.log("play", !!audioEl, !muted);
 		if (audioEl && !muted) {
 			currentTime = 0;
@@ -52,19 +47,7 @@
 		});
 	}
 
-	function updateVisualizer() {
-		if (!analyzer) return;
-		analyzer.getByteFrequencyData(dataArray);
-
-		let sum = 0;
-		for (let i = 0; i < bufferLength; i++) {
-			sum += dataArray[i];
-		}
-		amplitude = sum / bufferLength;
-	}
-
 	function checkNearEndOfMinute() {
-		updateVisualizer();
 		if (fading) return;
 		if (paused === false && seconds === 59) {
 			// console.log("fade out: minute");
@@ -104,21 +87,6 @@
 		ready = true;
 	}
 
-	function setupContext() {
-		const audioContext = new (window.AudioContext ||
-			window.webkitAudioContext)();
-
-		analyzer = audioContext.createAnalyser();
-		analyzer.fftSize = 256;
-		bufferLength = analyzer.frequencyBinCount;
-
-		dataArray = new Uint8Array(bufferLength);
-
-		const source = audioContext.createMediaElementSource(audioEl);
-		source.connect(analyzer);
-		analyzer.connect(audioContext.destination);
-	}
-
 	// hack to not start a new one if we are close to next minute
 	$: updateSource(preview);
 	$: updateMuted($isMuted);
@@ -127,7 +95,6 @@
 	$: checkNearEndOfMinute(seconds);
 	$: checkNearEndOfSong(currentTime);
 	$: volume = $fader;
-	$: console.log(amplitude);
 
 	onMount(async () => {
 		interval = setInterval(() => {
