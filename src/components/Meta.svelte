@@ -3,7 +3,11 @@
 	export let description = "Description TK";
 	export let url = "https://pudding.cool";
 	export let keywords = "";
-	export let preloadFont = [];
+	const preloadFont = [
+		"https://pudding.cool/assets/fonts/rubik/rubik-v14-latin-900.woff2",
+		"https://pudding.cool/assets/fonts/rubik/rubik-v14-latin-700.woff2",
+		"https://pudding.cool/assets/fonts/rubik/rubik-v14-latin-regular.woff2"
+	];
 </script>
 
 <svelte:head>

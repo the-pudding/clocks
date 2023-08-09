@@ -105,7 +105,7 @@
 
 	.story a {
 		display: block;
-		font-weight: 900;
+		font-weight: 700;
 		text-decoration: none;
 		border: none;
 	}

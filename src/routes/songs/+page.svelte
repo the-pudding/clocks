@@ -26,12 +26,6 @@
 	let ready;
 	let firstClick;
 
-	const preloadFont = [
-		"https://pudding.cool/assets/fonts/rubik/rubik-v14-latin-900.woff2",
-		"https://pudding.cool/assets/fonts/rubik/rubik-v14-latin-700.woff2",
-		"https://pudding.cool/assets/fonts/rubik/rubik-v14-latin-regular.woff2"
-	];
-
 	const { title, description, url, keywords } = copy;
 	setContext("copy", copy);
 
@@ -122,7 +116,7 @@
 	$: if (!$isMuted) firstClick = true;
 </script>
 
-<Meta {title} {description} {url} {preloadFont} {keywords} />
+<Meta title={copy.songsTitle} {description} {url} {keywords} />
 
 <Header />
 
@@ -237,7 +231,7 @@
 		margin-left: 4px;
 		transform: translate(0, 6px);
 		color: currentColor;
-		opacity: 0.33;
+		opacity: 0.5;
 		transition: all 0.25s;
 	}
 
@@ -247,6 +241,6 @@
 
 	.artist a:hover span {
 		color: var(--color-fg);
-		opacity: 0.67;
+		opacity: 1;
 	}
 </style>

@@ -15,12 +15,6 @@
 	let data;
 	let video;
 
-	const preloadFont = [
-		"https://pudding.cool/assets/fonts/rubik/rubik-v14-latin-regular.woff2",
-		"https://pudding.cool/assets/fonts/rubik/rubik-v14-latin-700.woff2",
-		"https://pudding.cool/assets/fonts/rubik/rubik-v14-latin-900.woff2"
-	];
-
 	const { title, description, url, keywords } = copy;
 	setContext("copy", copy);
 
@@ -44,7 +38,7 @@
 	$: if (data) loadNext(time);
 </script>
 
-<Meta {title} {description} {url} {preloadFont} {keywords} />
+<Meta {title} {description} {url} {keywords} />
 <WIP />
 <Header text="a clock where the time is said in a YouTube video" />
 {#if video}

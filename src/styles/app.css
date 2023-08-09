@@ -160,3 +160,11 @@ button svg {
 a svg {
 	display: block;
 }
+
+.artist a svg path:nth-child(1) {
+	fill: var(--color-fg2);
+}
+
+.artist a svg path:nth-child(2) {
+	fill: var(--color-bg);
+}
