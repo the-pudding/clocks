@@ -14,6 +14,7 @@
 	import copy from "$data/copy.json";
 	import version from "$utils/version.js";
 	import clock from "$stores/clock.js";
+	import mq from "$stores/mq.js";
 	import spotifySvg from "$svg/spotify.svg";
 
 	version();
@@ -78,10 +79,14 @@
 	}
 
 	function filterTracks(options) {
+		const bySize = options.filter((d) => {
+			if (!$mq["50rem"]) return d.name.length < 20;
+			else return true;
+		});
 		const p = period.toLowerCase();
 		const opposite = p === "am" ? "pm" : "am";
-		const correct = options.filter((d) => d.suffix !== opposite);
-		const result = correct.length ? correct : options;
+		const correct = bySize.filter((d) => d.suffix !== opposite);
+		const result = correct.length ? correct : bySize;
 		return result;
 	}
 
