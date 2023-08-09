@@ -89,13 +89,16 @@
 		if (!options.length) noTrack();
 		else {
 			const filtered = filterTracks(options);
-
-			const i = Math.floor(Math.random() * filtered.length);
-			const prev = track?.id;
+			const chooseRandom = filtered.length > 1;
+			const playable = filtered.filter((d) =>
+				chooseRandom ? !played.includes(d.id) : true
+			);
+			const i = Math.floor(Math.random() * playable.length);
 			track = {
-				...filtered[i]
+				...playable[i]
 			};
-			audio.play();
+
+			played.push(track.id);
 		}
 	}
 

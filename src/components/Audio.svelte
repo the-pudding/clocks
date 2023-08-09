@@ -1,5 +1,5 @@
 <script>
-	import { onMount } from "svelte";
+	import { onMount, tick } from "svelte";
 	import { createEventDispatcher } from "svelte";
 	import { tweened } from "svelte/motion";
 	import { isMuted } from "$stores/misc.js";
@@ -16,6 +16,7 @@
 	let duration;
 	let paused;
 	let fading;
+	let loaded;
 	let muted = true;
 
 	let interval;
@@ -23,45 +24,67 @@
 	const dispatch = createEventDispatcher();
 	const fader = tweened(0);
 
-	export const play = () => {
+	function play() {
+		// console.log("play", !!audioEl, !muted);
 		if (audioEl && !muted) {
 			currentTime = 0;
 			audioEl.play();
 			volume = 0;
-			console.log("fade in");
 			fader.set(0);
 			fader.set(1, { duration: 500 });
 		}
-	};
+	}
 
 	function fadeOut(pause) {
 		fading = true;
-		console.log("fade out", pause);
 		fader.set(0, { duration: 500 }).then(() => {
 			fading = false;
 			if (pause) audioEl.pause();
+			else {
+				audioEl.currentTime = 0;
+				dispatch("ended");
+			}
 		});
 	}
 
 	function checkNearEndOfMinute() {
 		if (fading) return;
-		if (paused === false && seconds === 59) fadeOut(true);
+		if (paused === false && seconds === 59) {
+			// console.log("fade out: minute");
+			fadeOut(true);
+		}
 	}
 
 	function checkNearEndOfSong() {
 		if (fading || isNaN(duration)) return;
 		const atEnd = duration - currentTime < 1;
-		if (paused === false && atEnd) fadeOut();
+		if (paused === false && atEnd) {
+			// console.log("fade out: song", seconds);
+			const wait = seconds > 55;
+			fadeOut(wait);
+		}
 	}
 
 	function updateSource() {
 		if (!preview) return;
+		loaded = false;
+		// console.log("update source");
 		src = `https://p.scdn.co/mp3-preview/${preview}?cid=635a94c846854eb29813825c79d704a2`;
 	}
 
 	function updateMuted() {
 		muted = $isMuted;
 		if (paused !== false) play();
+	}
+
+	function setupEvents() {
+		audioEl.addEventListener("canplay", () => {
+			if (!loaded) {
+				loaded = true;
+				play();
+			}
+		});
+		ready = true;
 	}
 
 	// hack to not start a new one if we are close to next minute
@@ -73,11 +96,12 @@
 	$: checkNearEndOfSong(currentTime);
 	$: volume = $fader;
 
-	onMount(() => {
+	onMount(async () => {
 		interval = setInterval(() => {
 			time = new Date();
 		}, 500);
-		ready = true;
+		await tick();
+		setupEvents();
 	});
 </script>
 
@@ -90,6 +114,5 @@
 	bind:currentTime
 	bind:duration
 	preload
-	autoplay
 	bind:this={audioEl}
 />
