@@ -133,7 +133,7 @@
 				<button on:click={() => ($isMuted = false)}>Turn Sound On</button>
 			</p>
 		{:else}
-			<!-- <p class="total">1 of {total} song{total === 1 ? "" : "s"}</p> -->
+			<p class="total">1 of {total} song{total === 1 ? "" : "s"} at...</p>
 		{/if}
 
 		{#if track}
@@ -220,7 +220,6 @@
 		z-index: var(--z-top);
 		color: var(--color-fg2);
 		font-size: var(--14px);
-		font-weight: var(--fw-bold);
 	}
 
 	.artist {
@@ -235,7 +234,8 @@
 
 	.artist a {
 		display: block;
-		font-size: var(--18px);
+		font-size: var(--16x);
+		font-weight: var(--fw-bold);
 		margin: 0 auto;
 		max-width: 320px;
 		line-height: 1;
