@@ -37,6 +37,10 @@
 		{/each}
 	</ul>
 
+	{#each copy.details as { value }}
+		<p>{@html value}</p>
+	{/each}
+
 	<p>{copy.overline2}</p>
 	<ul>
 		{#each copy.links2 as { href, text }}
@@ -47,6 +51,14 @@
 			</li>
 		{/each}
 	</ul>
+
+	<p>
+		- <a
+			href="https://pudding.cool/author/russell-samora"
+			target="_blank"
+			rel="noreferrer">Russell Samora</a
+		>
+	</p>
 </section>
 
 <!-- <FooterMain /> -->
