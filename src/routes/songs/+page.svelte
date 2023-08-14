@@ -130,6 +130,7 @@
 	<section>
 		{#if ready && !firstClick}
 			<p class="enable">
+				<span class="warning"> warning: explicit content</span>
 				<button on:click={() => ($isMuted = false)}>Turn Sound On</button>
 			</p>
 		{:else}
@@ -208,6 +209,14 @@
 		transform: translate(0, -100%);
 		text-align: center;
 		z-index: var(--z-top);
+	}
+
+	.enable .warning {
+		display: block;
+		color: var(--color-fg2);
+		font-size: var(--12px);
+		margin-bottom: 8px;
+		line-height: 1;
 	}
 
 	.total {

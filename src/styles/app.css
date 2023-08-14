@@ -168,3 +168,7 @@ a svg {
 .artist a svg path:nth-child(2) {
 	fill: var(--color-bg);
 }
+
+h1 {
+	font-weight: 400;
+}
