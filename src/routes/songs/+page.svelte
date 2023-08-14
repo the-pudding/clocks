@@ -4,6 +4,7 @@
 	import { fly } from "svelte/transition";
 	import { cubicInOut } from "svelte/easing";
 	import { browser } from "$app/environment";
+	import { Volume2 } from "lucide-svelte";
 	import Meta from "$components/Meta.svelte";
 	import Footer from "$components/Footer.svelte";
 	import Header from "$components/Header.svelte";
@@ -131,7 +132,9 @@
 		{#if ready && !firstClick}
 			<p class="enable">
 				<span class="warning"> warning: explicit content</span>
-				<button on:click={() => ($isMuted = false)}>Turn Sound On</button>
+				<button on:click={() => ($isMuted = false)}
+					>Play Audio <span><Volume2 /></span></button
+				>
 			</p>
 		{:else}
 			<p class="total">1 of {total} song{total === 1 ? "" : "s"} at...</p>
@@ -217,6 +220,17 @@
 		font-size: var(--12px);
 		margin-bottom: 8px;
 		line-height: 1;
+	}
+
+	.enable button {
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.enable button span {
+		display: inline-block;
+		margin-left: 8px;
 	}
 
 	.total {

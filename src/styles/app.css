@@ -154,7 +154,7 @@ button.icon {
 }
 
 button svg {
-	display: block;
+	display: inline-block;
 }
 
 a svg {
