@@ -9,6 +9,7 @@
 		"https://pudding.cool/assets/fonts/rubik/rubik-v14-latin-700.woff2",
 		"https://pudding.cool/assets/fonts/rubik/rubik-v14-latin-regular.woff2"
 	];
+	$: fullUrl = `${url}${path !== "landing" ? `/${path}` : ""}`;
 </script>
 
 <svelte:head>
@@ -19,7 +20,7 @@
 
 	<meta property="og:title" content={title} />
 	<meta property="og:site_name" content="The Pudding" />
-	<meta property="og:url" content={url} />
+	<meta property="og:url" content={fullUrl} />
 	<meta property="og:description" content={description} />
 	<meta property="og:type" content="article" />
 	<meta property="og:locale" content="en_US" />

@@ -4,7 +4,7 @@ function getTime() {
 	const date = new Date();
 	const t = date.toLocaleTimeString("en-US");
 	// just get hours and minutes
-	// const time = "12:00";
+	// const time = "6:31";
 	// const period = "pm";
 	const time = t.substring(0, t.length - 6);
 	const period = t.substring(t.length - 2);
