@@ -20,11 +20,13 @@
 
 <HeaderMain />
 
-<section>
+<section class="intro">
 	<h1>{copy.hed}</h1>
+</section>
 
+<section class="links">
 	<p>{copy.overline}</p>
-	<ul>
+	<ol>
 		{#each copy.links as { href, text }}
 			{@const disable = !href}
 			<li class:disable>
@@ -35,8 +37,10 @@
 				{/if}
 			</li>
 		{/each}
-	</ul>
+	</ol>
+</section>
 
+<section>
 	{#each copy.details as { value }}
 		<p>{@html value}</p>
 	{/each}
@@ -73,6 +77,11 @@
 		padding: 0 16px;
 		max-width: 35rem;
 		margin: 0 auto;
+	}
+
+	section.links {
+		font-size: var(--20px);
+		font-weight: var(--fw-bold);
 	}
 
 	li {
