@@ -25,7 +25,6 @@
 	const fader = tweened(0);
 
 	function play() {
-		// console.log("play", !!audioEl, !muted);
 		if (audioEl && !muted) {
 			currentTime = 0;
 			audioEl.play();
@@ -33,6 +32,10 @@
 			fader.set(0);
 			fader.set(1, { duration: 500 });
 		}
+	}
+
+	function pause() {
+		if (audioEl && paused === false) audioEl.pause();
 	}
 
 	function fadeOut(pause) {
@@ -77,6 +80,13 @@
 		if (paused !== false) play();
 	}
 
+	function onVisibilityChange() {
+		const hidden = document.hidden;
+
+		if (hidden && paused === false) pause();
+		else if (!hidden) play();
+	}
+
 	function setupEvents() {
 		audioEl.addEventListener("canplay", () => {
 			if (!loaded) {
@@ -84,6 +94,9 @@
 				play();
 			}
 		});
+
+		document.addEventListener("visibilitychange", onVisibilityChange);
+
 		ready = true;
 	}
 

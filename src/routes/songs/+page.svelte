@@ -27,6 +27,7 @@
 	let ready;
 	let firstClick;
 	let total;
+	let totalDisplay;
 
 	const { title, description, url, keywords } = copy;
 	setContext("copy", copy);
@@ -61,6 +62,7 @@
 	}
 
 	function noTrack() {
+		total = undefined;
 		track = {
 			name: time,
 			artist: "No Track Found",
@@ -82,13 +84,13 @@
 		const p = period.toLowerCase();
 		const opposite = p === "am" ? "pm" : "am";
 		const correct = bySize.filter((d) => d.suffix !== opposite);
-		const result = correct.length ? correct : bySize;
+		const result = correct.length > 1 ? correct : bySize;
 		return result;
 	}
 
 	function seek() {
 		const options = data.filter((d) => d.time === time);
-		total = options.length;
+
 		if (!options.length) noTrack();
 		else {
 			const filtered = filterTracks(options);
@@ -96,6 +98,7 @@
 			const playable = filtered.filter((d) =>
 				chooseRandom ? !played.includes(d.id) : true
 			);
+			total = playable.length;
 			const i = Math.floor(Math.random() * playable.length);
 			track = {
 				...playable[i]
@@ -120,6 +123,9 @@
 	$: if (data && ready) loadNext(time);
 	$: markup = createMarkup(track?.name);
 	$: if (!$isMuted) firstClick = true;
+	$: totalDisplay = total
+		? `1 of ${total} song${total === 1 ? "" : "s"}`
+		: "No songs";
 </script>
 
 <Meta title={copy.songsTitle} {description} {url} {keywords} />
@@ -137,7 +143,7 @@
 				>
 			</p>
 		{:else}
-			<p class="total">1 of {total} song{total === 1 ? "" : "s"} at...</p>
+			<p class="total">{totalDisplay} at...</p>
 		{/if}
 
 		{#if track}
