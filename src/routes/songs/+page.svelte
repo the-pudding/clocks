@@ -29,7 +29,7 @@
 	let total;
 	let totalDisplay;
 
-	const { title, description, url, keywords } = copy;
+	const { title, description, url, keywords, path } = copy.songsMeta;
 	setContext("copy", copy);
 
 	function createMarkup(str) {
