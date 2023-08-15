@@ -128,7 +128,7 @@
 		: "No songs";
 </script>
 
-<Meta title={copy.songsTitle} {description} {url} {keywords} />
+<Meta title={copy.songsTitle} {description} {url} {keywords} {path} />
 
 <Header />
 
