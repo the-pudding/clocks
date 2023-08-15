@@ -1,98 +1,61 @@
 <script>
-	import { afterUpdate } from "svelte";
-	export let data;
 	export let title;
+	export let artist;
 
-	const sizes = [8, 10, 12];
-	let clientWidth = 1;
+	const sizes = [6];
 	let translate = "";
 	let fontSize = `${sizes[0]}vw`;
 	let small;
+
+	// $: title = track.name;
+	// $: artist = track.artist;
 
 	function getFontSize() {
 		if (title.length < 20) return sizes[2];
 		if (title.length < 40) return sizes[1];
 		return sizes[0];
 	}
-
-	afterUpdate(() => {
-		const p = document.querySelector("p.clock.hide");
-		const mark = document.querySelector("p.clock.hide mark");
-
-		const mid = p.clientWidth / 2;
-
-		const { left, width } = mark.getBoundingClientRect();
-
-		const center = left + width / 2;
-		const diff = Math.round((center - mid) * -1);
-		translate = `translate(${diff}px, 0)`;
-		// console.log({ left, width, center, mid, diff });
-		const fs = getFontSize();
-		fontSize = `${fs}vw`;
-		small = fs === sizes[0];
-	});
 </script>
 
-{#each ["hide", "show"] as version}
-	{@const transform = version === "show" ? translate : ""}
-	{@const hide = version === "hide"}
-	<p
-		class="clock"
-		class:hide
-		class:small
-		style:transform
-		style="--font-size: {fontSize};"
-	>
-		{#each data as { text, mark }}
-			{#if mark}
-				<mark>
-					{#each text as t}
-						{@const colon = t === ":"}
-						<span class:colon>
-							{t}
-						</span>
-					{/each}
-				</mark>
-			{:else}
-				<span class="other">{text}</span>
-			{/if}
-		{/each}
-	</p>
-{/each}
+<p class="clock text-outline" style="--font-size: {fontSize};">
+	{#each title as { text, mark }}
+		{#if mark}
+			<mark>
+				{#each text as t}
+					{@const colon = t === ":"}
+					<span class:colon>
+						{t}
+					</span>
+				{/each}
+			</mark>
+		{:else}
+			<span class="other">{text}</span>
+		{/if}
+	{/each}
+	<span class="artist">by {artist}</span>
+</p>
 
 <style>
 	p {
 		line-height: 1;
-		text-align: center;
-		display: flex;
-		justify-content: center;
-		align-items: center;
 		transition: all 1s ease-in-out;
-		font-size: clamp(36px, var(--font-size), 192px);
-		max-width: 50%;
+		font-size: clamp(36px, var(--font-size), 96px);
 		margin: 0 auto;
-	}
-
-	p.hide {
-		position: absolute !important;
-		top: 0;
-		left: 0;
-		text-align: center;
-		width: 100%;
-		visibility: hidden;
-		opacity: 0;
-		pointer-events: none;
+		transition: all 0.5s ease-in-out;
+		--color-text-outline: var(--color-bg);
 	}
 
 	span {
-		display: inline-block;
+		/* display: inline-block; */
+		font-weight: var(--fw-black);
 	}
 
 	mark {
-		display: inline-block;
-		padding: 0 8px;
+		/* display: inline-block; */
+		padding: 0;
 		font-weight: var(--fw-black);
 		background: none;
+		color: var(--color-mark);
 		white-space: nowrap;
 		/* 
 		border-radius: 8px;
@@ -109,23 +72,16 @@
 	}
 
 	span.other {
-		color: var(--color-fg2);
-		font-size: clamp(14px, 0.5em, 32px);
-		font-weight: var(--fw-bold);
+		color: var(--color-fg);
 	}
 
 	span.colon {
 		animation: blink 1s infinite;
 	}
 
-	@media only screen and (min-width: 800px) {
-		span.other {
-			font-size: clamp(14px, 0.25em, 36px);
-		}
-
-		.small span.other {
-			font-size: clamp(14px, 0.15em, 24px);
-		}
+	span.artist {
+		color: var(--color-fg);
+		font-weight: var(--fw-regular);
 	}
 
 	@keyframes blink {

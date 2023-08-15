@@ -24,7 +24,7 @@
 		left: 0;
 		z-index: var(--z-top);
 		display: flex;
-		justify-content: center;
+		/* justify-content: center; */
 		align-items: center;
 		padding: 8px 16px;
 	}

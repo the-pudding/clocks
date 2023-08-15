@@ -105,6 +105,7 @@
 			track = {
 				...playable[i]
 			};
+			console.log(track);
 
 			played.push(track.id);
 		}
@@ -135,38 +136,42 @@
 <Header />
 
 <div class="container">
-	<!-- <div class="bg" style="background-image: url({track?.album_img})" /> -->
+	<p class="bg">
+		{time}
+		<span>{period}</span>
+	</p>
 	<section>
-		{#if ready && !firstClick}
+		<!-- {#if ready && !firstClick}
 			<p class="enable">
 				<span class="warning"> warning: explicit content</span>
-				<button on:click={() => ($isMuted = false)}
-					>Play Audio <span><Volume2 /></span></button
-				>
 			</p>
-		{:else}
-			<p class="total">{totalDisplay} at...</p>
-		{/if}
+		{/if} -->
 
 		{#if track}
 			<div class="clock">
-				<Clock data={markup} title={track.name} />
+				<div class="sidebar">
+					<img src={track?.album_img} alt="album cover" />
+				</div>
+				<div class="mainbar">
+					<div class="eyebrow">
+						{#if false}
+							<!-- {#if ready && !firstClick} -->
+							<button on:click={() => ($isMuted = false)}
+								>Play Audio <span><Volume2 /></span></button
+							>
+						{:else}
+							<p class="playing">
+								Now Playing <span class="total"
+									>{totalDisplay} with this time in the title</span
+								>
+							</p>
+						{/if}
+					</div>
+					<div class="song">
+						<Clock title={markup} artist={track.artist} />
+					</div>
+				</div>
 			</div>
-
-			{#key track.id}
-				<p
-					in:fly={{ y: 32, duration: 500, delay: 500, easing: cubicInOut }}
-					class="artist"
-				>
-					<a
-						href={`https://open.spotify.com/track/${track.id}`}
-						target="_blank"
-						rel="noreferrer"
-						aria-label="Spotify"
-						>By {track.artist} <span>{@html spotifySvg}</span></a
-					>
-				</p>
-			{/key}
 		{/if}
 
 		<Audio
@@ -197,12 +202,29 @@
 
 	.bg {
 		position: absolute;
-		top: 0;
-		left: 0;
-		height: 100%;
-		width: 100%;
-		background-size: 128px 128px;
-		opacity: 0.25;
+		opacity: 0.1;
+		pointer-events: none;
+		font-size: 29vw;
+		font-weight: var(--fw-black);
+		line-height: 1;
+
+		bottom: 16px;
+		right: calc(6vw + 32px);
+
+		/* width: 100%; */
+		/* top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		text-align: center; */
+	}
+
+	.bg span {
+		font-size: 5vw;
+		display: inline-block;
+		position: absolute;
+		top: 50%;
+		transform: rotate(90deg) translate(-50%, 0);
+		transform-origin: 50% 50%;
 	}
 
 	section {
@@ -212,86 +234,68 @@
 		transform: translate(0, -50%);
 	}
 
-	.enable {
-		position: absolute;
-		width: 100%;
-		top: -42px;
-		left: 0;
-		transform: translate(0, -100%);
-		text-align: center;
-		z-index: var(--z-top);
+	.clock {
+		width: 90%;
+		/* max-width: 960px; */
+		margin: 0 auto;
+		display: flex;
 	}
 
-	.enable .warning {
-		display: block;
-		color: var(--color-fg2);
-		font-size: var(--12px);
+	.eyebrow {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.playing {
+		margin: 0;
 		margin-bottom: 8px;
 		line-height: 1;
+		font-size: var(--14px);
+		color: var(--color-fg2);
+		text-transform: uppercase;
+		font-weight: var(--fw-bold);
+		padding-left: 0.25vw;
 	}
 
-	.enable button {
+	.total {
+		font-weight: var(--fw-regular);
+		text-transform: none;
+		color: var(--color-fg2);
+		/* font-weight: var(--fw-bold); */
+	}
+
+	.eyebrow button {
 		display: inline-flex;
 		justify-content: center;
 		align-items: center;
 	}
 
-	.enable button span {
+	.eyebrow button span {
 		display: inline-block;
 		margin-left: 8px;
 	}
 
-	.total {
-		position: absolute;
-		width: 100%;
-		top: -40px;
-		left: 0;
-		transform: translate(0, -100%);
-		text-align: center;
-		z-index: var(--z-top);
-		color: var(--color-fg2);
-		font-size: var(--14px);
-	}
-
-	.artist {
-		position: absolute;
-		width: 100%;
-		bottom: -32px;
-		transform: translate(0, 100%);
-		text-align: center;
-		color: var(--color-fg2);
-		z-index: var(--z-top);
-	}
-
-	.artist a {
+	.sidebar {
+		/* padding-top: 32px; */
+		width: 96px;
 		display: block;
-		font-size: var(--16x);
-		font-weight: var(--fw-bold);
-		margin: 0 auto;
-		max-width: 320px;
-		line-height: 1;
-		transition: all 0.25s;
-		color: currentColor;
-		border: none;
+		margin-right: 1vw;
 	}
 
-	.artist span {
-		display: inline-block;
-		width: 24px;
-		height: 24px;
-		margin-left: 4px;
-		transform: translate(0, 6px);
-		color: currentColor;
-		opacity: 0.5;
-		transition: all 0.25s;
+	.sidebar img {
+		width: 100%;
+		display: block;
+		border-radius: 50%;
+		filter: grayscale(100%);
+		animation: spin 10s linear infinite;
 	}
 
-	.artist a:hover {
-		color: var(--color-fg);
-	}
-
-	.artist a:hover span {
-		color: var(--color-fg);
-		opacity: 1;
+	@keyframes spin {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(360deg);
+		}
 	}
 </style>

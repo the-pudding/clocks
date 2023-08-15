@@ -43,7 +43,10 @@
 			"value": "#a239ca"
 		},
 		"blue": {
-			"value": "#4717f6"
+			"value": "#0070bb"
+		},
+		"blue-light": {
+			"value": "#0091f1"
 		},
 		"green": {
 			"value": "#34a29e"
@@ -55,7 +58,10 @@
 			"value": "#e5e338"
 		},
 		"pink": {
-			"value": "#ff99ff"
+			"value": "#f20099"
+		},
+		"pink-dark": {
+			"value": "#d00084"
 		}
 	}
 }

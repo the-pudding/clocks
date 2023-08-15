@@ -24,10 +24,10 @@
 	--color-bg2: var(--color-gray-50);
 	--color-fg: var(--color-gray-700);
 	--color-fg2: var(--color-gray-600);
-	--color-primary: var(--color-fg);
+	--color-primary: var(--color-black);
 	--color-link: var(--color-fg);
 	--color-focus: var(--color-red);
-	--color-mark: var(--color-pink);
+	--color-mark: var(--color-black);
 	--color-selection: var(--color-bg2);
 	--color-border: var(--color-fg2);
 	--color-button-bg: var(--color-gray-600);
@@ -54,7 +54,7 @@
 	--color-primary: var(--color-fg);
 	--color-link: var(--color-fg);
 	--color-focus: var(--color-red);
-	--color-mark: var(--color-pink);
+	--color-mark: var(--color-black);
 	--color-selection: var(--color-bg2);
 	--color-border: var(--color-fg2);
 	--color-button-bg: var(--color-gray-400);
@@ -67,14 +67,15 @@
 }
 
 .light {
-	--color-bg: var(--color-gray-200);
+	--color-bg: var(--color-gray-100);
+	--color-bg2: var(--color-gray-50);
 	--color-fg: var(--color-gray-700);
 	--color-fg2: var(--color-gray-600);
 	--color-primary: var(--color-fg);
 	--color-link: var(--color-fg);
 	--color-focus: var(--color-red);
-	--color-mark: var(--color-pink);
-	--color-selection: var(--color-pink);
+	--color-mark: var(--color-pink-dark);
+	--color-selection: var(--color-bg2);
 	--color-border: var(--color-fg2);
 	--color-button-bg: var(--color-gray-600);
 	--color-button-fg: var(--color-gray-50);
@@ -85,7 +86,7 @@
 }
 
 .dark {
-	--color-bg: var(--color-gray-700);
+	--color-bg: var(--color-gray-900);
 	--color-fg: var(--color-gray-100);
 	--color-fg2: var(--color-gray-300);
 	--color-primary: var(--color-fg);
