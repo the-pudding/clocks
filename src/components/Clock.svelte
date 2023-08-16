@@ -2,7 +2,8 @@
 	export let title;
 	export let artist;
 
-	const sizes = [6];
+	// TODO
+	const sizes = [4, 5, 6];
 	let translate = "";
 	let fontSize = `${sizes[0]}vw`;
 	let small;
@@ -39,7 +40,7 @@
 	p {
 		line-height: 1;
 		transition: all 1s ease-in-out;
-		font-size: clamp(36px, var(--font-size), 96px);
+		font-size: clamp(32px, var(--font-size), 96px);
 		margin: 0 auto;
 		transition: all 0.5s ease-in-out;
 		--color-text-outline: var(--color-bg);
@@ -56,7 +57,7 @@
 		font-weight: var(--fw-black);
 		background: none;
 		color: var(--color-mark);
-		white-space: nowrap;
+
 		/* 
 		border-radius: 8px;
 		border: 4px solid var(--color-fg);
@@ -72,7 +73,9 @@
 	}
 
 	span.other {
-		color: var(--color-fg);
+		color: var(--color-fg2);
+		color: var(--color-mark);
+		font-weight: var(--fw-regular);
 	}
 
 	span.colon {
@@ -80,8 +83,13 @@
 	}
 
 	span.artist {
-		color: var(--color-fg);
 		font-weight: var(--fw-regular);
+		color: var(--color-fg);
+		white-space: nowrap;
+		display: inline-block;
+		/* display: block;
+		font-size: 0.625em;
+		margin-top: 8px; */
 	}
 
 	@keyframes blink {

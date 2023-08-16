@@ -37,11 +37,17 @@
 	function createMarkup(str) {
 		if (!str) return;
 		const lower = str.toLowerCase();
-		// const periodLower = period.toLowerCase();
-		// const startFull = lower.indexOf(`${time} ${periodLower}`);
-		// const full = startFull > -1;
-		// const timeStr = full ? `${time} ${periodLower}` : time;
-		const timeStr = time;
+		const periodLower = period.toLowerCase();
+		const startFull1 = lower.indexOf(`${time} ${periodLower}`);
+		const startFull2 = lower.indexOf(`${time}${periodLower}`);
+		const full1 = startFull1 > -1;
+		const full2 = startFull2 > -1;
+		const timeStr = full1
+			? `${time} ${periodLower}`
+			: full2
+			? `${time}${periodLower}`
+			: time;
+		// const timeStr = time;
 		const start = lower.indexOf(timeStr);
 		const end = start + timeStr.length;
 		const before = str.slice(0, start);
@@ -102,6 +108,7 @@
 			);
 			total = playable.length;
 			const i = Math.floor(Math.random() * playable.length);
+			// const i = 7;
 			track = {
 				...playable[i]
 			};
@@ -140,7 +147,7 @@
 		{time}
 		<span>{period}</span>
 	</p>
-	<section>
+	<section class="">
 		<!-- {#if ready && !firstClick}
 			<p class="enable">
 				<span class="warning"> warning: explicit content</span>
@@ -150,7 +157,10 @@
 		{#if track}
 			<div class="clock">
 				<div class="sidebar">
-					<img src={track?.album_img} alt="album cover" />
+					<div
+						class="img"
+						style="background-image: url('https://i.scdn.co/image/{track?.artist_img}');"
+					/>
 				</div>
 				<div class="mainbar">
 					<div class="eyebrow">
@@ -204,18 +214,17 @@
 		position: absolute;
 		opacity: 0.1;
 		pointer-events: none;
-		font-size: 29vw;
+		font-size: 25vw;
 		font-weight: var(--fw-black);
 		line-height: 1;
 
-		bottom: 16px;
-		right: calc(6vw + 32px);
-
-		/* width: 100%; */
-		/* top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		text-align: center; */
+		left: 0;
+		bottom: 32px;
+		width: 100%;
+		padding-right: 5vw;
+		/* left: 50%; */
+		/* transform: translate(-50%, 0); */
+		text-align: center;
 	}
 
 	.bg span {
@@ -230,25 +239,22 @@
 	section {
 		position: absolute;
 		width: 100%;
+		top: 20%;
+		transition: all 0.5s ease-in-out;
+	}
+
+	section.middle {
 		top: 50%;
 		transform: translate(0, -50%);
 	}
 
 	.clock {
 		width: 90%;
-		/* max-width: 960px; */
 		margin: 0 auto;
-		display: flex;
-	}
-
-	.eyebrow {
-		display: flex;
-		justify-content: space-between;
 	}
 
 	.playing {
-		margin: 0;
-		margin-bottom: 8px;
+		margin: 24px 0 16px 0;
 		line-height: 1;
 		font-size: var(--14px);
 		color: var(--color-fg2);
@@ -261,7 +267,8 @@
 		font-weight: var(--fw-regular);
 		text-transform: none;
 		color: var(--color-fg2);
-		/* font-weight: var(--fw-bold); */
+		display: block;
+		margin-top: 8px;
 	}
 
 	.eyebrow button {
@@ -276,18 +283,49 @@
 	}
 
 	.sidebar {
-		/* padding-top: 32px; */
 		width: 96px;
+		min-width: 96px;
 		display: block;
-		margin-right: 1vw;
+		margin-right: 2vw;
 	}
 
-	.sidebar img {
-		width: 100%;
+	.sidebar .img {
+		width: 96px;
+		height: 96px;
 		display: block;
 		border-radius: 50%;
+		border: 1px solid var(--color-fg2);
 		filter: grayscale(100%);
 		animation: spin 10s linear infinite;
+		background: var(--color-fg2);
+		background-size: cover;
+		background-position: center center;
+	}
+
+	@media only screen and (min-width: 480px) {
+		.clock {
+			display: flex;
+		}
+
+		.bg {
+			left: auto;
+			width: auto;
+			font-size: 28vw;
+			right: 32px;
+			bottom: 16px;
+		}
+
+		.playing {
+			margin: 0 0 8px 0;
+		}
+
+		.total {
+			display: inline;
+		}
+
+		section {
+			top: 25%;
+		}
 	}
 
 	@keyframes spin {
