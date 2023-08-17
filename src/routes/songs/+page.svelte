@@ -172,7 +172,7 @@
 						{:else}
 							<p class="playing">
 								Now Playing <span class="total"
-									>{totalDisplay} with this time in the title</span
+									>{totalDisplay} with the <mark>time</mark> in the title</span
 								>
 							</p>
 						{/if}
@@ -261,6 +261,13 @@
 		text-transform: uppercase;
 		font-weight: var(--fw-bold);
 		padding-left: 0.25vw;
+	}
+
+	.playing mark {
+		background: none;
+		color: var(--color-mark);
+		font-weight: var(--fw-bold);
+		padding: 0;
 	}
 
 	.total {

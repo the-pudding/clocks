@@ -84,7 +84,7 @@
 
 	span.artist {
 		font-weight: var(--fw-regular);
-		color: var(--color-fg);
+		color: var(--color-fg2);
 		white-space: nowrap;
 		display: inline-block;
 		/* display: block;

@@ -20,14 +20,18 @@
 	--border-radius: 2px;
 	--font-body: var(--sans);
 	--font-form: var(--sans);
-	--color-bg: var(--color-gray-200);
+	--fw-regular: 400;
+	--fw-bold: 700;
+	--fw-black: 900;
+
+	--color-bg: var(--color-gray-100);
 	--color-bg2: var(--color-gray-50);
 	--color-fg: var(--color-gray-700);
 	--color-fg2: var(--color-gray-600);
-	--color-primary: var(--color-black);
+	--color-primary: var(--color-fg);
 	--color-link: var(--color-fg);
 	--color-focus: var(--color-red);
-	--color-mark: var(--color-black);
+	--color-mark: var(--color-pink-dark);
 	--color-selection: var(--color-bg2);
 	--color-border: var(--color-fg2);
 	--color-button-bg: var(--color-gray-600);
@@ -36,9 +40,6 @@
 	--color-input-bg: var(--color-bg);
 	--color-input-fg: var(--color-fg);
 	--color-placeholder: var(--color-fg);
-	--fw-regular: 400;
-	--fw-bold: 700;
-	--fw-black: 900;
 
 	/* "1" second duration */
 	--1s: 1ms;
@@ -47,14 +48,14 @@
 /* dark theme */
 @media screen and (prefers-color-scheme:dark) {
 	:root {
-	--color-bg: var(--color-gray-700);
-	--color-bg2: var(--color-gray-900);
+	--color-bg: var(--color-gray-900);
+	--color-bg2: var(--color-black);
 	--color-fg: var(--color-gray-100);
 	--color-fg2: var(--color-gray-300);
 	--color-primary: var(--color-fg);
 	--color-link: var(--color-fg);
 	--color-focus: var(--color-red);
-	--color-mark: var(--color-black);
+	--color-mark: var(--color-pink);
 	--color-selection: var(--color-bg2);
 	--color-border: var(--color-fg2);
 	--color-button-bg: var(--color-gray-400);
