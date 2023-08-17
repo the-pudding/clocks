@@ -153,10 +153,50 @@ button {
 }
 
 button.icon {
-	background: none;
 	padding: 0;
-	color: var(--color-fg2);
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	position: relative;
 }
+
+button.icon:before {
+	content: attr(data-before);
+	display: block;
+	position: absolute;
+	top: 50%;
+	right: calc(100% + 8px);
+	white-space: nowrap;
+	color: var(--color-button-bg);
+	transform: translate(0, 67%);
+	transition: all 0.25s ease-in-out;
+	opacity: 0;
+	pointer-events: none;
+}
+
+button.icon:after {
+	content: attr(data-after);
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: calc(100% + 8px);
+	white-space: nowrap;
+	color: var(--color-button-bg);
+	transform: translate(0, -50%);
+	transition: all 0.25s ease-in-out;
+	pointer-events: none;
+}
+
+button.icon:hover:after {
+	opacity: 0;
+	transform: translate(0, 67%);
+}
+
+button.icon:hover:before {
+	opacity: 1;
+	transform: translate(0, -50%);
+}
+
 
 button svg {
 	display: inline-block;

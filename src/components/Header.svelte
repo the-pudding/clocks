@@ -34,7 +34,8 @@
 		<button
 			class="icon"
 			on:click={() => ($isMuted = !$isMuted)}
-			aria-label="toggle muted"
+			aria-label="toggle mute"
+			data-before="toggle mute"
 		>
 			{#if $isMuted}
 				<VolumeX size="28" />
@@ -47,6 +48,7 @@
 			class="icon"
 			on:click={() => toggleDarkMode(false)}
 			aria-label="toggle dark mode"
+			data-before="toggle dark mode"
 		>
 			{#if darkMode}
 				<Moon size="28" />

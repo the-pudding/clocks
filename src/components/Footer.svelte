@@ -5,22 +5,21 @@
 </script>
 
 <footer>
-	<h1>
-		{text}
-	</h1>
-
 	<button
 		on:click={() => ($modalVisible = true)}
 		class="icon"
 		aria-label="about"><HelpCircle size="28" /></button
 	>
+	<p>
+		{text}
+	</p>
 </footer>
 
 <style>
 	footer {
 		position: absolute;
 		width: 100%;
-		bottom: 0;
+		bottom: 8px;
 		left: 0;
 		z-index: var(--z-top);
 		display: flex;
@@ -29,13 +28,12 @@
 		padding: 8px 16px;
 	}
 
-	h1 {
-		font-size: var(--16px);
+	p {
 		margin: 0;
 		line-height: 1;
 	}
 
 	button {
-		margin-left: 8px;
+		margin-right: 8px;
 	}
 </style>

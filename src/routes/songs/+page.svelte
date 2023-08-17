@@ -166,9 +166,14 @@
 					<div class="eyebrow">
 						{#if ready && !firstClick}
 							<p class="firstclick">
-								<button on:click={() => ($isMuted = false)}
-									>Play Audio <span><Volume2 /></span></button
+								<button
+									class="icon"
+									on:click={() => ($isMuted = false)}
+									data-after="play audio"
+									aria-label="play audio"
 								>
+									<Volume2 size="28" />
+								</button>
 							</p>
 						{/if}
 
@@ -221,7 +226,7 @@
 		line-height: 1;
 
 		left: 0;
-		bottom: 32px;
+		bottom: 48px;
 		width: 100%;
 		padding-right: 5vw;
 		/* left: 50%; */
@@ -263,7 +268,7 @@
 	}
 
 	.playing {
-		margin: 0 16px;
+		margin: 24px 0 16px 0;
 		line-height: 1;
 		font-size: var(--14px);
 		color: var(--color-fg2);
@@ -287,19 +292,19 @@
 		margin-top: 8px;
 	}
 
-	.eyebrow button {
+	/* .eyebrow button {
 		display: inline-flex;
 		justify-content: center;
 		align-items: center;
 		margin-right: 8px;
 		border-radius: 4px;
 		padding: 4px 8px;
-	}
+	} */
 
-	.eyebrow button span {
+	/* .eyebrow button span {
 		display: inline-block;
 		margin-left: 8px;
-	}
+	} */
 
 	.sidebar {
 		width: 96px;
@@ -321,7 +326,7 @@
 		background-position: center center;
 	}
 
-	@media only screen and (min-width: 480px) {
+	@media only screen and (min-width: 640px) {
 		.clock {
 			display: flex;
 		}
