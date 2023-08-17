@@ -164,18 +164,20 @@
 				</div>
 				<div class="mainbar">
 					<div class="eyebrow">
-						{#if false}
-							<!-- {#if ready && !firstClick} -->
-							<button on:click={() => ($isMuted = false)}
-								>Play Audio <span><Volume2 /></span></button
-							>
-						{:else}
-							<p class="playing">
-								Now Playing <span class="total"
-									>{totalDisplay} with the <mark>time</mark> in the title</span
+						{#if ready && !firstClick}
+							<p class="firstclick">
+								<button on:click={() => ($isMuted = false)}
+									>Play Audio <span><Volume2 /></span></button
 								>
 							</p>
 						{/if}
+
+						<p class="playing">
+							Now Playing
+							<span class="total"
+								>{totalDisplay} with the <mark>time</mark> in the title</span
+							>
+						</p>
 					</div>
 					<div class="song">
 						<Clock title={markup} artist={track.artist} />
@@ -253,8 +255,15 @@
 		margin: 0 auto;
 	}
 
+	.firstclick {
+		margin: 0;
+		padding: 0;
+		position: absolute;
+		bottom: calc(100% + 16px);
+	}
+
 	.playing {
-		margin: 24px 0 16px 0;
+		margin: 0 16px;
 		line-height: 1;
 		font-size: var(--14px);
 		color: var(--color-fg2);
@@ -282,6 +291,9 @@
 		display: inline-flex;
 		justify-content: center;
 		align-items: center;
+		margin-right: 8px;
+		border-radius: 4px;
+		padding: 4px 8px;
 	}
 
 	.eyebrow button span {

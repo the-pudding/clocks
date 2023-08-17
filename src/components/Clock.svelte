@@ -38,7 +38,7 @@
 
 <style>
 	p {
-		line-height: 1;
+		line-height: 1.2;
 		transition: all 1s ease-in-out;
 		font-size: clamp(32px, var(--font-size), 96px);
 		margin: 0 auto;
