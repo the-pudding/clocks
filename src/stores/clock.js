@@ -4,10 +4,10 @@ function getTime() {
 	const date = new Date();
 	const t = date.toLocaleTimeString("en-US");
 	// just get hours and minutes
-	// const time = "11:36";
-	// const period = "pm";
-	const time = t.substring(0, t.length - 6);
-	const period = t.substring(t.length - 2);
+	const time = "8:41";
+	const period = "am";
+	// const time = t.substring(0, t.length - 6);
+	// const period = t.substring(t.length - 2);
 	return {
 		time,
 		period

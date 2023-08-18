@@ -45,7 +45,7 @@
 	}
 
 	.fg {
-		width: 90%;
+		width: 80%;
 		max-width: 30rem;
 		margin: 0 auto;
 		padding: 8px 16px;
