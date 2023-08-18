@@ -1,6 +1,9 @@
 <script>
 	export let title;
 	export let artist;
+	export let id;
+
+	$: href = `https://open.spotify.com/track/${id}`;
 
 	// TODO
 	const sizes = [4, 5, 6];
@@ -16,20 +19,22 @@
 </script>
 
 <p class="clock text-outline" style="--font-size: {fontSize}; ">
-	{#each title as { text, mark }}
-		{#if mark}
-			<mark>
-				{#each text as t}
-					{@const colon = t === ":"}
-					<span class:colon>
-						{t}
-					</span>
-				{/each}
-			</mark>
-		{:else}
-			<span class="other">{text}</span>
-		{/if}
-	{/each}
+	<a {href} target="_blank" rel="noreferrer">
+		{#each title as { text, mark }}
+			{#if mark}
+				<mark>
+					{#each text as t}
+						{@const colon = t === ":"}
+						<span class:colon>
+							{t}
+						</span>
+					{/each}
+				</mark>
+			{:else}
+				<span class="other">{text}</span>
+			{/if}
+		{/each}
+	</a>
 	<span class="artist">by {artist}</span>
 </p>
 
@@ -88,6 +93,20 @@
 		/* display: block;
 		font-size: 0.625em;
 		margin-top: 8px; */
+	}
+
+	a {
+		border: none;
+		color: currentColor;
+		text-decoration: none;
+		display: inline;
+	}
+
+	a:hover span {
+		background-image: linear-gradient(var(--color-mark), var(--color-mark));
+		background-size: 100% 0.05em;
+		background-repeat: no-repeat;
+		background-position: 0 95%;
 	}
 
 	@keyframes blink {

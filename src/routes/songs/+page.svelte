@@ -141,21 +141,16 @@
 
 <Header />
 
+<h1 class="sr-only">{copy.songsTitle}</h1>
 <div class="container" class:turntable={$turntable}>
 	<p class="bg" aria-hidden="true">
 		{time}
 		<span>{period}</span>
 	</p>
-	<section class="">
-		<!-- {#if ready && !firstClick}
-			<p class="enable">
-				<span class="warning"> warning: explicit content</span>
-			</p>
-		{/if} -->
-
+	<section>
 		{#if track}
 			<div class="clock">
-				<div class="sidebar">
+				<div class="sidebar" class:reveal={firstClick}>
 					<div
 						class="img"
 						style="background-image: url('https://i.scdn.co/image/{track?.artist_img}');"
@@ -184,7 +179,7 @@
 						</p>
 					</div>
 					<div class="song">
-						<Clock title={markup} artist={track.artist} />
+						<Clock title={markup} artist={track.artist} id={track.id} />
 					</div>
 				</div>
 			</div>
@@ -309,6 +304,11 @@
 		display: block;
 		margin-right: 2vw;
 		transform-origin: 50% 50%;
+		display: none;
+	}
+
+	.sidebar.reveal {
+		display: block;
 	}
 
 	.turntable .sidebar {
@@ -319,6 +319,7 @@
 		position: fixed;
 		top: 0;
 		left: 0;
+		display: block;
 	}
 
 	.sidebar .img {
@@ -343,6 +344,11 @@
 			width: 125vw;
 			height: 125vw;
 		}
+
+		.sidebar {
+			display: block;
+		}
+
 		.clock {
 			display: flex;
 		}
