@@ -260,7 +260,7 @@
 	}
 
 	.playing {
-		margin: 24px 0 16px 0;
+		margin: 16px 0 16px 0;
 		line-height: 1;
 		font-size: var(--14px);
 		color: var(--color-fg2);
@@ -340,6 +340,10 @@
 	}
 
 	@media only screen and (min-width: 640px) {
+		.playing {
+			margin: 24px 0 16px 0;
+		}
+
 		.turntable .sidebar {
 			width: 125vw;
 			height: 125vw;

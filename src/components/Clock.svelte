@@ -102,11 +102,13 @@
 		display: inline;
 	}
 
-	a:hover span {
-		background-image: linear-gradient(var(--color-mark), var(--color-mark));
-		background-size: 100% 0.05em;
-		background-repeat: no-repeat;
-		background-position: 0 95%;
+	@media (hover: hover) and (pointer: fine) {
+		a:hover span {
+			background-image: linear-gradient(var(--color-mark), var(--color-mark));
+			background-size: 100% 0.05em;
+			background-repeat: no-repeat;
+			background-position: 0 95%;
+		}
 	}
 
 	@keyframes blink {

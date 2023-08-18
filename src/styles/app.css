@@ -190,17 +190,6 @@ button.icon:after {
 	font-size: var(--14px);
 }
 
-button.icon:hover:after {
-	opacity: 0;
-	transform: translate(0, 60%);
-}
-
-button.icon:hover:before {
-	opacity: 1;
-	transform: translate(0, -50%);
-}
-
-
 button svg {
 	display: inline-block;
 	vertical-align: middle;
@@ -220,4 +209,16 @@ a svg {
 
 h1 {
 	font-weight: 400;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	button.icon:hover:after {
+		opacity: 0;
+		transform: translate(0, 60%);
+	}
+
+	button.icon:hover:before {
+		opacity: 1;
+		transform: translate(0, -50%);
+	}
 }

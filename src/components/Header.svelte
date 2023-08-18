@@ -83,6 +83,7 @@
 		justify-content: space-between;
 		align-items: flex-start;
 		padding: 8px 16px;
+		pointer-events: none;
 	}
 
 	.wordmark {
@@ -94,6 +95,7 @@
 		border: none;
 		display: block;
 		color: var(--color-fg);
+		pointer-events: auto;
 	}
 
 	.wordmark a:hover {
@@ -112,5 +114,6 @@
 
 	.options button {
 		margin-bottom: 16px;
+		pointer-events: auto;
 	}
 </style>

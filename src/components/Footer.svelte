@@ -33,6 +33,7 @@
 		line-height: 1;
 		display: flex;
 		flex-direction: column;
+		font-size: var(--14px);
 	}
 
 	.warning {
@@ -43,5 +44,11 @@
 
 	button {
 		margin-right: 16px;
+	}
+
+	@media only screen and (min-width: 640px) {
+		p {
+			font-size: var(--16px);
+		}
 	}
 </style>
