@@ -1,8 +1,6 @@
 <script>
 	import { csv } from "d3";
 	import { setContext } from "svelte";
-	import { fly } from "svelte/transition";
-	import { cubicInOut } from "svelte/easing";
 	import { browser } from "$app/environment";
 	import { Volume2 } from "lucide-svelte";
 	import Meta from "$components/Meta.svelte";
@@ -16,7 +14,6 @@
 	import version from "$utils/version.js";
 	import clock from "$stores/clock.js";
 	import mq from "$stores/mq.js";
-	import spotifySvg from "$svg/spotify.svg";
 
 	version();
 
@@ -139,9 +136,10 @@
 
 <Meta title={copy.songsTitle} {description} {url} {keywords} {path} />
 
-<Header />
+<Header options={["mute", "turntable"]} />
 
 <h1 class="sr-only">{copy.songsTitle}</h1>
+
 <div class="container" class:turntable={$turntable}>
 	<p class="bg" aria-hidden="true">
 		{time}

@@ -5,6 +5,8 @@
 	import { isMuted, turntable } from "$stores/misc.js";
 	import mq from "$stores/mq.js";
 
+	export let options = [];
+
 	let darkMode;
 
 	$: if ($mq.dark && !darkMode) setDarkMode(true);
@@ -31,18 +33,20 @@
 	</div>
 
 	<div class="options">
-		<button
-			class="icon"
-			on:click={() => ($isMuted = !$isMuted)}
-			aria-label={$isMuted ? "sound off" : "sound on"}
-			data-before={$isMuted ? "sound off" : "sound on"}
-		>
-			{#if $isMuted}
-				<VolumeX size="28" />
-			{:else}
-				<Volume2 size="28" />
-			{/if}
-		</button>
+		{#if options.includes("mute")}
+			<button
+				class="icon"
+				on:click={() => ($isMuted = !$isMuted)}
+				aria-label={$isMuted ? "sound off" : "sound on"}
+				data-before={$isMuted ? "sound off" : "sound on"}
+			>
+				{#if $isMuted}
+					<VolumeX size="28" />
+				{:else}
+					<Volume2 size="28" />
+				{/if}
+			</button>
+		{/if}
 
 		<button
 			class="icon"
@@ -57,18 +61,20 @@
 			{/if}
 		</button>
 
-		<button
-			class="icon"
-			on:click={() => ($turntable = !$turntable)}
-			aria-label={$turntable ? "turntable on" : "turntable off"}
-			data-before={$turntable ? "turntable on" : "turntable off"}
-		>
-			{#if $turntable}
-				<Disc3 size="28" />
-			{:else}
-				<Disc2 size="28" />
-			{/if}
-		</button>
+		{#if options.includes("turntable")}
+			<button
+				class="icon"
+				on:click={() => ($turntable = !$turntable)}
+				aria-label={$turntable ? "turntable on" : "turntable off"}
+				data-before={$turntable ? "turntable on" : "turntable off"}
+			>
+				{#if $turntable}
+					<Disc3 size="28" />
+				{:else}
+					<Disc2 size="28" />
+				{/if}
+			</button>
+		{/if}
 	</div>
 </header>
 
