@@ -23,10 +23,17 @@
 
 	function loadNext() {
 		const options = data.filter((d) => d.time === time);
+		options.forEach((o) => {
+			const str = `${o.context_b}${o.token}${o.context_f}`;
+			const parts = str.split(/\s{2,}/).join("\n");
+			console.log(o.vid, { exact: o.exact });
+			console.log(parts);
+			console.log("----\n");
+		});
 		// const i = Math.floor(Math.random() * filtered.length);
 		const i = 0;
 
-		video = { ...options[i] };
+		// video = { ...options[i] };
 	}
 
 	async function loadVideos() {
