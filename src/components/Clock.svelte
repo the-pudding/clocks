@@ -8,9 +8,6 @@
 	let fontSize = `${sizes[0]}vw`;
 	let small;
 
-	// $: title = track.name;
-	// $: artist = track.artist;
-
 	function getFontSize() {
 		if (title.length < 20) return sizes[2];
 		if (title.length < 40) return sizes[1];
@@ -18,7 +15,7 @@
 	}
 </script>
 
-<p class="clock text-outline" style="--font-size: {fontSize};">
+<p class="clock text-outline" style="--font-size: {fontSize}; ">
 	{#each title as { text, mark }}
 		{#if mark}
 			<mark>
@@ -52,11 +49,12 @@
 	}
 
 	mark {
-		/* display: inline-block; */
+		display: inline-block;
 		padding: 0;
 		font-weight: var(--fw-black);
 		background: none;
 		color: var(--color-mark);
+		transform: scale(var(--scale));
 
 		/* 
 		border-radius: 8px;

@@ -1,17 +1,17 @@
 <script>
 	import { browser } from "$app/environment";
 	import wordmark from "$svg/wordmark.svg";
-	import { VolumeX, Volume2, Moon, Sun } from "lucide-svelte";
-	import { isMuted } from "$stores/misc.js";
+	import { VolumeX, Volume2, Moon, Sun, Disc2, Disc3 } from "lucide-svelte";
+	import { isMuted, turntable } from "$stores/misc.js";
 	import mq from "$stores/mq.js";
 
 	let darkMode;
 
-	$: darkMode = $mq.dark;
-	$: if (browser) toggleDarkMode(true, darkMode);
+	$: if ($mq.dark && !darkMode) setDarkMode(true);
+	$: if (browser) setDarkMode(true);
 
-	function toggleDarkMode(skip) {
-		if (!skip) darkMode = !darkMode;
+	function setDarkMode(v) {
+		darkMode = v;
 
 		if (darkMode) {
 			window.document.body.classList.add("dark");
@@ -34,8 +34,8 @@
 		<button
 			class="icon"
 			on:click={() => ($isMuted = !$isMuted)}
-			aria-label="toggle mute"
-			data-before="toggle mute"
+			aria-label={$isMuted ? "sound off" : "sound on"}
+			data-before={$isMuted ? "sound off" : "sound on"}
 		>
 			{#if $isMuted}
 				<VolumeX size="28" />
@@ -46,14 +46,27 @@
 
 		<button
 			class="icon"
-			on:click={() => toggleDarkMode(false)}
-			aria-label="toggle dark mode"
-			data-before="toggle dark mode"
+			on:click={() => setDarkMode(!darkMode)}
+			aria-label={darkMode ? "dark mode" : "light mode"}
+			data-before={darkMode ? "dark mode" : "light mode"}
 		>
 			{#if darkMode}
 				<Moon size="28" />
 			{:else}
 				<Sun size="28" />
+			{/if}
+		</button>
+
+		<button
+			class="icon"
+			on:click={() => ($turntable = !$turntable)}
+			aria-label={$turntable ? "turntable on" : "turntable off"}
+			data-before={$turntable ? "turntable on" : "turntable off"}
+		>
+			{#if $turntable}
+				<Disc3 size="28" />
+			{:else}
+				<Disc2 size="28" />
 			{/if}
 		</button>
 	</div>
@@ -94,6 +107,7 @@
 	.options {
 		display: flex;
 		flex-direction: column;
+		margin-top: 8px;
 	}
 
 	.options button {

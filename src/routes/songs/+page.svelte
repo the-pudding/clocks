@@ -11,7 +11,7 @@
 	import Clock from "$components/Clock.svelte";
 	import Audio from "$components/Audio.svelte";
 	import Modal from "$components/Modal.svelte";
-	import { isMuted } from "$stores/misc.js";
+	import { isMuted, turntable } from "$stores/misc.js";
 	import copy from "$data/copy.json";
 	import version from "$utils/version.js";
 	import clock from "$stores/clock.js";
@@ -112,7 +112,6 @@
 			track = {
 				...playable[i]
 			};
-			console.log(track);
 
 			played.push(track.id);
 		}
@@ -142,8 +141,8 @@
 
 <Header />
 
-<div class="container">
-	<p class="bg">
+<div class="container" class:turntable={$turntable}>
+	<p class="bg" aria-hidden="true">
 		{time}
 		<span>{period}</span>
 	</p>
@@ -229,8 +228,6 @@
 		bottom: 48px;
 		width: 100%;
 		padding-right: 5vw;
-		/* left: 50%; */
-		/* transform: translate(-50%, 0); */
 		text-align: center;
 	}
 
@@ -311,22 +308,41 @@
 		min-width: 96px;
 		display: block;
 		margin-right: 2vw;
+		transform-origin: 50% 50%;
+	}
+
+	.turntable .sidebar {
+		width: 125vh;
+		height: 125vh;
+		transform: translate(-50%, -50%);
+		opacity: 0.1;
+		position: fixed;
+		top: 0;
+		left: 0;
 	}
 
 	.sidebar .img {
-		width: 96px;
-		height: 96px;
+		width: 100%;
+		aspect-ratio: 1;
 		display: block;
 		border-radius: 50%;
 		border: 1px solid var(--color-fg2);
 		filter: grayscale(100%);
-		animation: spin 10s linear infinite;
 		background: var(--color-fg2);
 		background-size: cover;
 		background-position: center center;
 	}
 
+	.turntable .sidebar .img {
+		animation: spin 10s linear infinite;
+		border: 4px solid var(--color-fg2);
+	}
+
 	@media only screen and (min-width: 640px) {
+		.turntable .sidebar {
+			width: 125vw;
+			height: 125vw;
+		}
 		.clock {
 			display: flex;
 		}

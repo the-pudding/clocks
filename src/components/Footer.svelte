@@ -8,10 +8,11 @@
 	<button
 		on:click={() => ($modalVisible = true)}
 		class="icon"
-		aria-label="about"><HelpCircle size="28" /></button
+		aria-label="about">?</button
 	>
 	<p>
-		{text}
+		<span>{text} </span>
+		<span class="warning">warning: explicit content</span>
 	</p>
 </footer>
 
@@ -23,7 +24,6 @@
 		left: 0;
 		z-index: var(--z-top);
 		display: flex;
-		/* justify-content: center; */
 		align-items: center;
 		padding: 8px 16px;
 	}
@@ -31,9 +31,17 @@
 	p {
 		margin: 0;
 		line-height: 1;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.warning {
+		font-size: var(--14px);
+		margin-top: 8px;
+		color: var(--color-fg2);
 	}
 
 	button {
-		margin-right: 8px;
+		margin-right: 16px;
 	}
 </style>
