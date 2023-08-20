@@ -6,6 +6,7 @@
 	import Header from "$components/Header.svelte";
 	import Footer from "$components/Footer.svelte";
 	import Youtube from "$components/Youtube.svelte";
+	import Caption from "$components/Caption.svelte";
 	import Modal from "$components/Modal.svelte";
 	import copy from "$data/copy.json";
 	import version from "$utils/version.js";
@@ -23,17 +24,18 @@
 
 	function loadNext() {
 		const options = data.filter((d) => d.time === time);
-		options.forEach((o) => {
-			const str = `${o.context_b}${o.token}${o.context_f}`;
-			const parts = str.split(/\s{2,}/).join("\n");
-			console.log(o.vid, { exact: o.exact });
-			console.log(parts);
-			console.log("----\n");
-		});
+		// options.forEach((o) => {
+		// 	const str = `${o.context_b}${o.token}${o.context_f}`;
+		// 	const parts = str.split(/\s{2,}/).join("\n");
+		// 	console.log(o.vid, { exact: o.exact });
+		// 	console.log(parts);
+		// 	console.log("----\n");
+		// });
+
 		// const i = Math.floor(Math.random() * filtered.length);
 		const i = 0;
 
-		// video = { ...options[i] };
+		video = { ...options[i] };
 	}
 
 	async function loadVideos() {
@@ -62,6 +64,7 @@
 		</mark>
 	</time> -->
 	<Youtube id={video.vid} timestamp={+video.start} />
+	<Caption {video} />
 {/if}
 
 <Footer text={copy.videosTitle} />
