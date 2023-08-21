@@ -236,7 +236,7 @@
 	section {
 		position: absolute;
 		width: 100%;
-		top: 20%;
+		top: 30%;
 		transition: all 0.5s ease-in-out;
 	}
 
@@ -346,10 +346,6 @@
 
 		.total {
 			display: inline;
-		}
-
-		section {
-			top: 25%;
 		}
 	}
 
