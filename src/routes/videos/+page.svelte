@@ -1,22 +1,28 @@
 <script>
 	import { format, csv } from "d3";
 	import { setContext } from "svelte";
+	import { Youtube } from "lucide-svelte";
 	import { browser } from "$app/environment";
 	import Meta from "$components/Meta.svelte";
 	import Header from "$components/Header.svelte";
 	import Footer from "$components/Footer.svelte";
-	import Youtube from "$components/Youtube.svelte";
+	import YoutubePlayer from "$components/Youtube.svelte";
 	import Modal from "$components/Modal.svelte";
+	import Gate from "$components/Gate.svelte";
 	import Caption from "$components/Caption.svelte";
 	import copy from "$data/copy.json";
 	import version from "$utils/version.js";
 	import clock from "$stores/clock.js";
+	import { modalVisible } from "$stores/misc.js";
 
 	version();
 
 	let data;
 	let video;
 	let total;
+	let begin;
+	let youtubePlayer;
+	let youtubeReady;
 
 	const { url } = copy;
 	const { title, description, keywords, path } = copy.videosMeta;
@@ -32,6 +38,11 @@
 		console.log(video);
 	}
 
+	function onBegin() {
+		begin = true;
+		youtubePlayer.play();
+	}
+
 	async function loadVideos() {
 		const raw = await csv("../assets/videos.csv");
 		data = raw.map((d) => ({
@@ -42,6 +53,7 @@
 		}));
 	}
 
+	// $: if (browser) $modalVisible = true;
 	$: if (browser) loadVideos();
 	$: time = `${$clock.time}${$clock.period}`.toLowerCase();
 	$: if (data) loadNext(time);
@@ -71,7 +83,12 @@
 				>{totalDisplay} with the <mark>time</mark> said in a YouTube video.</span
 			>
 		</p>
-		<Youtube {id} {timestamp} />
+		<YoutubePlayer
+			{id}
+			{timestamp}
+			bind:ready={youtubeReady}
+			bind:this={youtubePlayer}
+		/>
 		<Caption {video} />
 		<p>[debug]</p>
 		<p>style: <strong>{video.style}</strong></p>
@@ -89,6 +106,24 @@
 		</p>
 	{/each}
 </Modal>
+
+<Gate visible={!begin}>
+	<div class="intro">
+		<p class="warning">
+			{copy.videosWarning}
+		</p>
+		<p class="description">
+			{copy.videosIntro}
+		</p>
+		<p class="begin">
+			{#if youtubeReady}
+				<button on:click={onBegin}><span>Watch</span> <Youtube /></button>
+			{:else}
+				<span>Loading...</span>
+			{/if}
+		</p>
+	</div>
+</Gate>
 
 <style>
 	section {
@@ -112,5 +147,26 @@
 		color: var(--color-mark);
 		font-weight: var(--fw-bold);
 		padding: 0;
+	}
+
+	.intro .warning {
+		text-align: center;
+		font-weight: var(--fw-bold);
+		text-transform: uppercase;
+	}
+
+	.intro .begin {
+		margin-top: 24px;
+		text-align: center;
+	}
+
+	.begin button {
+		margin: 0 auto;
+		display: flex;
+		align-items: center;
+	}
+
+	.begin button span {
+		margin-right: 8px;
 	}
 </style>

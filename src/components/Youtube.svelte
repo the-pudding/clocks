@@ -1,7 +1,6 @@
 <script>
 	import { onMount } from "svelte";
 	let player = null;
-	let ready = false;
 	let state = -1;
 	let playerEl;
 	let playerWidth = 0;
@@ -9,8 +8,13 @@
 
 	export let timestamp;
 	export let id;
+	export let ready = false;
 
 	const RATIO = 16 / 9;
+
+	export const play = () => {
+		player.playVideo();
+	};
 
 	function loadScript() {
 		// This code loads the IFrame Player API code asynchronously.
@@ -73,10 +77,6 @@
 		}
 	}
 
-	function play() {
-		player.playVideo();
-	}
-
 	onMount(() => {
 		loadScript();
 
@@ -116,9 +116,6 @@
 >
 	<div id="player-yt" />
 </div>
-{#if ready}
-	<p><button on:click={play}>Enable Video</button></p>
-{/if}
 
 <style>
 	div {
