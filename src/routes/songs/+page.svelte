@@ -1,5 +1,4 @@
 <script>
-	import { page } from "$app/stores";
 	import { csv } from "d3";
 	import { setContext } from "svelte";
 	import { browser } from "$app/environment";
@@ -125,22 +124,6 @@
 		data = await csv("../assets/songs.csv");
 	}
 
-	function getOverride() {
-		if (!$page.url.search) return;
-		const props = $page.url.search.split("&");
-		const timeProp = props.find((p) => p.includes("time="));
-		const periodProp = props.find((p) => p.includes("period="));
-		if (timeProp && periodProp) {
-			const [h, m] = timeProp.split("=")[1].split("-");
-			const period = periodProp.split("=")[1];
-			override = {
-				time: `${h}:${m}`,
-				period
-			};
-		}
-	}
-
-	$: if (browser) getOverride($page.url.search);
 	$: if (browser) loadTracks();
 	$: time = override?.time || $clock.time;
 	$: period = override?.period || $clock.period;

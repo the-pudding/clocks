@@ -6,8 +6,8 @@
 	import Header from "$components/Header.svelte";
 	import Footer from "$components/Footer.svelte";
 	import Youtube from "$components/Youtube.svelte";
-	import Caption from "$components/Caption.svelte";
 	import Modal from "$components/Modal.svelte";
+	import Caption from "$components/Caption.svelte";
 	import copy from "$data/copy.json";
 	import version from "$utils/version.js";
 	import clock from "$stores/clock.js";
