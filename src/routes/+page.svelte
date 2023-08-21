@@ -21,11 +21,10 @@
 <HeaderMain />
 
 <section class="intro">
-	<h1>{copy.hed}</h1>
+	<h1>{copy.overline}</h1>
 </section>
 
 <section class="links">
-	<p>{copy.overline}</p>
 	<ol>
 		{#each copy.links as { href, text }}
 			{@const disable = !href}
@@ -40,23 +39,26 @@
 	</ol>
 </section>
 
-<section>
+<section id="info">
 	{#each copy.details as { value }}
 		<p>{@html value}</p>
 	{/each}
 
-	<p>{copy.overline2}</p>
-	<ul>
-		{#each copy.links2 as { href, text }}
-			<li>
-				{#if href}
-					<a {href}>{text}</a>
-				{/if}
-			</li>
-		{/each}
-	</ul>
-
 	<p>
+		{copy.overline2}
+		{#each copy.links2 as { href, text }, i}
+			<span>
+				<a {href}>{text}</a>
+				{#if i < copy.links2.length - 1}
+					,
+				{:else}
+					.
+				{/if}
+			</span>
+		{/each}
+	</p>
+
+	<p class="byline">
 		- <a
 			href="https://pudding.cool/author/russell-samora"
 			target="_blank"
@@ -69,8 +71,9 @@
 
 <style>
 	h1 {
-		font-weight: var(--fw-black);
+		font-weight: var(--fw-bold);
 		line-height: 1.1;
+		font-size: var(--24px);
 	}
 
 	section {
@@ -79,8 +82,12 @@
 		margin: 0 auto;
 	}
 
+	#info {
+		margin-top: 32px;
+	}
+
 	section.links {
-		font-size: var(--20px);
+		font-size: var(--18px);
 		font-weight: var(--fw-bold);
 	}
 
@@ -91,5 +98,20 @@
 
 	.disable {
 		opacity: 0.5;
+	}
+
+	.byline {
+		margin-top: 32px;
+		font-weight: var(--fw-bold);
+	}
+
+	@media only screen and (min-width: 480px) {
+		h1 {
+			font-size: var(--36px);
+		}
+
+		section.links {
+			font-size: var(--20px);
+		}
 	}
 </style>
