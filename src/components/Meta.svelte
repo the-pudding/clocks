@@ -25,7 +25,7 @@
 	<meta property="og:type" content="article" />
 	<meta property="og:locale" content="en_US" />
 
-	<meta property="og:image" content="{url}/assets/social-facebook-{path}.jpg" />
+	<meta property="og:image" content="{url}/assets/facebook-{path}.jpg" />
 	<meta property="og:image:type" content="image/jpeg" />
 	<meta property="og:image:width" content="1200" />
 	<meta property="og:image:height" content="600" />
@@ -35,10 +35,7 @@
 	<meta name="twitter:creator" content="@puddingviz" />
 	<meta name="twitter:title" content={title} />
 	<meta name="twitter:description" content={description} />
-	<meta
-		name="twitter:image:src"
-		content="{url}/assets/social-twitter-{path}.jpg"
-	/>
+	<meta name="twitter:image:src" content="{url}/assets/twitter-{path}.jpg" />
 
 	<meta name="robots" content="max-image-preview:large" />
 

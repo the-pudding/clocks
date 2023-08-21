@@ -20,25 +20,26 @@
 	--border-radius: 2px;
 	--font-body: var(--sans);
 	--font-form: var(--sans);
-	--color-bg: var(--color-gray-200);
+	--fw-regular: 400;
+	--fw-bold: 700;
+	--fw-black: 900;
+
+	--color-bg: var(--color-gray-100);
 	--color-bg2: var(--color-gray-50);
 	--color-fg: var(--color-gray-700);
 	--color-fg2: var(--color-gray-600);
 	--color-primary: var(--color-fg);
 	--color-link: var(--color-fg);
 	--color-focus: var(--color-red);
-	--color-mark: var(--color-pink);
+	--color-mark: var(--color-pink-dark);
 	--color-selection: var(--color-bg2);
 	--color-border: var(--color-fg2);
-	--color-button-bg: var(--color-gray-600);
-	--color-button-fg: var(--color-gray-50);
-	--color-button-hover: var(--color-gray-700);
+	--color-button-bg: var(--color-fg2);
+	--color-button-fg: var(--color-bg);
+	--color-button-hover: var(--color-fg);
 	--color-input-bg: var(--color-bg);
 	--color-input-fg: var(--color-fg);
 	--color-placeholder: var(--color-fg);
-	--fw-regular: 400;
-	--fw-bold: 700;
-	--fw-black: 900;
 
 	/* "1" second duration */
 	--1s: 1ms;
@@ -47,8 +48,8 @@
 /* dark theme */
 @media screen and (prefers-color-scheme:dark) {
 	:root {
-	--color-bg: var(--color-gray-700);
-	--color-bg2: var(--color-gray-900);
+	--color-bg: var(--color-gray-900);
+	--color-bg2: var(--color-black);
 	--color-fg: var(--color-gray-100);
 	--color-fg2: var(--color-gray-300);
 	--color-primary: var(--color-fg);
@@ -57,9 +58,9 @@
 	--color-mark: var(--color-pink);
 	--color-selection: var(--color-bg2);
 	--color-border: var(--color-fg2);
-	--color-button-bg: var(--color-gray-400);
-	--color-button-fg: var(--color-gray-800);
-	--color-button-hover: var(--color-gray-300);
+	--color-button-bg: var(--color-fg);
+	--color-button-fg: var(--color-bg);
+	--color-button-hover: var(--color-fg2);
 	--color-input-bg: var(--color-fg);
 	--color-input-fg: var(--color-bg);
 	--color-placeholder: var(--color-fg);
@@ -67,36 +68,38 @@
 }
 
 .light {
-	--color-bg: var(--color-gray-200);
+	--color-bg: var(--color-gray-100);
+	--color-bg2: var(--color-gray-50);
 	--color-fg: var(--color-gray-700);
 	--color-fg2: var(--color-gray-600);
 	--color-primary: var(--color-fg);
 	--color-link: var(--color-fg);
 	--color-focus: var(--color-red);
-	--color-mark: var(--color-pink);
-	--color-selection: var(--color-pink);
+	--color-mark: var(--color-pink-dark);
+	--color-selection: var(--color-bg2);
 	--color-border: var(--color-fg2);
-	--color-button-bg: var(--color-gray-600);
-	--color-button-fg: var(--color-gray-50);
-	--color-button-hover: var(--color-gray-700);
+	--color-button-bg: var(--color-fg);
+	--color-button-fg: var(--color-bg);
+	--color-button-hover: var(--color-fg2);
 	--color-input-bg: var(--color-bg);
 	--color-input-fg: var(--color-fg);
 	--color-placeholder: var(--color-fg);
 }
 
 .dark {
-	--color-bg: var(--color-gray-700);
+	--color-bg: var(--color-gray-900);
+	--color-bg2: var(--color-black);
 	--color-fg: var(--color-gray-100);
 	--color-fg2: var(--color-gray-300);
 	--color-primary: var(--color-fg);
 	--color-link: var(--color-fg);
 	--color-focus: var(--color-red);
 	--color-mark: var(--color-pink);
-	--color-selection: var(--color-pink);
+	--color-selection: var(--color-bg2);
 	--color-border: var(--color-fg2);
-	--color-button-bg: var(--color-gray-400);
-	--color-button-fg: var(--color-gray-800);
-	--color-button-hover: var(--color-gray-300);
+	--color-button-bg: var(--color-fg);
+	--color-button-fg: var(--color-bg);
+	--color-button-hover: var(--color-fg2);
 	--color-input-bg: var(--color-fg);
 	--color-input-fg: var(--color-bg);
 	--color-placeholder: var(--color-fg);
@@ -150,13 +153,46 @@ button {
 }
 
 button.icon {
-	background: none;
 	padding: 0;
-	color: var(--color-fg2);
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	position: relative;
+	font-size: 28px;
+}
+
+button.icon:before {
+	content: attr(data-before);
+	display: block;
+	position: absolute;
+	top: 50%;
+	right: calc(100% + 8px);
+	white-space: nowrap;
+	color: var(--color-button-bg);
+	transform: translate(0, 60%);
+	transition: all 0.25s ease-in-out;
+	opacity: 0;
+	pointer-events: none;
+	font-size: var(--14px);
+}
+
+button.icon:after {
+	content: attr(data-after);
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: calc(100% + 8px);
+	white-space: nowrap;
+	color: var(--color-button-bg);
+	transform: translate(0, -50%);
+	transition: all 0.25s ease-in-out;
+	pointer-events: none;
+	font-size: var(--14px);
 }
 
 button svg {
 	display: inline-block;
+	vertical-align: middle;
 }
 
 a svg {
@@ -173,4 +209,16 @@ a svg {
 
 h1 {
 	font-weight: 400;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	button.icon:hover:after {
+		opacity: 0;
+		transform: translate(0, 60%);
+	}
+
+	button.icon:hover:before {
+		opacity: 1;
+		transform: translate(0, -50%);
+	}
 }

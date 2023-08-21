@@ -45,10 +45,10 @@
 	}
 
 	.fg {
-		width: 90%;
+		width: 80%;
 		max-width: 30rem;
 		margin: 0 auto;
-		padding: 8px 24px;
+		padding: 8px 16px;
 		position: relative;
 		border: 2px solid var(--color-fg2);
 		border-radius: var(--border-radius);
@@ -57,7 +57,7 @@
 
 	button {
 		position: absolute;
-		top: 8px;
-		right: 8px;
+		top: -24px;
+		right: -24px;
 	}
 </style>

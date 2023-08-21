@@ -18,7 +18,6 @@
 	let fading;
 	let loaded;
 	let muted = true;
-
 	let interval;
 
 	const dispatch = createEventDispatcher();
@@ -73,6 +72,8 @@
 		loaded = false;
 		// console.log("update source");
 		src = `https://p.scdn.co/mp3-preview/${preview}?cid=635a94c846854eb29813825c79d704a2`;
+		audioEl.src = src;
+		audioEl.load();
 	}
 
 	function updateMuted() {
@@ -113,6 +114,7 @@
 		interval = setInterval(() => {
 			time = new Date();
 		}, 500);
+
 		await tick();
 		setupEvents();
 	});
@@ -120,7 +122,6 @@
 
 <audio
 	bind:ended
-	{src}
 	bind:volume
 	bind:muted
 	bind:paused
@@ -129,3 +130,12 @@
 	preload
 	bind:this={audioEl}
 />
+
+<style>
+	p {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		z-index: 1000;
+	}
+</style>

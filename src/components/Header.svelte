@@ -1,17 +1,19 @@
 <script>
 	import { browser } from "$app/environment";
 	import wordmark from "$svg/wordmark.svg";
-	import { VolumeX, Volume2, Moon, Sun } from "lucide-svelte";
-	import { isMuted } from "$stores/misc.js";
+	import { VolumeX, Volume2, Moon, Sun, Disc2, Disc3 } from "lucide-svelte";
+	import { isMuted, turntable } from "$stores/misc.js";
 	import mq from "$stores/mq.js";
+
+	export let options = [];
 
 	let darkMode;
 
-	$: darkMode = $mq.dark;
-	$: if (browser) toggleDarkMode(true, darkMode);
+	$: if ($mq.dark && !darkMode) setDarkMode(true);
+	$: if (browser) setDarkMode(true);
 
-	function toggleDarkMode(skip) {
-		if (!skip) darkMode = !darkMode;
+	function setDarkMode(v) {
+		darkMode = v;
 
 		if (darkMode) {
 			window.document.body.classList.add("dark");
@@ -31,22 +33,26 @@
 	</div>
 
 	<div class="options">
-		<button
-			class="icon"
-			on:click={() => ($isMuted = !$isMuted)}
-			aria-label="toggle muted"
-		>
-			{#if $isMuted}
-				<VolumeX size="28" />
-			{:else}
-				<Volume2 size="28" />
-			{/if}
-		</button>
+		{#if options.includes("mute")}
+			<button
+				class="icon"
+				on:click={() => ($isMuted = !$isMuted)}
+				aria-label={$isMuted ? "sound off" : "sound on"}
+				data-before={$isMuted ? "sound off" : "sound on"}
+			>
+				{#if $isMuted}
+					<VolumeX size="28" />
+				{:else}
+					<Volume2 size="28" />
+				{/if}
+			</button>
+		{/if}
 
 		<button
 			class="icon"
-			on:click={() => toggleDarkMode(false)}
-			aria-label="toggle dark mode"
+			on:click={() => setDarkMode(!darkMode)}
+			aria-label={darkMode ? "dark mode" : "light mode"}
+			data-before={darkMode ? "dark mode" : "light mode"}
 		>
 			{#if darkMode}
 				<Moon size="28" />
@@ -54,6 +60,21 @@
 				<Sun size="28" />
 			{/if}
 		</button>
+
+		{#if options.includes("turntable")}
+			<button
+				class="icon"
+				on:click={() => ($turntable = !$turntable)}
+				aria-label={$turntable ? "turntable on" : "turntable off"}
+				data-before={$turntable ? "turntable on" : "turntable off"}
+			>
+				{#if $turntable}
+					<Disc3 size="28" />
+				{:else}
+					<Disc2 size="28" />
+				{/if}
+			</button>
+		{/if}
 	</div>
 </header>
 
@@ -68,6 +89,7 @@
 		justify-content: space-between;
 		align-items: flex-start;
 		padding: 8px 16px;
+		pointer-events: none;
 	}
 
 	.wordmark {
@@ -79,6 +101,7 @@
 		border: none;
 		display: block;
 		color: var(--color-fg);
+		pointer-events: auto;
 	}
 
 	.wordmark a:hover {
@@ -92,9 +115,11 @@
 	.options {
 		display: flex;
 		flex-direction: column;
+		margin-top: 8px;
 	}
 
 	.options button {
-		margin-bottom: 8px;
+		margin-bottom: 16px;
+		pointer-events: auto;
 	}
 </style>

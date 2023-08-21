@@ -1,8 +1,6 @@
 <script>
 	import { csv } from "d3";
 	import { setContext } from "svelte";
-	import { fly } from "svelte/transition";
-	import { cubicInOut } from "svelte/easing";
 	import { browser } from "$app/environment";
 	import { Volume2 } from "lucide-svelte";
 	import Meta from "$components/Meta.svelte";
@@ -11,12 +9,11 @@
 	import Clock from "$components/Clock.svelte";
 	import Audio from "$components/Audio.svelte";
 	import Modal from "$components/Modal.svelte";
-	import { isMuted } from "$stores/misc.js";
+	import { isMuted, turntable } from "$stores/misc.js";
 	import copy from "$data/copy.json";
 	import version from "$utils/version.js";
 	import clock from "$stores/clock.js";
 	import mq from "$stores/mq.js";
-	import spotifySvg from "$svg/spotify.svg";
 
 	version();
 
@@ -37,11 +34,17 @@
 	function createMarkup(str) {
 		if (!str) return;
 		const lower = str.toLowerCase();
-		// const periodLower = period.toLowerCase();
-		// const startFull = lower.indexOf(`${time} ${periodLower}`);
-		// const full = startFull > -1;
-		// const timeStr = full ? `${time} ${periodLower}` : time;
-		const timeStr = time;
+		const periodLower = period.toLowerCase();
+		const startFull1 = lower.indexOf(`${time} ${periodLower}`);
+		const startFull2 = lower.indexOf(`${time}${periodLower}`);
+		const full1 = startFull1 > -1;
+		const full2 = startFull2 > -1;
+		const timeStr = full1
+			? `${time} ${periodLower}`
+			: full2
+			? `${time}${periodLower}`
+			: time;
+		// const timeStr = time;
 		const start = lower.indexOf(timeStr);
 		const end = start + timeStr.length;
 		const before = str.slice(0, start);
@@ -102,6 +105,7 @@
 			);
 			total = playable.length;
 			const i = Math.floor(Math.random() * playable.length);
+			// const i = 7;
 			track = {
 				...playable[i]
 			};
@@ -126,47 +130,57 @@
 	$: markup = createMarkup(track?.name);
 	$: if (!$isMuted) firstClick = true;
 	$: totalDisplay = total
-		? `1 of ${total} song${total === 1 ? "" : "s"}`
+		? `${total} song${total === 1 ? "" : "s"}`
 		: "No songs";
 </script>
 
 <Meta title={copy.songsTitle} {description} {url} {keywords} {path} />
 
-<Header />
+<Header options={["mute", "turntable"]} />
 
-<div class="container">
-	<!-- <div class="bg" style="background-image: url({track?.album_img})" /> -->
+<h1 class="sr-only">{copy.songsTitle}</h1>
+
+<div class="container" class:turntable={$turntable}>
+	<p class="bg" aria-hidden="true">
+		{time}
+		<span>{period}</span>
+	</p>
 	<section>
-		{#if ready && !firstClick}
-			<p class="enable">
-				<span class="warning"> warning: explicit content</span>
-				<button on:click={() => ($isMuted = false)}
-					>Play Audio <span><Volume2 /></span></button
-				>
-			</p>
-		{:else}
-			<p class="total">{totalDisplay} at...</p>
-		{/if}
-
 		{#if track}
 			<div class="clock">
-				<Clock data={markup} title={track.name} />
-			</div>
+				<div class="sidebar" class:reveal={firstClick}>
+					<div
+						class="img"
+						style="background-image: url('https://i.scdn.co/image/{track?.artist_img}');"
+					/>
+				</div>
+				<div class="mainbar">
+					<div class="eyebrow">
+						{#if ready && !firstClick}
+							<p class="firstclick">
+								<button
+									class="icon"
+									on:click={() => ($isMuted = false)}
+									data-after="play audio"
+									aria-label="play audio"
+								>
+									<Volume2 size="28" />
+								</button>
+							</p>
+						{/if}
 
-			{#key track.id}
-				<p
-					in:fly={{ y: 32, duration: 500, delay: 500, easing: cubicInOut }}
-					class="artist"
-				>
-					<a
-						href={`https://open.spotify.com/track/${track.id}`}
-						target="_blank"
-						rel="noreferrer"
-						aria-label="Spotify"
-						>By {track.artist} <span>{@html spotifySvg}</span></a
-					>
-				</p>
-			{/key}
+						<p class="playing">
+							<span class="total"
+								>{totalDisplay} with the <mark>time</mark> in the title.</span
+							>
+							<span class="now">Now playing:</span>
+						</p>
+					</div>
+					<div class="song">
+						<Clock title={markup} artist={track.artist} id={track.id} />
+					</div>
+				</div>
+			</div>
 		{/if}
 
 		<Audio
@@ -197,101 +211,154 @@
 
 	.bg {
 		position: absolute;
-		top: 0;
+		opacity: 0.1;
+		pointer-events: none;
+		font-size: 25vw;
+		font-weight: var(--fw-black);
+		line-height: 1;
+
 		left: 0;
-		height: 100%;
+		bottom: 48px;
 		width: 100%;
-		background-size: 128px 128px;
-		opacity: 0.25;
+		padding-right: 5vw;
+		text-align: center;
+	}
+
+	.bg span {
+		font-size: 5vw;
+		display: inline-block;
+		position: absolute;
+		top: 50%;
+		transform: rotate(90deg) translate(-50%, 0);
+		transform-origin: 50% 50%;
 	}
 
 	section {
 		position: absolute;
 		width: 100%;
+		top: 20%;
+		transition: all 0.5s ease-in-out;
+	}
+
+	section.middle {
 		top: 50%;
 		transform: translate(0, -50%);
 	}
 
-	.enable {
-		position: absolute;
-		width: 100%;
-		top: -42px;
-		left: 0;
-		transform: translate(0, -100%);
-		text-align: center;
-		z-index: var(--z-top);
-	}
-
-	.enable .warning {
-		display: block;
-		color: var(--color-fg2);
-		font-size: var(--12px);
-		margin-bottom: 8px;
-		line-height: 1;
-	}
-
-	.enable button {
-		display: inline-flex;
-		justify-content: center;
-		align-items: center;
-	}
-
-	.enable button span {
-		display: inline-block;
-		margin-left: 8px;
-	}
-
-	.total {
-		position: absolute;
-		width: 100%;
-		top: -40px;
-		left: 0;
-		transform: translate(0, -100%);
-		text-align: center;
-		z-index: var(--z-top);
-		color: var(--color-fg2);
-		font-size: var(--14px);
-	}
-
-	.artist {
-		position: absolute;
-		width: 100%;
-		bottom: -32px;
-		transform: translate(0, 100%);
-		text-align: center;
-		color: var(--color-fg2);
-		z-index: var(--z-top);
-	}
-
-	.artist a {
-		display: block;
-		font-size: var(--16x);
-		font-weight: var(--fw-bold);
+	.clock {
+		width: 90%;
 		margin: 0 auto;
-		max-width: 320px;
+	}
+
+	.firstclick {
+		margin: 0 0 16px 0;
+		padding: 0;
+		position: absolute;
+		bottom: calc(100% + 16px);
+	}
+
+	.playing {
+		margin: 16px 0 16px 0;
 		line-height: 1;
-		transition: all 0.25s;
-		color: currentColor;
-		border: none;
+		font-size: var(--14px);
+		color: var(--color-fg2);
+		font-weight: var(--fw-regular);
+		padding-left: 0.25vw;
 	}
 
-	.artist span {
-		display: inline-block;
-		width: 24px;
-		height: 24px;
-		margin-left: 4px;
-		transform: translate(0, 6px);
-		color: currentColor;
-		opacity: 0.5;
-		transition: all 0.25s;
+	.playing mark {
+		background: none;
+		color: var(--color-mark);
+		font-weight: var(--fw-bold);
+		padding: 0;
 	}
 
-	.artist a:hover {
-		color: var(--color-fg);
+	.sidebar {
+		width: 96px;
+		min-width: 96px;
+		display: block;
+		margin-right: 2vw;
+		transform-origin: 50% 50%;
+		display: none;
 	}
 
-	.artist a:hover span {
-		color: var(--color-fg);
-		opacity: 1;
+	.sidebar.reveal {
+		display: block;
+	}
+
+	.turntable .sidebar {
+		width: 125vh;
+		height: 125vh;
+		transform: translate(-50%, -50%);
+		opacity: 0.1;
+		position: fixed;
+		top: 0;
+		left: 0;
+		display: block;
+	}
+
+	.sidebar .img {
+		width: 100%;
+		aspect-ratio: 1;
+		display: block;
+		border-radius: 50%;
+		border: 1px solid var(--color-fg2);
+		filter: grayscale(100%);
+		background: var(--color-fg2);
+		background-size: cover;
+		background-position: center center;
+	}
+
+	.turntable .sidebar .img {
+		animation: spin 10s linear infinite;
+		border: 4px solid var(--color-fg2);
+	}
+
+	@media only screen and (min-width: 640px) {
+		.playing {
+			margin: 24px 0 16px 0;
+		}
+
+		.turntable .sidebar {
+			width: 125vw;
+			height: 125vw;
+		}
+
+		.sidebar {
+			display: block;
+		}
+
+		.clock {
+			display: flex;
+		}
+
+		.bg {
+			left: auto;
+			width: auto;
+			font-size: 28vw;
+			right: 32px;
+			bottom: 16px;
+		}
+
+		.playing {
+			margin: 0 0 8px 0;
+		}
+
+		.total {
+			display: inline;
+		}
+
+		section {
+			top: 25%;
+		}
+	}
+
+	@keyframes spin {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(360deg);
+		}
 	}
 </style>

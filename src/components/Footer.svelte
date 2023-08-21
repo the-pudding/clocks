@@ -5,37 +5,54 @@
 </script>
 
 <footer>
-	<h1>
-		{text}
-	</h1>
-
 	<button
 		on:click={() => ($modalVisible = true)}
 		class="icon"
-		aria-label="about"><HelpCircle size="28" /></button
+		aria-label="about">?</button
 	>
+	<p>
+		<span>{text} </span>
+		<span class="warning">warning: explicit content</span>
+	</p>
 </footer>
 
 <style>
 	footer {
 		position: absolute;
 		width: 100%;
-		bottom: 0;
+		bottom: 8px;
 		left: 0;
 		z-index: var(--z-top);
 		display: flex;
-		justify-content: center;
 		align-items: center;
 		padding: 8px 16px;
 	}
 
-	h1 {
-		font-size: var(--16px);
+	p {
 		margin: 0;
 		line-height: 1;
+		display: flex;
+		flex-direction: column;
+		font-size: var(--14px);
+	}
+
+	.warning {
+		font-size: var(--14px);
+		margin-top: 8px;
+		color: var(--color-fg2);
 	}
 
 	button {
-		margin-left: 8px;
+		margin-right: 8px;
+	}
+
+	@media only screen and (min-width: 640px) {
+		p {
+			font-size: var(--16px);
+		}
+
+		button {
+			margin-right: 16px;
+		}
 	}
 </style>
