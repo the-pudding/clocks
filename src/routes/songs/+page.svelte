@@ -131,7 +131,7 @@
 		const timeProp = props.find((p) => p.includes("time="));
 		const periodProp = props.find((p) => p.includes("period="));
 		if (timeProp && periodProp) {
-			const [h, m] = timeProp.split("=")[1].split("|");
+			const [h, m] = timeProp.split("=")[1].split("-");
 			const period = periodProp.split("=")[1];
 			override = {
 				time: `${h}:${m}`,
