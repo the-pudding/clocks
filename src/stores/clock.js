@@ -1,3 +1,4 @@
+import { browser } from "$app/environment";
 import { readable, get } from "svelte/store";
 import { page } from "$app/stores";
 
@@ -35,7 +36,7 @@ function getTime() {
 }
 
 export default readable(getTime(), (set) => {
-	getOverride();
+	if (browser) getOverride();
 	const update = () => set(getTime());
 
 	const interval = setInterval(update, 250);

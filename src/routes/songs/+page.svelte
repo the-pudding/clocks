@@ -236,7 +236,7 @@
 	section {
 		position: absolute;
 		width: 100%;
-		top: 30%;
+		top: calc(192px + 5%);
 		transition: all 0.5s ease-in-out;
 	}
 
@@ -346,6 +346,12 @@
 
 		.total {
 			display: inline;
+		}
+	}
+
+	@media only screen and (min-width: 640px) and (min-height: 720px) {
+		section {
+			top: calc(192px + 10%);
 		}
 	}
 

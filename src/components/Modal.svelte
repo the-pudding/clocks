@@ -55,7 +55,7 @@
 		background: var(--color-bg);
 	}
 
-	button {
+	button.icon {
 		position: absolute;
 		top: -24px;
 		right: -24px;
