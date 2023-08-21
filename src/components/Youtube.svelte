@@ -5,6 +5,7 @@
 	let state = -1;
 	let playerEl;
 	let playerWidth = 0;
+	let height = 0;
 
 	export let timestamp;
 	export let id;
@@ -26,9 +27,9 @@
 	}
 
 	function resize() {
-		console.log(playerWidth);
 		const w = playerWidth;
 		const h = w / RATIO;
+		height = `${h}px`;
 		player.setSize(w, h);
 	}
 
@@ -47,13 +48,11 @@
 
 	function handleReady() {
 		ready = true;
-		console.log({ ready });
 	}
 
 	function seek() {
 		if (!player) return;
-		console.log({ timestamp });
-		player.seekTo(timestamp);
+		player.seekTo(start);
 		if (state !== 1) player.play();
 	}
 
@@ -62,12 +61,12 @@
 	}
 
 	function load() {
-		console.log("load", ready, id);
+		// console.log("load", ready, id);
 		if (!id) return;
 		else {
 			player.loadVideoById({
 				videoId: id,
-				startSeconds: timestamp
+				startSeconds: start
 			});
 			// seek();
 			player.playVideo();
@@ -104,12 +103,17 @@
 		};
 	});
 
+	$: start = !isNaN(timestamp) ? timestamp - 5 : undefined;
 	$: if (ready) load(id);
 	$: if (player) resize(playerWidth);
-	$: console.log({ timestamp });
 </script>
 
-<div class="player-wrapper" bind:this={playerEl} bind:clientWidth={playerWidth}>
+<div
+	class="wrapper"
+	bind:this={playerEl}
+	bind:clientWidth={playerWidth}
+	style:height
+>
 	<div id="player-yt" />
 </div>
 {#if ready}
@@ -118,13 +122,9 @@
 
 <style>
 	div {
-		max-width: 720px;
+		width: 100%;
 		margin: 0 auto;
 		text-align: center;
-	}
-
-	p {
-		margin: 16px auto;
-		text-align: center;
+		background: var(--color-bg2);
 	}
 </style>

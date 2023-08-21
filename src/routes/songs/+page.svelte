@@ -17,7 +17,6 @@
 
 	version();
 
-	let override;
 	let data;
 	let track;
 	let played;
@@ -125,8 +124,8 @@
 	}
 
 	$: if (browser) loadTracks();
-	$: time = override?.time || $clock.time;
-	$: period = override?.period || $clock.period;
+	$: time = $clock.time;
+	$: period = $clock.period;
 	$: if (data && ready) loadNext(time);
 	$: markup = createMarkup(track?.name);
 	$: if (!$isMuted) firstClick = true;

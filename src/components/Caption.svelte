@@ -2,7 +2,8 @@
 	export let video;
 
 	function createMarkup(str, token) {
-		const timeStr = token;
+		const splitter = token.includes(":") ? ":" : " ";
+		const timeStr = token.toLowerCase();
 		const lower = str.toLowerCase();
 		const start = lower.indexOf(timeStr);
 		if (start === -1) return [{ text: str }];
@@ -10,8 +11,9 @@
 		const end = start + timeStr.length;
 		const before = str.slice(0, start);
 		const middle = str.slice(start, end);
-		const middleA = middle.split(":")[0];
-		const middleB = middle.split(":")[1];
+		const middleSplit = middle.split(splitter);
+		const middleA = middleSplit.shift();
+		const middleB = middleSplit.join(" ");
 		const after = str.slice(end);
 		return [
 			{
@@ -27,11 +29,7 @@
 		];
 	}
 
-	$: str = `${video.context_b}${video.token}${video.context_f}`;
-	$: parts = str
-		.split(/\s{2,}/)
-		.filter((d) => d)
-		.map((p) => createMarkup(p, video.token));
+	$: parts = video.lines.map((p) => createMarkup(p, video.token));
 </script>
 
 <div>
@@ -57,11 +55,9 @@
 
 <style>
 	div {
+		width: 100%;
 		line-height: 1.2;
 		margin: 16px auto;
-		width: 40em;
-		max-width: 90%;
-		padding: 0 16px;
 		font-size: clamp(18px, 3vw, 36px);
 	}
 

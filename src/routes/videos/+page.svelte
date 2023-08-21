@@ -1,5 +1,5 @@
 <script>
-	import { csv } from "d3";
+	import { format, csv } from "d3";
 	import { setContext } from "svelte";
 	import { browser } from "$app/environment";
 	import Meta from "$components/Meta.svelte";
@@ -16,6 +16,7 @@
 
 	let data;
 	let video;
+	let total;
 
 	const { url } = copy;
 	const { title, description, keywords, path } = copy.videosMeta;
@@ -24,30 +25,31 @@
 
 	function loadNext() {
 		const options = data.filter((d) => d.time === time);
-		// options.forEach((o) => {
-		// 	const str = `${o.context_b}${o.token}${o.context_f}`;
-		// 	const parts = str.split(/\s{2,}/).join("\n");
-		// 	console.log(o.vid, { exact: o.exact });
-		// 	console.log(parts);
-		// 	console.log("----\n");
-		// });
-
-		// const i = Math.floor(Math.random() * filtered.length);
-		const i = 0;
+		total = options.length;
+		const i = Math.floor(Math.random() * options.length);
 
 		video = { ...options[i] };
+		console.log(video);
 	}
 
 	async function loadVideos() {
 		const raw = await csv("../assets/videos.csv");
 		data = raw.map((d) => ({
-			...d
+			...d,
+			views: +d.views,
+			style: d.manual === "true" ? "manual" : "auto",
+			lines: d.lines.split("||")
 		}));
 	}
 
 	$: if (browser) loadVideos();
 	$: time = `${$clock.time}${$clock.period}`.toLowerCase();
 	$: if (data) loadNext(time);
+	$: id = video?.id;
+	$: timestamp = video?.timestamp;
+	$: totalDisplay = total
+		? `${total} video${total === 1 ? "" : "s"}`
+		: "No videos";
 </script>
 
 <Meta {title} {description} {url} {keywords} />
@@ -63,8 +65,19 @@
 			{$clock.period}
 		</mark>
 	</time> -->
-	<Youtube id={video.vid} timestamp={+video.start} />
-	<Caption {video} />
+	<section>
+		<p class="playing">
+			<span class="total"
+				>{totalDisplay} with the <mark>time</mark> said in a YouTube video.</span
+			>
+		</p>
+		<Youtube {id} {timestamp} />
+		<Caption {video} />
+		<p>[debug]</p>
+		<p>style: <strong>{video.style}</strong></p>
+		<p>views: <strong>{format(",")(video.views)}</strong></p>
+		<button on:click={loadNext}>Another</button>
+	</section>
 {/if}
 
 <Footer text={copy.videosTitle} />
@@ -78,4 +91,26 @@
 </Modal>
 
 <style>
+	section {
+		width: 100%;
+		padding: 0 16px;
+		margin: 96px auto 0 auto;
+		max-width: 720px;
+	}
+
+	.playing {
+		margin: 16px 0 16px 0;
+		line-height: 1;
+		font-size: var(--14px);
+		color: var(--color-fg2);
+		font-weight: var(--fw-regular);
+		padding-left: 0.25vw;
+	}
+
+	.playing mark {
+		background: none;
+		color: var(--color-mark);
+		font-weight: var(--fw-bold);
+		padding: 0;
+	}
 </style>

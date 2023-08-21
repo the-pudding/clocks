@@ -5,6 +5,7 @@ let override;
 
 function getOverride() {
 	const p = get(page);
+
 	if (!p.url.search) return;
 	const props = p.url.search.split("&");
 	const timeProp = props.find((p) => p.includes("time="));
@@ -20,9 +21,10 @@ function getOverride() {
 }
 
 function getTime() {
+	if (override) return override;
+
 	const date = new Date();
 	const t = date.toLocaleTimeString("en-US");
-	if (override) return override;
 
 	const time = t.substring(0, t.length - 6);
 	const period = t.substring(t.length - 2);
