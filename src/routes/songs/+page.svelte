@@ -130,7 +130,7 @@
 	$: markup = createMarkup(track?.name);
 	$: if (!$isMuted) firstClick = true;
 	$: totalDisplay = total
-		? `1 of ${total} song${total === 1 ? "" : "s"}`
+		? `${total} song${total === 1 ? "" : "s"}`
 		: "No songs";
 </script>
 
@@ -170,10 +170,10 @@
 						{/if}
 
 						<p class="playing">
-							Now Playing
 							<span class="total"
-								>{totalDisplay} with the <mark>time</mark> in the title</span
+								>{totalDisplay} with the <mark>time</mark> in the title.</span
 							>
+							<span class="now">Now playing:</span>
 						</p>
 					</div>
 					<div class="song">
@@ -251,7 +251,7 @@
 	}
 
 	.firstclick {
-		margin: 0;
+		margin: 0 0 16px 0;
 		padding: 0;
 		position: absolute;
 		bottom: calc(100% + 16px);
@@ -262,8 +262,7 @@
 		line-height: 1;
 		font-size: var(--14px);
 		color: var(--color-fg2);
-		text-transform: uppercase;
-		font-weight: var(--fw-bold);
+		font-weight: var(--fw-regular);
 		padding-left: 0.25vw;
 	}
 
@@ -273,28 +272,6 @@
 		font-weight: var(--fw-bold);
 		padding: 0;
 	}
-
-	.total {
-		font-weight: var(--fw-regular);
-		text-transform: none;
-		color: var(--color-fg2);
-		display: block;
-		margin-top: 8px;
-	}
-
-	/* .eyebrow button {
-		display: inline-flex;
-		justify-content: center;
-		align-items: center;
-		margin-right: 8px;
-		border-radius: 4px;
-		padding: 4px 8px;
-	} */
-
-	/* .eyebrow button span {
-		display: inline-block;
-		margin-left: 8px;
-	} */
 
 	.sidebar {
 		width: 96px;

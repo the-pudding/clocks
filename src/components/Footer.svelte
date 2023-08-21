@@ -43,12 +43,16 @@
 	}
 
 	button {
-		margin-right: 16px;
+		margin-right: 8px;
 	}
 
 	@media only screen and (min-width: 640px) {
 		p {
 			font-size: var(--16px);
+		}
+
+		button {
+			margin-right: 16px;
 		}
 	}
 </style>
