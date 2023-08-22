@@ -20,7 +20,7 @@
 	let data;
 	let video;
 	let total;
-	let begin = true;
+	let begin;
 	let youtubePlayer;
 	let youtubeReady;
 
