@@ -44,7 +44,7 @@
 
 	async function loadVideos() {
 		const filename = time.replace(":", "-");
-		const raw = await csv(`../assets/videos/10k/${filename}.csv`);
+		const raw = await csv(`../assets/videos/${filename}.csv`);
 		return raw.map((d) => ({
 			...d,
 			views: +d.views,
