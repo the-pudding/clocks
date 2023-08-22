@@ -192,7 +192,7 @@
 	</section>
 </div>
 
-<Footer text={copy.songsTitle} />
+<Footer text={copy.songsTitle} warning={true} />
 
 <Modal>
 	{#each copy.songsMethod as { type, value }}

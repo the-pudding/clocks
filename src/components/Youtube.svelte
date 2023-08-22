@@ -39,15 +39,6 @@
 
 	function handleStateChange({ data }) {
 		state = data;
-		// console.log({ state });
-		// const isPlaying = state === 1;
-		// playing.set(isPlaying);
-		// if (timer) clearInterval(timer);
-		// if (isPlaying) {
-		// 	timer = setInterval(() => {
-		// 		time.set(player.getCurrentTime());
-		// 	}, 30);
-		// }
 	}
 
 	function handleReady() {

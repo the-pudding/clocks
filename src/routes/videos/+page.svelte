@@ -20,7 +20,7 @@
 	let data;
 	let video;
 	let total;
-	let begin;
+	let begin = true;
 	let youtubePlayer;
 	let youtubeReady;
 
@@ -29,13 +29,12 @@
 
 	setContext("copy", copy);
 
-	function loadNext() {
-		const options = data.filter((d) => d.time === time);
+	async function loadNext() {
+		const options = await loadVideos();
 		total = options.length;
 		const i = Math.floor(Math.random() * options.length);
 
 		video = { ...options[i] };
-		console.log(video);
 	}
 
 	function onBegin() {
@@ -44,8 +43,9 @@
 	}
 
 	async function loadVideos() {
-		const raw = await csv("../assets/videos.csv");
-		data = raw.map((d) => ({
+		const filename = time.replace(":", "-");
+		const raw = await csv(`../assets/videos/10k/${filename}.csv`);
+		return raw.map((d) => ({
 			...d,
 			views: +d.views,
 			style: d.manual === "true" ? "manual" : "auto",
@@ -53,15 +53,14 @@
 		}));
 	}
 
-	// $: if (browser) $modalVisible = true;
-	$: if (browser) loadVideos();
 	$: time = `${$clock.time}${$clock.period}`.toLowerCase();
-	$: if (data) loadNext(time);
+	$: if (browser) loadNext(time);
 	$: id = video?.id;
 	$: timestamp = video?.timestamp;
 	$: totalDisplay = total
 		? `${total} video${total === 1 ? "" : "s"}`
 		: "No videos";
+	$: reportLink = `https://docs.google.com/forms/d/e/1FAIpQLSeIbDnB265gfhnjGfw6S1zu-rOgx-2DDjrUlM_f67Fo5eS9GA/viewform?usp=pp_url&entry.2046651731=${video?.id}&entry.1762409617=${time}`;
 </script>
 
 <Meta {title} {description} {url} {keywords} />
@@ -78,26 +77,36 @@
 		</mark>
 	</time> -->
 	<section>
-		<p class="playing">
-			<span class="total"
-				>{totalDisplay} with the <mark>time</mark> said in a YouTube video.</span
-			>
-		</p>
-		<YoutubePlayer
-			{id}
-			{timestamp}
-			bind:ready={youtubeReady}
-			bind:this={youtubePlayer}
-		/>
-		<Caption {video} />
-		<p>[debug]</p>
-		<p>style: <strong>{video.style}</strong></p>
-		<p>views: <strong>{format(",")(video.views)}</strong></p>
-		<button on:click={loadNext}>Another</button>
+		<div class="video">
+			<div class="eyebrow">
+				<p class="playing">
+					{totalDisplay} with the <mark>time</mark> mentioned
+				</p>
+				<p class="report">
+					<a href={reportLink} target="_blank" rel="noreferrer">report video</a>
+				</p>
+			</div>
+			<YoutubePlayer
+				{id}
+				{timestamp}
+				bind:ready={youtubeReady}
+				bind:this={youtubePlayer}
+			/>
+		</div>
+		<div class="caption">
+			<Caption {video} />
+		</div>
+		<div class="debug">
+			<p>
+				[debug] caption: <strong>{video.style}</strong> | views:
+				<strong>{format(",")(video.views)}</strong>
+			</p>
+			<button on:click={loadNext}>Another</button>
+		</div>
 	</section>
 {/if}
 
-<Footer text={copy.videosTitle} />
+<Footer text={copy.videosTitle} warning={false} />
 
 <Modal>
 	{#each copy.videosMethod as { type, value }}
@@ -129,17 +138,23 @@
 	section {
 		width: 100%;
 		padding: 0 16px;
+		max-width: 480px;
 		margin: 96px auto 0 auto;
-		max-width: 720px;
 	}
 
-	.playing {
-		margin: 16px 0 16px 0;
+	.eyebrow {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+
+	.eyebrow p {
 		line-height: 1;
 		font-size: var(--14px);
 		color: var(--color-fg2);
 		font-weight: var(--fw-regular);
-		padding-left: 0.25vw;
+		margin: 0;
+		margin-bottom: 8px;
 	}
 
 	.playing mark {
@@ -168,5 +183,29 @@
 
 	.begin button span {
 		margin-right: 8px;
+	}
+
+	@media only screen and (min-width: 300px) {
+		.eyebrow {
+			flex-direction: row;
+		}
+	}
+
+	@media only screen and (min-width: 640px) {
+		section {
+			margin: 84px auto 0 auto;
+		}
+	}
+
+	@media only screen and (min-height: 600px) {
+		section {
+			max-width: 540px;
+		}
+	}
+
+	@media only screen and (min-height: 720px) {
+		section {
+			max-width: 640px;
+		}
 	}
 </style>

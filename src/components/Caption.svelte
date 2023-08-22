@@ -58,10 +58,12 @@
 		width: 100%;
 		line-height: 1.2;
 		margin: 16px auto;
-		font-size: clamp(18px, 3vw, 36px);
+		font-size: 18px;
 	}
 
 	p {
+		display: inline;
+		text-transform: lowercase;
 	}
 
 	span {
@@ -101,6 +103,12 @@
 
 		90% {
 			opacity: 1;
+		}
+	}
+
+	@media only screen and (min-height: 640px) {
+		div {
+			font-size: clamp(18px, 3vh, 32px);
 		}
 	}
 </style>

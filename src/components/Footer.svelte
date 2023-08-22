@@ -2,6 +2,7 @@
 	import { HelpCircle } from "lucide-svelte";
 	import { modalVisible } from "$stores/misc.js";
 	export let text;
+	export let warning;
 </script>
 
 <footer>
@@ -12,7 +13,9 @@
 	>
 	<p>
 		<span>{text} </span>
-		<span class="warning">warning: explicit content</span>
+		{#if warning}
+			<span class="warning">warning: explicit content</span>
+		{/if}
 	</p>
 </footer>
 
@@ -30,7 +33,7 @@
 
 	p {
 		margin: 0;
-		line-height: 1;
+		line-height: 1.2;
 		display: flex;
 		flex-direction: column;
 		font-size: var(--14px);
