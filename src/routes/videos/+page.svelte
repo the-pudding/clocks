@@ -14,27 +14,37 @@
 	import version from "$utils/version.js";
 	import clock from "$stores/clock.js";
 	import { modalVisible } from "$stores/misc.js";
+	import categories from "$data/categories.csv";
 
 	version();
 
-	let data;
 	let video;
 	let total;
 	let begin;
 	let youtubePlayer;
 	let youtubeReady;
+	let hideNews;
+	let newsCount;
+	let cat;
 
 	const { url } = copy;
 	const { title, description, keywords, path } = copy.videosMeta;
 
 	setContext("copy", copy);
 
-	async function loadNext() {
-		const options = await loadVideos();
+	async function loadNext(t, views) {
+		const data = await loadVideos();
+		const options = data.filter((d) => {
+			if (views && d.views < views) return false;
+			if (hideNews && d.category === "25") return false;
+			return true;
+		});
+		newsCount = data.filter((d) => d.category === "25").length;
 		total = options.length;
 		const i = Math.floor(Math.random() * options.length);
-
 		video = { ...options[i] };
+
+		cat = categories.find((d) => d.id === video.category).name;
 	}
 
 	function onBegin() {
@@ -100,8 +110,17 @@
 			<p>
 				[debug] caption: <strong>{video.style}</strong> | views:
 				<strong>{format(",")(video.views)}</strong>
+				| category: <strong>{cat}</strong>
 			</p>
-			<button on:click={loadNext}>Another</button>
+			<p>
+				# news/politics:
+				<strong>{newsCount}</strong>
+			</p>
+			<button on:click={() => loadNext(time, 10000)}>Another 10k</button>
+			<button on:click={() => loadNext(time, 100000)}>Another 100k</button>
+			<button on:click={() => (hideNews = !hideNews)}
+				>{hideNews ? "Show" : "Hide"} "News &amp; Politics"</button
+			>
 		</div>
 	</section>
 {/if}

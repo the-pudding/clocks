@@ -1,10 +1,5 @@
 <script>
 	import { onMount } from "svelte";
-	let player = null;
-	let state = -1;
-	let playerEl;
-	let playerWidth = 0;
-	let height = 0;
 
 	export let timestamp;
 	export let id;
@@ -12,7 +7,16 @@
 
 	const RATIO = 16 / 9;
 
+	let player = null;
+	let state = -1;
+	let playerEl;
+	let playerWidth = 0;
+	let height = 0;
+	let begin;
+	let userPaused;
+
 	export const play = () => {
+		begin = true;
 		player.playVideo();
 	};
 
@@ -43,6 +47,7 @@
 
 	function handleReady() {
 		ready = true;
+		document.addEventListener("visibilitychange", onVisibilityChange);
 	}
 
 	function seek() {
@@ -56,16 +61,21 @@
 	}
 
 	function load() {
-		// console.log("load", ready, id);
 		if (!id) return;
 		else {
 			player.loadVideoById({
 				videoId: id,
 				startSeconds: start
 			});
-			// seek();
-			player.playVideo();
+			if (begin) play();
 		}
+	}
+
+	function onVisibilityChange() {
+		const hidden = document.hidden;
+
+		if (hidden && state === 1) player.pauseVideo();
+		else if (!hidden) play();
 	}
 
 	onMount(() => {
