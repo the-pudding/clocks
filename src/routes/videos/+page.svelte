@@ -27,6 +27,8 @@
 	let newsCount;
 	let cat;
 
+	const exclude = [];
+
 	const { url } = copy;
 	const { title, description, keywords, path } = copy.videosMeta;
 
@@ -52,15 +54,22 @@
 		youtubePlayer.play();
 	}
 
+	function handleError({ detail }) {
+		exclude.push(detail);
+		loadNext(time);
+	}
+
 	async function loadVideos() {
 		const filename = time.replace(":", "-");
 		const raw = await csv(`../assets/videos/${filename}.csv`);
-		return raw.map((d) => ({
-			...d,
-			views: +d.views,
-			style: d.manual === "true" ? "manual" : "auto",
-			lines: d.lines.split("||")
-		}));
+		return raw
+			.filter((d) => !exclude.includes(d.id))
+			.map((d) => ({
+				...d,
+				views: +d.views,
+				style: d.manual === "true" ? "manual" : "auto",
+				lines: d.lines.split("||")
+			}));
 	}
 
 	$: time = `${$clock.time}${$clock.period}`.toLowerCase();
@@ -101,6 +110,7 @@
 				{timestamp}
 				bind:ready={youtubeReady}
 				bind:this={youtubePlayer}
+				on:error={handleError}
 			/>
 		</div>
 		<div class="caption">

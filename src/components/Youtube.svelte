@@ -1,12 +1,12 @@
 <script>
-	import { onMount } from "svelte";
+	import { onMount, createEventDispatcher } from "svelte";
 
 	export let timestamp;
 	export let id;
 	export let ready = false;
 
 	const RATIO = 16 / 9;
-
+	const dispatch = createEventDispatcher();
 	let player = null;
 	let state = -1;
 	let playerEl;
@@ -57,7 +57,7 @@
 	}
 
 	function handleError(response) {
-		// TODO try another
+		if ([2, 100, 101, 150].includes(response?.data)) dispatch("error", id);
 	}
 
 	function load() {
@@ -74,7 +74,7 @@
 	function onVisibilityChange() {
 		const hidden = document.hidden;
 
-		if (hidden && state === 1) player.pauseVideo();
+		if (hidden && (state === 1 || state === 3)) player.pauseVideo();
 		else if (!hidden) play();
 	}
 
