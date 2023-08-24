@@ -116,7 +116,7 @@
 		<div class="caption">
 			<Caption {video} />
 		</div>
-		<div class="debug">
+		<!-- <div class="debug">
 			<p>
 				[debug] caption: <strong>{video.style}</strong> | views:
 				<strong>{format(",")(video.views)}</strong>
@@ -131,7 +131,7 @@
 			<button on:click={() => (hideNews = !hideNews)}
 				>{hideNews ? "Show" : "Hide"} "News &amp; Politics"</button
 			>
-		</div>
+		</div> -->
 	</section>
 {/if}
 
