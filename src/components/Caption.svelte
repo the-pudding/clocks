@@ -107,7 +107,6 @@
 
 	$: parts = video.lines.map((p, i) => createMarkup(p, video.token, i));
 	$: markup = join(parts);
-	$: console.log(markup);
 </script>
 
 <div class="c">
