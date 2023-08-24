@@ -23,9 +23,9 @@
 	let begin;
 	let youtubePlayer;
 	let youtubeReady;
-	let hideNews;
-	let newsCount;
-	let cat;
+	let hideNews = true;
+	// let newsCount;
+	// let cat;
 
 	const exclude = [];
 
@@ -41,12 +41,11 @@
 			if (hideNews && d.category === "25") return false;
 			return true;
 		});
-		newsCount = data.filter((d) => d.category === "25").length;
+		// newsCount = data.filter((d) => d.category === "25").length;
 		total = options.length;
 		const i = Math.floor(Math.random() * options.length);
 		video = { ...options[i] };
-
-		cat = categories.find((d) => d.id === video.category).name;
+		// cat = categories.find((d) => d.id === video.category).name;
 	}
 
 	function onBegin() {
