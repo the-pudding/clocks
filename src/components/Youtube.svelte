@@ -83,6 +83,7 @@
 
 		window.onYouTubeIframeAPIReady = function () {
 			player = new YT.Player("player-yt", {
+				host: "https://www.youtube-nocookie.com",
 				playerVars: {
 					controls: 1,
 					cc_load_policy: 0,
