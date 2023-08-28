@@ -18,62 +18,62 @@
 
 <Meta {title} {description} {url} {keywords} path="landing" />
 
-<HeaderMain />
+<div class="c">
+	<HeaderMain />
 
-<section class="intro">
-	<h1>{copy.overline}</h1>
-</section>
+	<section class="intro">
+		<h1>{copy.overline}</h1>
+	</section>
 
-<section class="links">
-	<ol>
-		{#each copy.links as { href, text }}
-			{@const disable = !href}
-			<li class:disable>
-				{#if href}
+	<section class="links">
+		<ol>
+			{#each copy.links as { href, text }}
+				{@const disable = !href}
+				<li class:disable>
+					{#if href}
+						<a {href}>{text}</a>
+					{:else}
+						{text}
+					{/if}
+				</li>
+			{/each}
+		</ol>
+	</section>
+
+	<section id="info">
+		{#each copy.details as { value }}
+			<p>{@html value}</p>
+		{/each}
+
+		<p>
+			{copy.overline2}
+			{#each copy.links2 as { href, text }, i}
+				<span>
 					<a {href}>{text}</a>
-				{:else}
-					{text}
-				{/if}
-			</li>
-		{/each}
-	</ol>
-</section>
+					{#if i < copy.links2.length - 1}
+						,
+					{:else}
+						.
+					{/if}
+				</span>
+			{/each}
+		</p>
 
-<section id="info">
-	{#each copy.details as { value }}
-		<p>{@html value}</p>
-	{/each}
-
-	<p>
-		{copy.overline2}
-		{#each copy.links2 as { href, text }, i}
-			<span>
-				<a {href}>{text}</a>
-				{#if i < copy.links2.length - 1}
-					,
-				{:else}
-					.
-				{/if}
-			</span>
-		{/each}
-	</p>
-
-	<p class="byline">
-		- <a
-			href="https://pudding.cool/author/russell-samora"
-			target="_blank"
-			rel="noreferrer">Russell Samora</a
-		>
-	</p>
-</section>
-
-<!-- <FooterMain /> -->
+		<p class="byline">
+			- <a
+				href="https://pudding.cool/author/russell-samora"
+				target="_blank"
+				rel="noreferrer">Russell Samora</a
+			>
+		</p>
+	</section>
+</div>
 
 <style>
 	h1 {
 		font-weight: var(--fw-bold);
 		line-height: 1.1;
-		font-size: var(--24px);
+		font-size: var(--18px);
 	}
 
 	section {
@@ -83,7 +83,7 @@
 	}
 
 	#info {
-		margin-top: 32px;
+		margin-top: 16px;
 	}
 
 	section.links {
@@ -94,6 +94,10 @@
 	li {
 		margin-bottom: 8px;
 		margin-left: 8px;
+	}
+
+	li:last-of-type {
+		margin-bottom: 0;
 	}
 
 	.disable {
@@ -107,11 +111,12 @@
 
 	@media only screen and (min-width: 480px) {
 		h1 {
-			font-size: var(--36px);
+			font-size: var(--24px);
 		}
 
 		section.links {
-			font-size: var(--20px);
+			font-size: var(--32px);
+			padding-left: 24px;
 		}
 	}
 </style>
