@@ -50,12 +50,6 @@
 		document.addEventListener("visibilitychange", onVisibilityChange);
 	}
 
-	function seek() {
-		if (!player) return;
-		player.seekTo(start);
-		if (state !== 1) player.play();
-	}
-
 	function handleError(response) {
 		if ([2, 100, 101, 150].includes(response?.data)) dispatch("error", id);
 	}
@@ -94,7 +88,8 @@
 					rel: 0,
 					showinfo: 0,
 					playsinline: 1,
-					color: "white"
+					color: "white",
+					autoplay: 0
 				},
 				events: {
 					onReady: handleReady,
@@ -106,7 +101,7 @@
 	});
 
 	$: start = !isNaN(timestamp) ? timestamp - 5 : undefined;
-	$: if (ready) load(id);
+	$: if (ready && begin) load(id);
 	$: if (player) resize(playerWidth);
 </script>
 
