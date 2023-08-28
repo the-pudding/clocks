@@ -3,20 +3,29 @@
 	import { modalVisible } from "$stores/misc.js";
 	export let text;
 	export let warning;
+	export let tease;
+	export let teaseLink;
 </script>
 
 <footer>
-	<button
-		on:click={() => ($modalVisible = true)}
-		class="icon"
-		aria-label="about">?</button
-	>
-	<p>
-		<span>{text} </span>
-		{#if warning}
-			<span class="warning">warning: explicit content</span>
-		{/if}
-	</p>
+	<div class="left">
+		<button
+			on:click={() => ($modalVisible = true)}
+			class="icon"
+			aria-label="about">?</button
+		>
+		<p class="description">
+			<span>{text} </span>
+			{#if warning}
+				<span class="warning">warning: explicit content</span>
+			{/if}
+		</p>
+	</div>
+	{#if tease}
+		<div class="right">
+			<p class="tease"><a href={teaseLink}>{tease}</a></p>
+		</div>
+	{/if}
 </footer>
 
 <style>
@@ -26,9 +35,21 @@
 		bottom: 8px;
 		left: 0;
 		z-index: var(--z-top);
+		padding: 8px 16px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.left {
 		display: flex;
 		align-items: center;
-		padding: 8px 16px;
+	}
+
+	.right {
+		display: none;
+		align-items: center;
+		justify-content: flex-end;
 	}
 
 	p {
@@ -56,6 +77,12 @@
 
 		button {
 			margin-right: 16px;
+		}
+	}
+
+	@media only screen and (min-width: 720px) {
+		.right {
+			display: flex;
 		}
 	}
 </style>

@@ -88,12 +88,6 @@
 <h1 class="sr-only">{copy.videosTitle}</h1>
 
 {#if video}
-	<!-- <time>
-		<mark>
-			{$clock.time}
-			{$clock.period}
-		</mark>
-	</time> -->
 	<section>
 		<div class="video">
 			<div class="eyebrow">
@@ -115,26 +109,15 @@
 		<div class="caption">
 			<Caption {video} />
 		</div>
-		<!-- <div class="debug">
-			<p>
-				[debug] caption: <strong>{video.style}</strong> | views:
-				<strong>{format(",")(video.views)}</strong>
-				| category: <strong>{cat}</strong>
-			</p>
-			<p>
-				# news/politics:
-				<strong>{newsCount}</strong>
-			</p>
-			<button on:click={() => loadNext(time, 10000)}>Another 10k</button>
-			<button on:click={() => loadNext(time, 100000)}>Another 100k</button>
-			<button on:click={() => (hideNews = !hideNews)}
-				>{hideNews ? "Show" : "Hide"} "News &amp; Politics"</button
-			>
-		</div> -->
 	</section>
 {/if}
 
-<Footer text={copy.videosTitle} warning={false} />
+<Footer
+	text={copy.videosTitle}
+	warning={false}
+	tease={"check out the song clock"}
+	teaseLink="../songs"
+/>
 
 <Modal>
 	{#each copy.videosMethod as { type, value }}

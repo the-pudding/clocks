@@ -192,7 +192,12 @@
 	</section>
 </div>
 
-<Footer text={copy.songsTitle} warning={true} />
+<Footer
+	text={copy.songsTitle}
+	warning={true}
+	tease={"check out the YouTube clock"}
+	teaseLink="../videos"
+/>
 
 <Modal>
 	{#each copy.songsMethod as { type, value }}
