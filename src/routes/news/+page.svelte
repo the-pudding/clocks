@@ -7,6 +7,7 @@
 	import Header from "$components/Header.svelte";
 	import Footer from "$components/Footer.svelte";
 	import Modal from "$components/Modal.svelte";
+	import Time from "$components/Time.svelte";
 	import copy from "$data/copy.json";
 	import version from "$utils/version.js";
 	import clock from "$stores/clock.js";
@@ -16,17 +17,41 @@
 
 	let data;
 
-	let hourDisplay;
-	let minuteDisplay;
+	let dataHour;
+	let dataMinute;
 
 	const { url } = copy;
 	const { title, description, keywords, path } = copy.newsMeta;
 
 	setContext("copy", copy);
 
-	function loadNext(h, m) {
-		console.log($clock.time);
+	function createMarkup({ str, q, number }) {
+		if (!str) [{ text: "" }, { text: number, mark: true }, { text: "" }];
+		const lowerStr = str.toLowerCase();
+		const lowerQ = q.toLowerCase();
 
+		const start = lowerStr.indexOf(lowerQ);
+		const end = start + q.length;
+		const before = str.slice(0, start);
+		const middle = number;
+		const after = str.slice(end);
+		return [
+			{
+				align: "right",
+				text: before
+			},
+			{
+				mark: true,
+				text: middle
+			},
+			{
+				align: "left",
+				text: after
+			}
+		];
+	}
+
+	function loadNext(h, m) {
 		const hour = +h;
 		const minute = +m;
 		const hourOptions = data.filter((d) => d.number === hour);
@@ -35,11 +60,21 @@
 		const ranH = Math.floor(Math.random() * hourOptions.length);
 		const ranM = Math.floor(Math.random() * minuteOptions.length);
 
-		const hOption = hourOptions[ranH];
-		const mOption = minuteOptions[ranM];
-		console.log(hOption, mOption);
-		hourDisplay = hour < 10 ? `0${hour}` : hour;
-		minuteDisplay = minute < 10 ? `0${minute}` : minute;
+		const hOption = hourOptions[ranH] || { title: "", q: "" };
+		const mOption = minuteOptions[ranM] || { title: "", q: "" };
+		const hourDisplay = hour < 10 ? `0${hour}` : hour;
+		const minuteDisplay = minute < 10 ? `0${minute}` : minute;
+
+		dataHour = createMarkup({
+			str: hOption.title,
+			q: hOption.q,
+			number: hourDisplay
+		});
+		dataMinute = createMarkup({
+			str: mOption.title,
+			q: mOption.q,
+			number: minuteDisplay
+		});
 	}
 
 	$: h = $clock?.time.split(":")[0];
@@ -64,13 +99,15 @@
 
 <h1 class="sr-only">{copy.newsTitle}</h1>
 
-<div class="time">
-	<p>
-		<span class="hours">{hourDisplay}</span>
-		<span class="minutes">{minuteDisplay}</span>
-		<span class="period">{$clock.period}</span>
-	</p>
-</div>
+{#if dataHour && dataMinute}
+	<div class="clock">
+		<div class="hours"><Time data={dataHour} /></div>
+		<div class="minutes"><Time data={dataMinute} /></div>
+		<div class="period" style="--color-mark: var(--color-fg2);">
+			<Time data={[{ mark: true, text: $clock.period }]} />
+		</div>
+	</div>
+{/if}
 
 <Footer
 	text={copy.newsTitle}
@@ -95,7 +132,12 @@
 		margin: 96px auto 0 auto;
 	}
 
-	.time p {
+	.clock {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: 100%;
 		display: flex;
 		flex-direction: column;
 	}
