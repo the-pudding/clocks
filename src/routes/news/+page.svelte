@@ -104,7 +104,9 @@
 		<div class="hours"><Time data={dataHour} /></div>
 		<div class="minutes"><Time data={dataMinute} /></div>
 		<div class="period" style="--color-mark: var(--color-fg2);">
-			<Time data={[{ mark: true, text: $clock.period }]} />
+			<Time
+				data={[{ text: "" }, { mark: true, text: $clock.period }, { text: "" }]}
+			/>
 		</div>
 	</div>
 {/if}
