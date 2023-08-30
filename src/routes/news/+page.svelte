@@ -1,5 +1,5 @@
 <script>
-	import { format, csv } from "d3";
+	import { format, csv, descending } from "d3";
 	import { onMount, setContext } from "svelte";
 	import { Youtube } from "lucide-svelte";
 	import { browser } from "$app/environment";
@@ -59,8 +59,22 @@
 		const hourOptions = data.filter((d) => d.number === hour);
 		const minuteOptions = data.filter((d) => d.number === minute);
 
-		const ranH = Math.floor(Math.random() * hourOptions.length);
-		const ranM = Math.floor(Math.random() * minuteOptions.length);
+		hourOptions.sort(
+			(a, b) =>
+				descending(a.isolated, b.isolated) ||
+				descending(a.published, b.published)
+		);
+		minuteOptions.sort(
+			(a, b) =>
+				descending(a.isolated, b.isolated) ||
+				descending(a.published, b.published)
+		);
+
+		const hourIsolated = hourOptions.filter((d) => d.isolated).length;
+		const minuteIsolated = minuteOptions.filter((d) => d.isolated).length;
+
+		const ranH = Math.floor(Math.random() * hourIsolated);
+		const ranM = Math.floor(Math.random() * minuteIsolated);
 
 		const hOption = hourOptions[ranH] || { title: "", q: "" };
 		const mOption = minuteOptions[ranM] || { title: "", q: "" };
@@ -93,6 +107,7 @@
 		);
 		data = raw.map((d) => ({
 			...d,
+			isolated: d.isolated === "true",
 			number: +d.number
 		}));
 	});
