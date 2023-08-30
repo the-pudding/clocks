@@ -1,7 +1,10 @@
 <script>
+	import { fly, fade } from "svelte/transition";
+	import { cubicInOut } from "svelte/easing";
 	import { afterUpdate } from "svelte";
 	export let data;
 	export let href;
+	export let hour;
 
 	let clientWidth = 1;
 	let translate = "";
@@ -10,11 +13,25 @@
 	$: outerEl = href ? "a" : "div";
 </script>
 
-<svelte:element this={outerEl} class="time" {href}>
+<svelte:element
+	this={outerEl}
+	class="time"
+	{href}
+	target="_blank"
+	rel="noreferrer"
+>
 	{#each data as { text, mark, align }}
 		{@const el = mark ? "mark" : "span"}
 		{@const ta = align || "center"}
-		<svelte:element this={el} style:text-align={ta}>{text}</svelte:element>
+		{@const t = el !== "mark"}
+		{@const duration = t ? 1000 : 0}
+		{@const delay = t ? (hour ? 0 : 500) : 0}
+		{@const y = t ? 32 : 0}
+		<svelte:element
+			this={el}
+			in:fly={{ duration, delay, y, easing: cubicInOut }}
+			style:text-align={ta}>{text}</svelte:element
+		>
 	{/each}
 </svelte:element>
 
@@ -26,7 +43,7 @@
 		grid-template-columns: 1fr auto 1fr;
 		align-items: center;
 		margin: 0 auto;
-		font-size: clamp(var(--12px), 2vw, var(--20px));
+		font-size: clamp(var(--12px), 1.25vw, var(--20px));
 		width: 100%;
 		text-decoration: none;
 		border: none;

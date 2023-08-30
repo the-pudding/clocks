@@ -106,7 +106,9 @@
 
 {#if dataHour && dataMinute}
 	<div class="clock">
-		<div class="hours"><Time data={dataHour} href={hrefHour} /></div>
+		<div class="hours">
+			<Time data={dataHour} href={hrefHour} hour={true} />
+		</div>
 		<div class="minutes"><Time data={dataMinute} href={hrefMinute} /></div>
 		<div class="period" style="--color-mark: var(--color-fg2);">
 			<Time
