@@ -19,6 +19,8 @@
 
 	let dataHour;
 	let dataMinute;
+	let hrefHour;
+	let hrefMinute;
 
 	const { url } = copy;
 	const { title, description, keywords, path } = copy.newsMeta;
@@ -75,6 +77,9 @@
 			q: mOption.q,
 			number: minuteDisplay
 		});
+
+		hrefHour = hOption.url;
+		hrefMinute = mOption.url;
 	}
 
 	$: h = $clock?.time.split(":")[0];
@@ -101,8 +106,8 @@
 
 {#if dataHour && dataMinute}
 	<div class="clock">
-		<div class="hours"><Time data={dataHour} /></div>
-		<div class="minutes"><Time data={dataMinute} /></div>
+		<div class="hours"><Time data={dataHour} href={hrefHour} /></div>
+		<div class="minutes"><Time data={dataMinute} href={hrefMinute} /></div>
 		<div class="period" style="--color-mark: var(--color-fg2);">
 			<Time
 				data={[{ text: "" }, { mark: true, text: $clock.period }, { text: "" }]}
@@ -127,13 +132,6 @@
 </Modal>
 
 <style>
-	section {
-		width: 100%;
-		padding: 0 16px;
-		max-width: 480px;
-		margin: 96px auto 0 auto;
-	}
-
 	.clock {
 		position: absolute;
 		top: 50%;
@@ -143,70 +141,4 @@
 		display: flex;
 		flex-direction: column;
 	}
-	/* .eyebrow {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-	}
-
-	.eyebrow p {
-		line-height: 1;
-		font-size: var(--14px);
-		color: var(--color-fg2);
-		font-weight: var(--fw-regular);
-		margin: 0;
-		margin-bottom: 8px;
-	}
-
-	.playing mark {
-		background: none;
-		color: var(--color-mark);
-		font-weight: var(--fw-bold);
-		padding: 0;
-	}
-
-	.intro .warning {
-		text-align: center;
-		font-weight: var(--fw-bold);
-		text-transform: uppercase;
-	}
-
-	.intro .begin {
-		margin-top: 24px;
-		text-align: center;
-	}
-
-	.begin button {
-		margin: 0 auto;
-		display: flex;
-		align-items: center;
-	}
-
-	.begin button span {
-		margin-right: 8px;
-	}
-
-	@media only screen and (min-width: 300px) {
-		.eyebrow {
-			flex-direction: row;
-		}
-	}
-
-	@media only screen and (min-width: 640px) {
-		section {
-			margin: 84px auto 0 auto;
-		}
-	}
-
-	@media only screen and (min-height: 600px) {
-		section {
-			max-width: 540px;
-		}
-	}
-
-	@media only screen and (min-height: 720px) {
-		section {
-			max-width: 640px;
-		}
-	} */
 </style>
