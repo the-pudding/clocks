@@ -1,7 +1,7 @@
 <script>
+	import { afterUpdate } from "svelte";
 	import { fly, fade } from "svelte/transition";
 	import { cubicInOut } from "svelte/easing";
-	import { afterUpdate } from "svelte";
 	export let data;
 	export let href;
 	export let hour;
@@ -68,6 +68,10 @@
 		color: var(--color-fg2);
 		font-weight: var(--fw-regular);
 		line-height: 1.2;
+	}
+
+	a:hover span {
+		color: var(--color-fg);
 	}
 
 	@media only screen and (min-width: 800px) {

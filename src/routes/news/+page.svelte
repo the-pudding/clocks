@@ -1,7 +1,6 @@
 <script>
 	import { format, csv, descending } from "d3";
 	import { onMount, setContext } from "svelte";
-	import { Youtube } from "lucide-svelte";
 	import { browser } from "$app/environment";
 	import Meta from "$components/Meta.svelte";
 	import Header from "$components/Header.svelte";
