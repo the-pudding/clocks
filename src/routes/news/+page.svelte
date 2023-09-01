@@ -112,7 +112,7 @@
 	});
 </script>
 
-<Meta {title} {description} {url} {keywords} />
+<Meta {title} {description} {url} {keywords} {path} />
 
 <Header />
 
