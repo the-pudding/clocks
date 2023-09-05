@@ -15,6 +15,7 @@
 	import clock from "$stores/clock.js";
 	import { modalVisible } from "$stores/misc.js";
 	import categories from "$data/categories.csv";
+	import excludeIds from "$data/exclude.csv";
 
 	version();
 
@@ -24,10 +25,7 @@
 	let youtubePlayer;
 	let youtubeReady;
 	let hideNews = true;
-	// let newsCount;
-	// let cat;
-
-	const exclude = [];
+	const exclude = excludeIds.map((d) => d.id);
 
 	const { url } = copy;
 	const { title, description, keywords, path } = copy.videosMeta;
@@ -41,11 +39,10 @@
 			if (hideNews && d.category === "25") return false;
 			return true;
 		});
-		// newsCount = data.filter((d) => d.category === "25").length;
+
 		total = options.length;
 		const i = Math.floor(Math.random() * options.length);
 		video = { ...options[i] };
-		// cat = categories.find((d) => d.id === video.category).name;
 	}
 
 	function onBegin() {
@@ -72,7 +69,7 @@
 	}
 
 	$: time = `${$clock.time}${$clock.period}`.toLowerCase();
-	$: if (browser) loadNext(time);
+	$: if (begin && browser) loadNext(time);
 	$: id = video?.id;
 	$: timestamp = video?.timestamp;
 	$: totalDisplay = total
@@ -87,30 +84,30 @@
 
 <h1 class="sr-only">{copy.videosTitle}</h1>
 
-{#if video}
-	<section>
-		<div class="video">
-			<div class="eyebrow">
-				<p class="playing">
-					{totalDisplay} with the <mark>time</mark> mentioned
-				</p>
-				<p class="report">
-					<a href={reportLink} target="_blank" rel="noreferrer">report video</a>
-				</p>
-			</div>
-			<YoutubePlayer
-				{id}
-				{timestamp}
-				bind:ready={youtubeReady}
-				bind:this={youtubePlayer}
-				on:error={handleError}
-			/>
+<section>
+	<div class="video">
+		<div class="eyebrow">
+			<p class="playing">
+				{totalDisplay} with the <mark>time</mark> mentioned
+			</p>
+			<p class="report">
+				<a href={reportLink} target="_blank" rel="noreferrer">report video</a>
+			</p>
 		</div>
+		<YoutubePlayer
+			{id}
+			{timestamp}
+			bind:ready={youtubeReady}
+			bind:this={youtubePlayer}
+			on:error={handleError}
+		/>
+	</div>
+	{#if video}
 		<div class="caption">
 			<Caption {video} />
 		</div>
-	</section>
-{/if}
+	{/if}
+</section>
 
 <Footer
 	text={copy.videosTitle}
