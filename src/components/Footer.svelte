@@ -4,7 +4,6 @@
 	export let text;
 	export let warning;
 	export let tease;
-	export let teaseLink;
 </script>
 
 <footer>
@@ -23,7 +22,7 @@
 	</div>
 	{#if tease}
 		<div class="right">
-			<p class="tease"><a href={teaseLink}>{tease}</a></p>
+			<p class="tease">{@html tease}</p>
 		</div>
 	{/if}
 </footer>
@@ -58,6 +57,10 @@
 		display: flex;
 		flex-direction: column;
 		font-size: var(--14px);
+	}
+
+	.tease {
+		display: block;
 	}
 
 	.warning {

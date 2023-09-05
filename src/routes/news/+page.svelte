@@ -135,8 +135,7 @@
 <Footer
 	text={copy.newsTitle}
 	warning={false}
-	tease={"check out the song clock"}
-	teaseLink="../songs"
+	tease={"check out the <a href='../songs'>song</a> or <a href='../videso'>YouTube</a> clock"}
 />
 
 <Modal>
