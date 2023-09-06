@@ -49,7 +49,6 @@
 	}
 
 	span {
-		/* display: inline-block; */
 		font-weight: var(--fw-black);
 	}
 
@@ -60,14 +59,6 @@
 		background: none;
 		color: var(--color-mark);
 		transform: scale(var(--scale));
-
-		/* 
-		border-radius: 8px;
-		border: 4px solid var(--color-fg);
-		outline: 8px solid var(--color-mark);
-		box-shadow: 8px 8px 0 8px var(--color-fg);
-		background: none;
-		*/
 	}
 
 	mark span:not(.colon) {
