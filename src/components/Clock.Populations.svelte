@@ -7,19 +7,22 @@
 	$: name = place?.name;
 	$: county = place?.county;
 	$: state = place?.state;
+	$: q = `${name.replace(/ /g, "+")}+${county.replace(
+		/ /g,
+		"+"
+	)}+${state.replace(/ /g, "+")}`;
+	$: href = `https://www.google.com/maps/place/?q=${q}`;
 </script>
 
 <p>Approximately</p>
 <p class="time">
-	<mark
-		><span class="other">{h}</span><span class="colon">:</span><span
-			class="other">{m}</span
-		></mark
-	>
+	<mark><span class="other">{h}</span><span class="other">{m}</span></mark>
 	<span class="period">{period}</span>
 </p>
 <p>
-	people live in <strong>{name}</strong>, {county}, {state}
+	people live in <a {href} target="_blank" rel="noreferrer"
+		><strong>{name}</strong></a
+	>, {county}, {state}
 </p>
 
 <style>
@@ -60,34 +63,8 @@
 		position: absolute;
 		top: 50%;
 		left: 100%;
-		/* margin-left: -16px; */
-		/* transform: translate(0, -50%) rotate(90deg); */
 		transform: translate(0, -50%);
 		color: var(--color-fg2);
 		opacity: 0.25;
-	}
-
-	mark span:not(.colon) {
-		opacity: 1;
-		display: inline;
-	}
-
-	span.colon {
-		display: none;
-		animation: blink 1s infinite;
-	}
-
-	@keyframes blink {
-		10% {
-			opacity: 1;
-		}
-
-		50% {
-			opacity: 0;
-		}
-
-		90% {
-			opacity: 1;
-		}
 	}
 </style>

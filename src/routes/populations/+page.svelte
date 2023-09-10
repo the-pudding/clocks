@@ -2,6 +2,7 @@
 	import { format, csv, descending } from "d3";
 	import { onMount, setContext } from "svelte";
 	import { browser } from "$app/environment";
+	import { RefreshCw } from "lucide-svelte";
 	import Meta from "$components/Meta.svelte";
 	import Header from "$components/Header.svelte";
 	import Footer from "$components/Footer.svelte";
@@ -16,6 +17,7 @@
 
 	let data;
 	let place;
+	let totalDisplay;
 
 	const { url } = copy;
 	const { title, description, keywords, path } = copy.populationsMeta;
@@ -25,6 +27,8 @@
 	function loadNext(h, m) {
 		const num = +`${+h}${m}`;
 		const options = data.filter((d) => d.population === num);
+
+		totalDisplay = options.length;
 
 		const r = Math.floor(Math.random() * options.length);
 		place = { ...options[r] };
@@ -55,6 +59,16 @@
 
 {#if place}
 	<div class="clock">
+		<div class="eyebrow">
+			<p class="playing">
+				{totalDisplay} places with this <mark>population</mark>
+				<span>
+					<button aria-label="Refresh place" on:click={() => loadNext(h, m)}
+						><RefreshCw /></button
+					>
+				</span>
+			</p>
+		</div>
 		<Clock {place} {h} {m} {period} />
 	</div>
 {/if}
@@ -76,11 +90,43 @@
 <style>
 	.clock {
 		position: absolute;
-		top: 50%;
+		top: calc(25% + 10vmin);
 		left: 50%;
-		transform: translate(-50%, -50%);
+		transform: translate(-50%, 0%);
 		width: 100%;
 		display: flex;
 		flex-direction: column;
+	}
+
+	.playing {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		text-align: center;
+		width: 100%;
+		transform: translate(0, calc(100% + 64px));
+		font-size: clamp(16px, 2vmin, 24px);
+		color: var(--color-fg2);
+		line-height: 1;
+		font-size: var(--14px);
+		font-weight: var(--fw-regular);
+		margin: 0;
+	}
+
+	.playing mark {
+		background: none;
+		color: var(--color-mark);
+		font-weight: var(--fw-bold);
+		padding: 0;
+	}
+
+	span {
+		display: block;
+		margin-top: 16px;
+	}
+
+	button {
+		border-radius: 50%;
+		/* margin-left: 8px; */
 	}
 </style>
