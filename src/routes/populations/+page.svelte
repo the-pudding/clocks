@@ -18,6 +18,7 @@
 	let data;
 	let place;
 	let totalDisplay;
+	let suffix;
 
 	const { url } = copy;
 	const { title, description, keywords, path } = copy.populationsMeta;
@@ -27,8 +28,12 @@
 	function loadNext(h, m) {
 		const num = +`${+h}${m}`;
 		const options = data.filter((d) => d.population === num);
+		const optionsNotTownShip = options.filter((d) => d.type !== "s");
 
-		totalDisplay = options.length;
+		const use = optionsNotTownShip.length ? optionsNotTownShip : options;
+
+		totalDisplay = use.length;
+		suffix = totalDisplay === 1 ? "" : "s";
 
 		const r = Math.floor(Math.random() * options.length);
 		place = { ...options[r] };
@@ -61,7 +66,8 @@
 	<div class="clock">
 		<div class="eyebrow">
 			<p class="playing">
-				{totalDisplay} places with this <mark>population</mark>
+				{totalDisplay} place{suffix} with this
+				<mark>population</mark>
 				<span>
 					<button aria-label="Refresh place" on:click={() => loadNext(h, m)}
 						><RefreshCw /></button
