@@ -29,7 +29,7 @@
 	p {
 		line-height: 1.2;
 		transition: all 1s ease-in-out;
-		font-size: clamp(32px, 4vmin, 64px);
+		font-size: clamp(24px, 4vmin, 64px);
 		margin: 0 auto;
 		transition: all 0.5s ease-in-out;
 		text-align: center;
