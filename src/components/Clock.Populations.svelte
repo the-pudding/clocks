@@ -19,10 +19,10 @@
 	<mark><span class="other">{h}</span><span class="other">{m}</span></mark>
 	<span class="period">{period}</span>
 </p>
-<p>
+<p class="place">
 	people live in <a {href} target="_blank" rel="noreferrer"
 		><strong>{name}</strong></a
-	>, {county}, {state}
+	>, {state} <span class="county">({county})</span>
 </p>
 
 <style>
@@ -37,11 +37,15 @@
 		color: var(--color-fg2);
 	}
 
+	.place .county {
+		display: none;
+	}
+
 	strong {
 		color: var(--color-fg);
 	}
 
-	span {
+	.time span {
 		font-weight: var(--fw-black);
 	}
 

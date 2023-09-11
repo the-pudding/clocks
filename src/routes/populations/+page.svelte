@@ -35,8 +35,8 @@
 		totalDisplay = use.length;
 		suffix = totalDisplay === 1 ? "" : "s";
 
-		const r = Math.floor(Math.random() * options.length);
-		place = { ...options[r] };
+		const r = Math.floor(Math.random() * use.length);
+		place = { ...use[r] };
 	}
 
 	$: h = $clock?.time.split(":")[0];
