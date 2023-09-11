@@ -112,7 +112,7 @@
 <Footer
 	text={copy.videosTitle}
 	warning={false}
-	tease={"check out the <a href='../songs'>song</a> or <a href='../populations'>populations</a> clock"}
+	tease={"check out the <a href='../songs'>song</a> or <a href='../populations'>population</a> clock"}
 />
 
 <Modal>
