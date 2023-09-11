@@ -29,8 +29,13 @@
 		const num = +`${+h}${m}`;
 		const options = data.filter((d) => d.population === num);
 		const optionsNotTownShip = options.filter((d) => d.type !== "s");
+		const optionsNotUn = optionsNotTownShip.filter((d) => d.type !== "u");
 
-		const use = optionsNotTownShip.length ? optionsNotTownShip : options;
+		const use = optionsNotUn.length
+			? optionsNotUn
+			: optionsNotTownShip.length
+			? optionsNotTownShip
+			: options;
 
 		totalDisplay = use.length;
 		suffix = totalDisplay === 1 ? "" : "s";
